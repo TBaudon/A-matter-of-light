@@ -4,6 +4,7 @@ import ash.core.Entity;
 import components.Transform;
 import components.View;
 import core.Level;
+import entities.hero.Hero;
 import nape.phys.Body;
 import nape.phys.BodyType;
 import nape.shape.Polygon;
@@ -25,15 +26,7 @@ class TestLevel extends Level
 		addSystem(new PhysicSystem());
 		addSystem(new RenderSystem());
 		
-		var testEnt = new Entity("test");
-		testEnt.add(new View());
-		testEnt.add(new Transform());
-		
-		var body = new Body(BodyType.DYNAMIC);
-		body.shapes.add(new Polygon(Polygon.rect(0, 0, 20, 20)));
-		testEnt.add(body);
-		
-		add(testEnt);
+		add(new Hero());
 	}
 	
 }
