@@ -12,7 +12,8 @@ class Main extends Sprite {
 		
 		super ();
 		
-		Game.init(new MenuScreen());
+		var game = Game.init();
+		game.gotoScreen(new MenuScreen());
 	}
 	
 	

@@ -23,35 +23,42 @@ class Game extends Sprite
 		return mInstance;
 	}
 	
-	public static function init(firstScreen : Screen) {
+	public static function init() {
 		if(mInstance == null){
-			mInstance = new Game(firstScreen);
+			mInstance = new Game();
 			Lib.current.addChild(mInstance);
 		}
 		else
 			throw "Game already inited.";
+		
+		return mInstance;
 	}
 	
 	/*********************************
 	* instance part
 	**********************************/
 	
-	var mFirstScreen : Screen;
 	var mCurrentScreen : Screen;
 	var mPaused : Bool;
 	var mLastTime : Int;
 	
-	function new(firstScreen : Screen) 
+	var mUiLayer : Sprite;
+	var mGameLayer : Sprite;
+	
+	function new() 
 	{
 		super();
-		mFirstScreen = firstScreen;
 		mPaused = false;
+		
+		mUiLayer = new Sprite();
+		mGameLayer = new Sprite();
+		
+		addChild(mGameLayer);
+		addChild(mUiLayer);
 		
 		mLastTime = Lib.getTimer();
 		
 		Lib.current.stage.addEventListener(Event.ENTER_FRAME, update);
-		
-		gotoScreen(mFirstScreen);
 	}
 	
 	function update(e:Event):Void 
@@ -76,13 +83,22 @@ class Game extends Sprite
 		if (mCurrentScreen != null){
 			mCurrentScreen.stop();
 			mCurrentScreen.destroy();
-			removeChild(mCurrentScreen);
+			mUiLayer.removeChildren();
+			mGameLayer.removeChildren();
 		}
 		
 		mCurrentScreen = screen;
-		addChild(mCurrentScreen);
+		mCurrentScreen.start();
 		
 		mCurrentScreen.play();
+	}
+	
+	public function getUiLayer() : Sprite {
+		return mUiLayer;
+	}
+	
+	public function getGameLayer() : Sprite {
+		return mGameLayer;
 	}
 	
 }

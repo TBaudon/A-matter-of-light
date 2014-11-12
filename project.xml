@@ -4,12 +4,17 @@
 	<meta title="AMatterOfLight" package="com.sample.project" version="1.0.0" company="Company Name" />
 	<app main="Main" path="Export" file="AMatterOfLight" />
 	
+	<window fps="60" />
+	
 	<source path="Source" />
 	
 	<haxelib name="openfl" />
 	<haxelib name="ash" />
+	<haxelib name="nape" />
 	
 	<assets path="Assets" rename="assets" exclude="openfl.svg" />
 	<icon path="Assets/openfl.svg" />
+	
+	<haxeflag name="--macro include('levels', true)" />
 	
 </project>

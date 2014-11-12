@@ -5,18 +5,27 @@ import openfl.display.Sprite;
  * ...
  * @author Thomas BAUDON
  */
-class Screen extends Sprite
+class Screen
 {
 	
 	var mPaused : Bool;
+	
+	var mUiLayer : Sprite;
+	var mGameLayer : Sprite;
 
 	public function new() 
 	{
-		super();
 		mPaused = false;
+		
+		mUiLayer = Game.getI().getUiLayer();
+		mGameLayer = Game.getI().getGameLayer();
 	}
 	
 	public function update(delta : Float) {
+		
+	}
+	
+	public function start() {
 		
 	}
 	
@@ -33,6 +42,14 @@ class Screen extends Sprite
 	
 	public function destroy() {
 		
+	}
+	
+	public function getUiLayer() : Sprite {
+		return mUiLayer;
+	}
+	
+	public function getGameLayer() : Sprite  {
+		return mGameLayer;
 	}
 	
 }

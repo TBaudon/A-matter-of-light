@@ -16,6 +16,9 @@ class BasicButton extends Sprite
 		super();
 		
 		draw(text, w, h, color, txtColor);
+		
+		buttonMode = true;
+		useHandCursor = true;
 	}
 	
 	function draw(text : String, w : Int, h : Int, color : UInt, txtColor : UInt):Void 

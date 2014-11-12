@@ -19,17 +19,15 @@ class MenuScreen extends Screen
 	public function new() 
 	{
 		super();
+		
 		var playBtn = new BasicButton("Play", 100, 30, 0x3333cc, 0xffffff);
 		playBtn.addEventListener(MouseEvent.CLICK, onPlayPressed);
-		addChild(playBtn);
-		
+		mUiLayer.addChild(playBtn);
 	}
 	
 	private function onPlayPressed(e:MouseEvent):Void 
 	{
-		Game.getI().gotoScreen(new GameScreen());
+		Game.getI().gotoScreen(new GameScreen("TestLevel"));
 	}
-	
-	
 	
 }
