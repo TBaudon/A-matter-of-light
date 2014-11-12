@@ -1,4 +1,4 @@
-package screens ;
+package core ;
 import openfl.display.Sprite;
 
 /**
@@ -7,18 +7,20 @@ import openfl.display.Sprite;
  */
 class Screen extends Sprite
 {
+	
+	var mPaused : Bool;
 
 	public function new() 
 	{
 		super();
+		mPaused = false;
 	}
 	
-	public function update() {
+	public function update(delta : Float) {
 		
 	}
 	
 	public function play() {
-		
 	}
 	
 	public function pause() {
