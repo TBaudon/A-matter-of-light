@@ -77,7 +77,7 @@ class PhysicSystem extends System
 			currentNode.transform.position.x = currentNode.body.position.x;
 			currentNode.transform.position.y = currentNode.body.position.y;
 			
-			currentNode.transform.rotation = currentNode.body.rotation;
+			currentNode.transform.rotation = currentNode.body.rotation*180/Math.PI;
 			
 			currentNode = currentNode.next;
 		}
@@ -85,13 +85,14 @@ class PhysicSystem extends System
 	
 	#if debug
 	function onKeyDown(e :KeyboardEvent) {
-		if (e.keyCode == Keyboard.COMMA) 
+		if (e.keyCode == Keyboard.COMMA){ 
 			mDrawDebug = !mDrawDebug;
 			
-		if (mDrawDebug)
-			Game.getI().getGameLayer().addChild(mDebugDisplay.display);
-		else
-			Game.getI().getGameLayer().removeChild(mDebugDisplay.display);
+			if (mDrawDebug)
+				Game.getI().getGameLayer().addChild(mDebugDisplay.display);
+			else
+				Game.getI().getGameLayer().removeChild(mDebugDisplay.display);
+		}
 	}
 	#end
 	

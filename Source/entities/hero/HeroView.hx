@@ -20,7 +20,7 @@ class HeroView extends View
 		mArm = new Sprite();
 		
 		mBody.graphics.lineStyle(2, 0);
-		mBody.graphics.beginFill(0x66ff33);
+		mBody.graphics.beginFill(0xff9933);
 		mBody.graphics.drawRect( -20, -100, 40, 30);
 		mBody.graphics.beginFill(0xffffff);
 		mBody.graphics.drawRect( -20, -70, 40, 70);

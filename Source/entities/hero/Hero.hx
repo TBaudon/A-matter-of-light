@@ -1,5 +1,6 @@
 package entities.hero ;
 import ash.core.Entity;
+import components.PlayerControler;
 import components.Transform;
 import components.View;
 import nape.phys.Body;
@@ -19,6 +20,7 @@ class Hero extends Entity
 		
 		add(new Transform());
 		add(new HeroView(), View);
+		add(new PlayerControler());
 		
 		var body = new Body(BodyType.DYNAMIC);
 		body.shapes.add(new Polygon(Polygon.rect( -20, -100, 40, 100)));
