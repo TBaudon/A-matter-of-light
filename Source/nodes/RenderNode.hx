@@ -2,6 +2,7 @@ package nodes;
 import ash.core.Node;
 import components.Transform;
 import components.View;
+import openfl.display.Sprite;
 
 /**
  * ...

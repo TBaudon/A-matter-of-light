@@ -2,10 +2,9 @@ package systems;
 import ash.core.Engine;
 import ash.core.NodeList;
 import ash.core.System;
+import components.Body;
 import core.Game;
-import nape.geom.Vec2;
-import nape.space.Space;
-import nape.util.BitmapDebug;
+import geom.Vec2;
 import nodes.PhysicNode;
 import openfl.events.KeyboardEvent;
 import openfl.Lib;
@@ -18,26 +17,15 @@ import openfl.ui.Keyboard;
 class PhysicSystem extends System
 {
 	
-	var mSpace : Space;
-	var mPhysicNodeList : NodeList<PhysicNode>;
+	var mPhysicNodeList:NodeList<PhysicNode>;
 	
-	#if debug
-	var mDrawDebug : Bool;
-	var mDebugDisplay : BitmapDebug;
-	#end
-
+	var mGravity : Vec2;
+	
 	public function new() 
 	{
 		super();
 		
-		mSpace = new Space(Vec2.get(0.0, 980));
-		
-		#if debug
-		Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-		var w = Lib.current.stage.stageWidth;
-		var h = Lib.current.stage.stageHeight;
-		mDebugDisplay = new BitmapDebug(w, h);
-		#end
+		mGravity = new Vec2(0.0, 10);
 	}
 	
 	override public function addToEngine(engine:Engine):Void 
@@ -62,48 +50,42 @@ class PhysicSystem extends System
 	{
 		super.update(time);
 		
-		mSpace.step(time);
-		#if debug
-		if (mDrawDebug) {
-			mDebugDisplay.clear();
-			mDebugDisplay.draw(mSpace);
-			mDebugDisplay.flush();
-		}
-		#end
+		var node : PhysicNode = mPhysicNodeList.head;
 		
-		var currentNode = mPhysicNodeList.head;
-		while (currentNode != null) {
+		while (node != null) {
 			
-			currentNode.transform.position.x = currentNode.body.position.x;
-			currentNode.transform.position.y = currentNode.body.position.y;
+			updateNodePhysics(node, time);
 			
-			currentNode.transform.rotation = currentNode.body.rotation*180/Math.PI;
+			node.transform.position.x = node.body.position.x;
+			node.transform.position.y = node.body.position.y;
 			
-			currentNode = currentNode.next;
+			node = node.next;
 		}
 	}
 	
-	#if debug
-	function onKeyDown(e :KeyboardEvent) {
-		if (e.keyCode == Keyboard.COMMA){ 
-			mDrawDebug = !mDrawDebug;
+	function updateNodePhysics(node:PhysicNode, delta : Float) 
+	{
+		var body = node.body;
+		
+		if (body.type != BodyType.STATIC) {
+			body.velocity.add(Vec2.Mul(mGravity, delta));
+			body.position.add(body.velocity);
 			
-			if (mDrawDebug)
-				Game.getI().getGameLayer().addChild(mDebugDisplay.display);
-			else
-				Game.getI().getGameLayer().removeChild(mDebugDisplay.display);
+			if (body.position.y + (1 - body.origin.y) * body.h >= 240) {
+				body.velocity.y = 0;
+				body.position.y = 240 - (1 - body.origin.y) * body.h;
+			}
 		}
 	}
-	#end
 	
 	function onPhysicNodeRemoved(node : PhysicNode) 
 	{
-		node.body.space = null;
+		
 	}
 	
 	function onPhysicNodeAdded(node : PhysicNode) 
 	{
-		node.body.space = mSpace;
+		
 	}
 	
 }

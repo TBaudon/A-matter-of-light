@@ -1,11 +1,11 @@
 package entities.hero ;
 import ash.core.Entity;
+import components.Body;
 import components.PlayerControler;
 import components.Transform;
 import components.View;
-import nape.phys.Body;
-import nape.phys.BodyType;
-import nape.shape.Polygon;
+import openfl.display.BitmapData;
+import openfl.display.Sprite;
 
 /**
  * ...
@@ -19,11 +19,16 @@ class Hero extends Entity
 		super("Hero");
 		
 		add(new Transform());
-		add(new HeroView(), View);
+		var view = new View();
+		view.source = new BitmapData(16, 16, false, 0xff0000);
+		view.origin.x = 0.5;
+		view.origin.y = 1.0;
+		add(view);
 		add(new PlayerControler());
 		
-		var body = new Body(BodyType.DYNAMIC);
-		body.shapes.add(new Polygon(Polygon.rect( -20, -100, 40, 100)));
+		var body = new Body(BodyType.DYNAMIC, 16, 16);
+		body.origin.x = 0.5;
+		body.origin.y = 1.0;
 		add(body);
 		
 	}

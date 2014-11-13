@@ -2,7 +2,7 @@ package systems;
 import ash.core.Engine;
 import ash.core.NodeList;
 import ash.core.System;
-import nape.geom.Vec2;
+import geom.Vec2;
 import nodes.PlayerControlerNode;
 import openfl.events.KeyboardEvent;
 import openfl.Lib;
@@ -46,11 +46,6 @@ class PlayerControlSystem extends System
 		
 		var node = mControlerNodeList.head;
 		while (node != null) {
-			
-			node.body.applyImpulse(Vec2.weak(node.controler.xAxis, 0).muleq(1000*time));
-			
-			if (node.controler.jumpDown)
-				node.body.applyImpulse(Vec2.weak(0, -10000*time));
 			
 			node = node.next;
 		}

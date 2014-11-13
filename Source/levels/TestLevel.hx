@@ -1,18 +1,17 @@
 package levels;
 
 import ash.core.Entity;
+import components.TileMap;
 import components.Transform;
 import components.View;
 import core.Level;
 import entities.hero.Hero;
-import entities.Platform;
-import nape.phys.Body;
-import nape.phys.BodyType;
-import nape.shape.Polygon;
-import nape.shape.Shape;
+import openfl.Assets;
+import openfl.display.BitmapData;
 import systems.PhysicSystem;
 import systems.PlayerControlSystem;
 import systems.RenderSystem;
+import systems.TileMapSystem;
 
 /**
  * ...
@@ -27,11 +26,21 @@ class TestLevel extends Level
 		
 		addSystem(new PlayerControlSystem());
 		addSystem(new PhysicSystem());
+		addSystem(new TileMapSystem());
 		addSystem(new RenderSystem());
 		
+		
+		var tileMap = new TileMap(20, 20, 16);
+		tileMap.tileSet = Assets.getBitmapData("img/testTileSet.png");
+		tileMap.map[3][3] = 2;
+		
+		var map = new Entity("map");
+		map.add(tileMap);
+		map.add(new View());
+		map.add(new Transform());
+		
+		add(map);
 		add(new Hero());
-		add(new Platform(0, 550, 800, 50));
-		add(new Platform(300, 300, 300, 50));
 	}
 	
 }

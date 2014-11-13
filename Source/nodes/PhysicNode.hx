@@ -1,7 +1,7 @@
 package nodes;
 import ash.core.Node;
+import components.Body;
 import components.Transform;
-import nape.phys.Body;
 
 /**
  * ...
