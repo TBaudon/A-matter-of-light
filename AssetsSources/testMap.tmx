@@ -524,6 +524,6 @@
   </data>
  </layer>
  <objectgroup name="Calque d'objets 1">
-  <object name="spawn" type="entities.Hero" x="136" y="119"/>
+  <object name="Hero" type="entities.Hero" x="136" y="105.5"/>
  </objectgroup>
 </map>

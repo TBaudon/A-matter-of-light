@@ -2,6 +2,7 @@ package core;
 import ash.core.Entity;
 import ash.core.System;
 import components.TileMap;
+import components.TileMapObject;
 import components.Transform;
 import components.View;
 import haxe.io.Path;
@@ -70,6 +71,7 @@ class Level
 		for (object in objects) {
 			var entityClass : Class<Dynamic> = Type.resolveClass(object.type);
 			var entity : Entity = Type.createInstance(entityClass, []);
+			entity.name = object.name;
 			
 			if (entity.has(Transform))
 			{
@@ -77,6 +79,8 @@ class Level
 				transform.position.x = object.x;
 				transform.position.y = object.y;
 			}
+			
+			entity.add(new TileMapObject());
 			
 			add(entity);
 		}

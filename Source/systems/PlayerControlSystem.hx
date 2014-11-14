@@ -4,6 +4,7 @@ import ash.core.NodeList;
 import ash.core.System;
 import geom.Vec2;
 import nodes.PlayerControlerNode;
+import nodes.TileMapObjectNode;
 import openfl.events.KeyboardEvent;
 import openfl.Lib;
 import openfl.ui.Keyboard;
@@ -46,6 +47,8 @@ class PlayerControlSystem extends System
 		
 		var node = mControlerNodeList.head;
 		while (node != null) {
+			
+			node.body.velocity.x += node.controler.xAxis * time;
 			
 			node = node.next;
 		}

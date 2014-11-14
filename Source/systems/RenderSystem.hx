@@ -55,8 +55,8 @@ class RenderSystem extends ListIteratingSystem<RenderNode>
 		mSourceRect.width = view.getWidth();
 		mSourceRect.height = view.getHeight();
 		
-		mDestPoint.x = transform.position.x - view.origin.x * view.getWidth();
-		mDestPoint.y = transform.position.y - view.origin.y * view.getHeight();
+		mDestPoint.x = transform.position.x - view.origin.x * view.getWidth() + transform.offset.x;
+		mDestPoint.y = transform.position.y - view.origin.y * view.getHeight() + transform.offset.y;
 		
 		if (view.source != null)
 			mBuffer.copyPixels(view.source, mSourceRect, mDestPoint);

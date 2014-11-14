@@ -6,6 +6,7 @@ import openfl.display.BitmapData;
  * ...
  * @author Thomas BAUDON
  */
+
 class TileMap
 {
 	
@@ -16,9 +17,6 @@ class TileMap
 	public var scrollWidth : Int = 10;
 	public var scrollHeight : Int = 10;
 	
-	public var scrollX : Int = 0;
-	public var scrollY : Int = 0;
-
 	public var data : Array<Int>;
 	
 	public var tileSet : BitmapData;

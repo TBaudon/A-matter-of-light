@@ -18,7 +18,7 @@
          "objects":[
                 {
                  "height":0,
-                 "name":"spawn",
+                 "name":"Hero",
                  "properties":
                     {
 
@@ -28,7 +28,7 @@
                  "visible":true,
                  "width":0,
                  "x":136,
-                 "y":119
+                 "y":105.5
                 }],
          "opacity":1,
          "type":"objectgroup",
