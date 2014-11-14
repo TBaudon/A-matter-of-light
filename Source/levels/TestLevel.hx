@@ -29,17 +29,7 @@ class TestLevel extends Level
 		addSystem(new TileMapSystem());
 		addSystem(new RenderSystem());
 		
-		
-		var tileMap = new TileMap(20, 20, 16);
-		tileMap.tileSet = Assets.getBitmapData("img/testTileSet.png");
-		tileMap.map[3][3] = 2;
-		
-		var map = new Entity("map");
-		map.add(tileMap);
-		map.add(new View());
-		map.add(new Transform());
-		
-		add(map);
+		load("testMap");
 		add(new Hero());
 	}
 	

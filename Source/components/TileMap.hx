@@ -19,23 +19,23 @@ class TileMap
 	public var scrollX : Int = 0;
 	public var scrollY : Int = 0;
 
-	public var map : Array<Array<Int>>;
+	public var data : Array<Int>;
 	
 	public var tileSet : BitmapData;
 	
-	public function new(width : Int, height : Int, tileSize : Int) 
+	public function new(width : Int, height : Int, tileSize : Int, data : Array<Int> = null) 
 	{
 		this.width = width;
 		this.height = height;
 		this.tileSize = tileSize;
 		
-		map = new Array<Array<Int>>();
-		
-		for (i in 0 ... height) {
-			var line = new Array<Int>();
-			for (j in 0 ... width) 
-				line.push(0);
-			map.push(line);
+		if(data != null)
+			this.data = data;
+		else {
+			data = new Array<Int>();
+			
+			for (i in 0 ... height * width)
+				data.push(0);
 		}
 	}
 	
