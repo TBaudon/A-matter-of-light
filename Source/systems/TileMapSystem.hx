@@ -35,8 +35,6 @@ class TileMapSystem extends ListIteratingSystem<TileMapNode>
 		
 		view.source = new BitmapData(tileMap.scrollWidth * tileMap.tileSize, tileMap.scrollHeight * tileMap.tileSize);
 		view.region = new Rectangle(0,0,view.source.width, view.source.height);
-		
-		trace(view.source, view.region);
 	}
 	
 	function onNodeUpdate(node : TileMapNode, delta : Float) 
