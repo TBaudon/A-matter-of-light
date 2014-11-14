@@ -85,7 +85,8 @@ class PhysicSystem extends System
 	
 	function onPhysicNodeAdded(node : PhysicNode) 
 	{
-		
+		node.body.position.x = node.transform.position.x;
+		node.body.position.y = node.transform.position.y;
 	}
 	
 }

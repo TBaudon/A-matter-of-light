@@ -523,4 +523,7 @@
    <tile gid="1"/>
   </data>
  </layer>
+ <objectgroup name="Calque d'objets 1">
+  <object name="spawn" type="entities.Hero" x="136" y="119"/>
+ </objectgroup>
 </map>

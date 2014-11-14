@@ -10,6 +10,32 @@
          "width":32,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":0,
+         "name":"Calque d'objets 1",
+         "objects":[
+                {
+                 "height":0,
+                 "name":"spawn",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"entities.Hero",
+                 "visible":true,
+                 "width":0,
+                 "x":136,
+                 "y":119
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":0,
+         "x":0,
+         "y":0
         }],
  "orientation":"orthogonal",
  "properties":

@@ -44,8 +44,47 @@ class Level
 		
 		var w = data.width;
 		var h = data.height;
-		var tileSize = data.tilesets[0].tilewidth;
+		
 		var layers : Array<Dynamic> = cast data.layers;
+		
+		for (i in 0 ... nbLayer) {
+			var layer = layers[i];
+			switch(layer.type) {
+				case "tilelayer" :
+					loadTileMap(layer,w,h,data,layers[i].data);
+				case "objectgroup" :
+					loadObjects(layer);
+				default :
+					trace("Unknown layer type");
+			}
+			if (layers[i].type == "tilelayer"){
+				
+			}
+		}
+	}
+	
+	function loadObjects(layer : Dynamic) 
+	{
+		var objects : Array<Dynamic> = layer.objects;
+		
+		for (object in objects) {
+			var entityClass : Class<Dynamic> = Type.resolveClass(object.type);
+			var entity : Entity = Type.createInstance(entityClass, []);
+			
+			if (entity.has(Transform))
+			{
+				var transform : Transform = entity.get(Transform);
+				transform.position.x = object.x;
+				transform.position.y = object.y;
+			}
+			
+			add(entity);
+		}
+	}
+	
+	function loadTileMap(layer : Dynamic, w : Int, h : Int, data : Dynamic, mapData : Array<Int>) 
+	{
+		var tileSize = data.tilesets[0].tilewidth;
 		
 		var tileSetPath : String = data.tilesets[0].image;
 		tileSetPath = Path.removeTrailingSlashes(tileSetPath.toString());
@@ -53,17 +92,13 @@ class Level
 		
 		var tileSet = Assets.getBitmapData(tileSetPath);
 		
-		for (i in 0 ... nbLayer) {
-			if (layers[i].type == "tilelayer"){
-				var map = new Entity("map_layer" + i);
-				map.add(new View());
-				map.add(new Transform());
-				var tileMap = new TileMap(w, h, tileSize, layers[i].data);
-				tileMap.tileSet = tileSet;
-				map.add(tileMap);
-				add(map);
-			}
-		}
+		var map = new Entity(layer.name);
+		map.add(new View());
+		map.add(new Transform());
+		var tileMap = new TileMap(w, h, tileSize, mapData);
+		tileMap.tileSet = tileSet;
+		map.add(tileMap);
+		add(map);
 	}
 	
 	public function getSystems() : Array<System> {

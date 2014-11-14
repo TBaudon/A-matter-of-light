@@ -16,20 +16,20 @@
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="C:\outils\HaxeToolkit\haxe\lib\openfl\2,1,5" />
-    <class path="C:\outils\HaxeToolkit\haxe\lib\lime\2,0,0-alpha,7" />
-    <class path="C:\outils\HaxeToolkit\haxe\lib\ash\1,5,3" />
+    <class path="C:\HaxeToolkit\haxe\lib\openfl\2,1,5" />
+    <class path="C:\HaxeToolkit\haxe\lib\lime\2,0,0-alpha,8" />
+    <class path="C:\HaxeToolkit\haxe\lib\ash\1,5,3" />
     <class path="Source" />
     <class path="Export\flash\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="openfl=2.1.5&#xA;lime=2.0.0-alpha.7&#xA;ash=1.5.3&#xA;tools=2.0.0-alpha.7&#xA;no-compilation&#xA;openfl-flash&#xA;web" />
+    <option directives="openfl=2.1.5&#xA;lime=2.0.0-alpha.8&#xA;ash=1.5.3&#xA;tools=2.0.0-alpha.8&#xA;no-compilation&#xA;openfl-flash&#xA;web" />
     <option flashStrict="True" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="True" />
-    <option additional="--macro include('levels', true)&#xA;-swf-version 11.2" />
+    <option additional="--macro include('levels', true)&#xA;--macro include('entities', true)&#xA;-swf-version 11.2" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

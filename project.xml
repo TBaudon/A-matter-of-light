@@ -18,5 +18,6 @@
 	<assets path="Assets/levels" rename="levels" />
 	
 	<haxeflag name="--macro include('levels', true)" />
+	<haxeflag name="--macro include('entities', true)" />
 	
 </project>

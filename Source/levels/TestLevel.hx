@@ -5,7 +5,7 @@ import components.TileMap;
 import components.Transform;
 import components.View;
 import core.Level;
-import entities.hero.Hero;
+import entities.Hero;
 import openfl.Assets;
 import openfl.display.BitmapData;
 import systems.PhysicSystem;
@@ -30,7 +30,7 @@ class TestLevel extends Level
 		addSystem(new RenderSystem());
 		
 		load("testMap");
-		add(new Hero());
+		//add(new Hero());
 	}
 	
 }
