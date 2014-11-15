@@ -1,10 +1,9 @@
 package;
 
-
 import openfl.display.Sprite;
-import screens.MenuScreen;
-
-import core.Game;
+import redo.Game;
+import redo.Level;
+import redo.Screen;
 
 class Main extends Sprite {
 	
@@ -13,7 +12,13 @@ class Main extends Sprite {
 		super ();
 		
 		var game = Game.init();
-		game.gotoScreen(new MenuScreen());
+		var level = new Level("testMap");
+		level.load();
+		
+		var screen = new Screen();
+		screen.add(level);
+		
+		game.gotoScreen(screen);
 	}
 	
 	

@@ -44,9 +44,9 @@ class GameScreen extends Screen
 		
 		// add sysytems
 		mEngine.addSystem(new PlayerControlSystem(),0);
-		mEngine.addSystem(new PhysicSystem(),10);
-		mEngine.addSystem(new TileMapSystem(),20);
-		mEngine.addSystem(new RenderSystem(),30);
+		mEngine.addSystem(new TileMapSystem(),0);
+		mEngine.addSystem(new PhysicSystem(),0);
+		mEngine.addSystem(new RenderSystem(),0);
 		
 		// load level's entities
 		var entities = mCurrentLevel.getEntities();

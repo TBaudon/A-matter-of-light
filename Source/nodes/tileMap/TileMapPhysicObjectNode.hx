@@ -1,4 +1,4 @@
-package nodes;
+package nodes.tileMap ;
 import ash.core.Node;
 import components.Body;
 import components.tileMap.TileMapObject;

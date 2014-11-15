@@ -36,4 +36,9 @@ class Body
 		origin = new Vec2(0.5, 0.5);
 	}
 	
+	public function applyForce(force : Vec2) {
+		velocity.add(force);
+	}
+	
+	
 }

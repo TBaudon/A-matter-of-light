@@ -4,11 +4,14 @@ import ash.core.NodeList;
 import ash.tools.ListIteratingSystem;
 import components.Body;
 import components.tileMap.TileMap;
+import components.tileMap.TileMapCollisionMask;
+import geom.Segment;
 import geom.Vec2;
 import nodes.CameraNode;
-import nodes.TileMapNode;
-import nodes.TileMapObjectNode;
-import nodes.TileMapPhysicObjectNode;
+import nodes.tileMap.TileMapCollisionMaskNode;
+import nodes.tileMap.TileMapNode;
+import nodes.tileMap.TileMapObjectNode;
+import nodes.tileMap.TileMapPhysicObjectNode;
 import openfl.display.BitmapData;
 import openfl.events.KeyboardEvent;
 import openfl.geom.Point;
@@ -29,6 +32,14 @@ class TileMapSystem extends ListIteratingSystem<TileMapNode>
 	var mCameraNodeList : NodeList<CameraNode>;
 	var mTileMapObjectNodeList:NodeList<TileMapObjectNode>;
 	var mTileMapPhysicObjectNodeList : NodeList<TileMapPhysicObjectNode>;
+	var mTileMapCollisionMaskNodeList:NodeList<TileMapCollisionMaskNode>;
+	
+	var mCollisionMask : Array<Int>;
+	
+	var mMapWidth : Int;
+	var mMapHeight : Int;
+	var mTileSize : Int;
+	var mTileSide : Array<Segment>;
 	
 	public function new() 
 	{
@@ -65,32 +76,109 @@ class TileMapSystem extends ListIteratingSystem<TileMapNode>
 		mCameraNodeList = engine.getNodeList(CameraNode);
 		mTileMapObjectNodeList = engine.getNodeList(TileMapObjectNode);
 		mTileMapPhysicObjectNodeList = engine.getNodeList(TileMapPhysicObjectNode);
+		
+		mTileMapCollisionMaskNodeList = engine.getNodeList(TileMapCollisionMaskNode);
+		mTileMapCollisionMaskNodeList.nodeAdded.add(onCollisionMaskAdded);
+		mTileMapCollisionMaskNodeList.nodeRemoved.add(onCollisionMaskRemoved);
+	}
+	
+	function onCollisionMaskRemoved(node : TileMapCollisionMaskNode) 
+	{
+		mCollisionMask = null;
+	}
+	
+	function onCollisionMaskAdded(node: TileMapCollisionMaskNode) 
+	{
+		mCollisionMask = node.entity.get(TileMap).data;
+		mMapWidth = node.entity.get(TileMap).width;
+		mMapHeight = node.entity.get(TileMap).height;
+		mTileSize = node.entity.get(TileMap).tileSize;
+		
+		mTileSide = new Array<Segment>();
+		
+		mTileSide.push(new Segment(0, 0, mTileSize, 0)); 
+		mTileSide.push(new Segment(mTileSize, 0, mTileSize, mTileSize)); 
+		mTileSide.push(new Segment(mTileSize, mTileSize, 0, mTileSize)); 
+		mTileSide.push(new Segment(0, mTileSize, 0, 0)); 
 	}
 	
 	override public function update(time:Float):Void 
 	{
+		updatePhysic(time);
 		super.update(time);
-		
-		updatePhysic();
-		updateOffets();
+		updateOffsets();
 	}
 	
-	function updatePhysic() 
+	function updatePhysic(time : Float) 
 	{
-		var node = mTileMapPhysicObjectNodeList.head;
+		if(mCollisionMask != null){
+			var node = mTileMapPhysicObjectNodeList.head;
 		
-		while (node != null) {
+			while (node != null) {
+				
+				var body = node.body;
+				//body.velocity.y += 9.8;
+				var position = node.body.position;
+				var velocity = Vec2.Mul(node.body.velocity, time);
+				
+				var nextPosition = Vec2.Add(position, velocity);
+				
+				if (getDataAt(nextPosition) != 0) {
+					
+					//step 1 : get tilePos
+					var tilePos = getTilePos(nextPosition);
+					
+					// step 2 : get position relative to tile upper left corner
+					var relPos = Vec2.Sub(nextPosition, tilePos);
+					
+					// step 3 : get the velocity segment
+					var start = relPos;
+					var end = Vec2.Sub(relPos, Vec2.Mul(velocity, 1000));
+					var velSeg = new Segment(start.x, start.y, end.x, end.y);
+					// step 4 : check for intersection with all tile side
+					var collisionPoint : Vec2 = null;
+					for ( side in mTileSide) {
+						collisionPoint = velSeg.intersect(side);
+						if (collisionPoint != null) break;
+					}
+					
+					if (collisionPoint != null) {
+						body.velocity.y = 0;
+						// step 5 : set position back to colision pos
+						position.x = tilePos.x + collisionPoint.x + body.velocity.x * time;
+						position.y = tilePos.y + collisionPoint.y + body.velocity.y * time;
+						// dstep 6 : get normal
+					}
+					//body.velocity.mul(0);
+					//position.y = Std.int(position.y / mTileSize) * mTileSize;
+				}else {
+					position.x += velocity.x;
+					position.y += velocity.y;
+				}
 			
-			var position = node.body.position;
-			
-			
-			
-			node = node.next;
+				node = node.next;
+			}
 		}
 	}
 	
+	function getDataAt(position : Vec2) : Int{
+		if (mCollisionMask == null) return 0;
+		
+		var x = Std.int(position.x / mTileSize);
+		var y = Std.int(position.y / mTileSize);
+		
+		var data = mCollisionMask[Std.int(y * mMapWidth + x)];
+		return data;
+	}
+	
+	function getTilePos(position : Vec2) : Vec2 {
+		var x = Std.int(position.x / mTileSize) * mTileSize;
+		var y = Std.int(position.y / mTileSize) * mTileSize;
+		return new Vec2(x, y);
+	}
+	
 	function onNodeUpdate(node : TileMapNode, delta : Float) 
-	{
+	{	
 		var tileMap = node.tileMap;
 		var tileSet = tileMap.tileSet;
 		var source = node.view.source;
@@ -158,13 +246,13 @@ class TileMapSystem extends ListIteratingSystem<TileMapNode>
 			
 			var tileMap = node.tileMap;
 			
-			if (camPos.y + off.y > 240) 
-				mScrollY += camPos.y + off.y - 240;
+			if (camPos.y + off.y > 200) 
+				mScrollY += camPos.y + off.y - 200;
 			
-			if (camPos.x + off.x > 400) {
-				mScrollX += camPos.x + off.x - 400;
-			}else if (camPos.x + off.x < 0) {
-				mScrollX += camPos.x + off.x;
+			if (camPos.x + off.x > 300) {
+				mScrollX += camPos.x + off.x - 300;
+			}else if (camPos.x + off.x < 100) {
+				mScrollX += camPos.x + off.x - 100;
 			}
 		}
 	}
@@ -179,7 +267,7 @@ class TileMapSystem extends ListIteratingSystem<TileMapNode>
 		return new Rectangle(x * tileMap.tileSize, y * tileMap.tileSize, tileMap.tileSize, tileMap.tileSize);
 	}
 	
-	function updateOffets():Void 
+	function updateOffsets():Void 
 	{
 		var node = mTileMapObjectNodeList.head;
 		

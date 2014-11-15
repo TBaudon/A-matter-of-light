@@ -50,4 +50,38 @@ class Vec2
 		return Math.sqrt(x * x + y * y);
 	}
 	
+	public function set(x : Float, y : Float) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public function copy(v : Vec2) {
+		x = v.x;
+		y = v.y;
+	}
+	
+	public function clone() : Vec2 {
+		return new Vec2(x, y);
+	}
+	
+	public function offset(x : Float, y : Float) {
+		this.x += x;
+		this.y += y;
+	}
+	
+	public function getNormals() : Array<Vec2> {
+		var normA = new Vec2( -y, x);
+		var normB = new Vec2( y, -x);
+		return [normA, normB];
+	}
+	
+	public function getAngle() : Float {
+		return Math.atan2(y, x);
+	}
+	
+	public function toString() : String {
+		return "(" + x + ";" + y + ")";
+	}
+
+	
 }

@@ -9,7 +9,6 @@
 	<source path="Source" />
 	
 	<haxelib name="openfl" />
-	<haxelib name="ash" />
 	
 	<icon path="Assets/openfl.svg" />
 	
@@ -17,6 +16,6 @@
 	<assets path="Assets/img" rename="img" />
 	<assets path="Assets/levels" rename="levels" />
 	
-	<haxeflag name="--macro include('entities', true)" />
+	<!--<haxeflag name="--macro include('entities', true)" />-->
 	
 </project>

@@ -1,5 +1,4 @@
 package entities ;
-import ash.core.Entity;
 import components.Body;
 import components.Camera;
 import components.PlayerControler;

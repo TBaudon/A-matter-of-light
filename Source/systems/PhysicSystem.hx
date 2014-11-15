@@ -19,13 +19,9 @@ class PhysicSystem extends System
 	
 	var mPhysicNodeList:NodeList<PhysicNode>;
 	
-	var mGravity : Vec2;
-	
 	public function new() 
 	{
 		super();
-		
-		mGravity = new Vec2(0.0, 10);
 	}
 	
 	override public function addToEngine(engine:Engine):Void 
@@ -53,28 +49,10 @@ class PhysicSystem extends System
 		var node : PhysicNode = mPhysicNodeList.head;
 		
 		while (node != null) {
-			
-			updateNodePhysics(node, time);
-			
 			node.transform.position.x = node.body.position.x;
 			node.transform.position.y = node.body.position.y;
 			
 			node = node.next;
-		}
-	}
-	
-	function updateNodePhysics(node:PhysicNode, delta : Float) 
-	{
-		var body = node.body;
-		
-		if (body.type != BodyType.STATIC) {
-			body.velocity.add(Vec2.Mul(mGravity, delta));
-			body.position.add(body.velocity);
-			
-			if (body.position.y + (1 - body.origin.y) * body.h >= 240) {
-				body.velocity.y = 0;
-				body.position.y = 240 - (1 - body.origin.y) * body.h;
-			}
 		}
 	}
 	
