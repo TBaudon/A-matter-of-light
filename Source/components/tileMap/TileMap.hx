@@ -1,4 +1,4 @@
-package components;
+package components.tileMap ;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 

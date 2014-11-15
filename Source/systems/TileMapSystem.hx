@@ -3,11 +3,12 @@ import ash.core.Engine;
 import ash.core.NodeList;
 import ash.tools.ListIteratingSystem;
 import components.Body;
-import components.TileMap;
+import components.tileMap.TileMap;
 import geom.Vec2;
 import nodes.CameraNode;
 import nodes.TileMapNode;
 import nodes.TileMapObjectNode;
+import nodes.TileMapPhysicObjectNode;
 import openfl.display.BitmapData;
 import openfl.events.KeyboardEvent;
 import openfl.geom.Point;
@@ -21,14 +22,13 @@ import openfl.ui.Keyboard;
  */
 class TileMapSystem extends ListIteratingSystem<TileMapNode>
 {
-	var mScrollLeft : Bool;
-	var mScrollRight : Bool;
 	
 	var mScrollX : Float;
 	var mScrollY : Float;
 	
 	var mCameraNodeList : NodeList<CameraNode>;
 	var mTileMapObjectNodeList:NodeList<TileMapObjectNode>;
+	var mTileMapPhysicObjectNodeList : NodeList<TileMapPhysicObjectNode>;
 	
 	public function new() 
 	{
@@ -36,25 +36,6 @@ class TileMapSystem extends ListIteratingSystem<TileMapNode>
 		
 		mScrollX = 0;
 		mScrollY = 0;
-		
-		Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKDown);
-		Lib.current.stage.addEventListener(KeyboardEvent.KEY_UP, onKUp);
-	}
-	
-	private function onKUp(e:KeyboardEvent):Void 
-	{
-		if(e.keyCode == Keyboard.LEFT)
-			mScrollLeft = false;
-		if (e.keyCode == Keyboard.RIGHT)
-			mScrollRight = false;
-	}
-	
-	private function onKDown(e:KeyboardEvent):Void 
-	{
-		if(e.keyCode == Keyboard.LEFT)
-			mScrollLeft = true;
-		if (e.keyCode == Keyboard.RIGHT)
-			mScrollRight = true;
 	}
 	
 	function onNodeRemoved(node : TileMapNode) 
@@ -83,18 +64,26 @@ class TileMapSystem extends ListIteratingSystem<TileMapNode>
 		
 		mCameraNodeList = engine.getNodeList(CameraNode);
 		mTileMapObjectNodeList = engine.getNodeList(TileMapObjectNode);
+		mTileMapPhysicObjectNodeList = engine.getNodeList(TileMapPhysicObjectNode);
 	}
 	
 	override public function update(time:Float):Void 
 	{
 		super.update(time);
 		
-		var node = mTileMapObjectNodeList.head;
+		updatePhysic();
+		updateOffets();
+	}
+	
+	function updatePhysic() 
+	{
+		var node = mTileMapPhysicObjectNodeList.head;
 		
 		while (node != null) {
 			
-			node.transform.offset.x = -mScrollX;
-			node.transform.offset.y = -mScrollY;
+			var position = node.body.position;
+			
+			
 			
 			node = node.next;
 		}
@@ -106,12 +95,6 @@ class TileMapSystem extends ListIteratingSystem<TileMapNode>
 		var tileSet = tileMap.tileSet;
 		var source = node.view.source;
 		var tileSize = tileMap.tileSize;
-		
-		if (mScrollLeft)
-			mScrollX -= 20;
-			
-		if (mScrollRight)
-			mScrollX += 20;
 			
 		updateScroll(node, delta);
 			
@@ -194,6 +177,19 @@ class TileMapSystem extends ListIteratingSystem<TileMapNode>
 		var y = Std.int(tile / l);
 		
 		return new Rectangle(x * tileMap.tileSize, y * tileMap.tileSize, tileMap.tileSize, tileMap.tileSize);
+	}
+	
+	function updateOffets():Void 
+	{
+		var node = mTileMapObjectNodeList.head;
+		
+		while (node != null) {
+			
+			node.transform.offset.x = -mScrollX;
+			node.transform.offset.y = -mScrollY;
+			
+			node = node.next;
+		}
 	}
 	
 }

@@ -1,8 +1,9 @@
 package core;
 import ash.core.Entity;
 import ash.core.System;
-import components.TileMap;
-import components.TileMapObject;
+import components.tileMap.TileMap;
+import components.tileMap.TileMapCollisionMask;
+import components.tileMap.TileMapObject;
 import components.Transform;
 import components.View;
 import haxe.io.Path;
@@ -15,15 +16,12 @@ import openfl.Assets;
  */
 class Level
 {
-
 	var mEntities : Array<Entity>;
-	var mSystems : Array<System>;
 	
 	public var onLevelEnd : String -> Void;
 	
 	public function new() 
 	{
-		mSystems = new Array<System>();
 		mEntities = new Array<Entity>();
 		
 		onLevelEnd = function (nextLevel : String) { };
@@ -31,10 +29,6 @@ class Level
 	
 	function add(ent : Entity) {
 		mEntities.push(ent);
-	}
-	
-	function addSystem(sys : System) {
-		mSystems.push(sys);
 	}
 	
 	public function load(level : String) {
@@ -57,9 +51,6 @@ class Level
 					loadObjects(layer);
 				default :
 					trace("Unknown layer type");
-			}
-			if (layers[i].type == "tilelayer"){
-				
 			}
 		}
 	}
@@ -97,22 +88,21 @@ class Level
 		var tileSet = Assets.getBitmapData(tileSetPath);
 		
 		var map = new Entity(layer.name);
-		map.add(new View());
-		map.add(new Transform());
+		
+		if (Reflect.hasField(layer,"properties") && Reflect.hasField(layer.properties,"collisionMask")) 
+			map.add(new TileMapCollisionMask());
+		else {
+			map.add(new View());
+			map.add(new Transform());
+		}
+		
 		var tileMap = new TileMap(w, h, tileSize, mapData);
 		tileMap.tileSet = tileSet;
 		map.add(tileMap);
 		add(map);
 	}
 	
-	public function getSystems() : Array<System> {
-		return mSystems;
-	}
-	
 	public function getEntities() : Array<Entity> {
 		return mEntities;
 	}
-	
-	
-	
 }

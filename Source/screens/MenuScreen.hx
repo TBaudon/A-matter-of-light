@@ -27,7 +27,7 @@ class MenuScreen extends Screen
 	
 	private function onPlayPressed(e:MouseEvent):Void 
 	{
-		Game.getI().gotoScreen(new GameScreen("TestLevel"));
+		Game.getI().gotoScreen(new GameScreen("testMap"));
 	}
 	
 }

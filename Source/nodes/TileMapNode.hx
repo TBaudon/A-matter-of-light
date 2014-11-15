@@ -1,6 +1,6 @@
 package nodes;
 import ash.core.Node;
-import components.TileMap;
+import components.tileMap.TileMap;
 import components.View;
 
 /**

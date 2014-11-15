@@ -29,7 +29,7 @@
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="True" />
-    <option additional="--macro include('levels', true)&#xA;--macro include('entities', true)&#xA;-swf-version 11.2" />
+    <option additional="--macro include('entities', true)&#xA;-swf-version 11.2" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
