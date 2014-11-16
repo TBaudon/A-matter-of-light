@@ -11,7 +11,6 @@ class Entity
 	
 	public var pos : Vec2;
 	public var vel : Vec2;
-	public var dim : Vec2;
 	public var scale : Vec2;
 	public var rot : Float;
 	
@@ -19,6 +18,8 @@ class Entity
 	public var children : Array<Entity>;
 	
 	public var name : String;
+	
+	var mDim : Vec2;
 
 	public function new(name : String = "") {
 		this.name = name;
@@ -27,7 +28,7 @@ class Entity
 		scale = new Vec2(1, 1);
 		vel = new Vec2(0, 0);
 		rot = 0;
-		dim = new Vec2(0, 0);
+		mDim = new Vec2(0, 0);
 		
 		children = new Array<Entity>();
 	}
@@ -62,6 +63,10 @@ class Entity
 	public function remove(child : Entity) {
 		children.remove(child);
 		child.parent = null;
+	}
+	
+	public function setDim(x : Int, y : Int) {
+		mDim.set(x, y);
 	}
 	
 	public function destroy() {

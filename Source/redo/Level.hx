@@ -2,6 +2,8 @@ package redo;
 import geom.Vec2;
 import haxe.Json;
 import openfl.Assets;
+import openfl.Lib;
+import openfl.ui.Mouse;
 import redo.Level.MapData;
 
 /**
@@ -54,7 +56,11 @@ class Level extends Entity
 	var mCollisionMap : Array<Int>;
 	
 	var mGravity : Vec2;
-
+	
+	var mTileCoordinateRep : Vec2;
+	
+	var mPointer : Pointer;
+	
 	public function new(level : String) 
 	{
 		super(level);
@@ -62,6 +68,8 @@ class Level extends Entity
 		mLevelPath = "levels/" + level + ".json";
 		mCollisionMap = new Array<Int>();
 		mGravity = new Vec2(0, 25);
+		mTileCoordinateRep = new Vec2();
+		mPointer = new Pointer();
 	}
 	
 	public function load() {
@@ -69,6 +77,7 @@ class Level extends Entity
 		
 		loadTileSets(mMapData);
 		loadLayers(mMapData);
+		add(mPointer);
 	}
 	
 	public function getTilSets() : Array<TileSet>{
@@ -89,12 +98,23 @@ class Level extends Entity
 	}
 	
 	public function getTileAt(px : Float, py : Float) : Int {
+		px = Std.int(px);
+		py = Std.int(py);
+		
 		var w = mMapData.tilewidth;
 		var h = mMapData.tileheight;
-		var x : Int = Std.int(px / w);
-		var y : Int = Std.int(py / h);
+		var x : Int = Math.floor(px / w);
+		var y : Int = Math.floor(py / h);
 		var i : Int = y * mMapData.width + x;
 		return mCollisionMap[i];
+	}
+	
+	public function getTileCoordinate(x : Float, y : Float) : Vec2 {
+		x = Std.int(x);
+		y = Std.int(y);
+		mTileCoordinateRep.x = Math.floor(x / mMapData.tilewidth);
+		mTileCoordinateRep.y = Math.floor(y / mMapData.tileheight);
+		return mTileCoordinateRep;
 	}
 	
 	public function getTileWidth() 
@@ -110,6 +130,9 @@ class Level extends Entity
 	override function update(delta:Float) 
 	{
 		super.update(delta);
+		var stage = Lib.current.stage;
+		mPointer.pos.set(Std.int(stage.mouseX / 2), Std.int(stage.mouseY / 2));
+		Mouse.hide();
 	}
 	
 	function loadTileSets(data:MapData) 
@@ -157,6 +180,7 @@ class Level extends Entity
 			}
 		}
 	}
+	
 	
 	function loadObjectLayer(layer:MapLayerData) 
 	{

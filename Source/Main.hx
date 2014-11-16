@@ -19,6 +19,8 @@ class Main extends Sprite {
 		screen.add(level);
 		
 		game.gotoScreen(screen);
+		
+		
 	}
 	
 	
