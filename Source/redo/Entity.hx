@@ -27,6 +27,7 @@ class Entity
 		scale = new Vec2(1, 1);
 		vel = new Vec2(0, 0);
 		rot = 0;
+		dim = new Vec2(0, 0);
 		
 		children = new Array<Entity>();
 	}
@@ -42,14 +43,14 @@ class Entity
 		
 	}
 	
-	public function _draw(buffer : BitmapData) {
-		draw(buffer);
+	public function _draw(buffer : BitmapData, dest : Vec2) {
+		draw(buffer, dest);
 		
 		for(child in children)
-			child._draw(buffer);
+			child._draw(buffer, Vec2.Add(dest, child.pos));
 	}
 	
-	function draw(buffer) {
+	function draw(buffer : BitmapData, dest : Vec2) {
 		
 	}
 	

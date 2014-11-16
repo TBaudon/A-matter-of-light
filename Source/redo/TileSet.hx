@@ -33,6 +33,8 @@ class TileSet
 	var mNbLine:Int;
 	
 	var mStamp : TileStamp;
+	
+	var mData : MapTileSetData;
 
 	public function new(data : MapTileSetData) 
 	{
@@ -54,6 +56,8 @@ class TileSet
 		mFirstGid = data.firstgid;
 		mLastGid = mFirstGid + nbTiles - 1;
 		
+		mData = data;
+		
 		mStamp = {
 			bitmap : mBitampData,
 			x : 0,
@@ -73,6 +77,20 @@ class TileSet
 			mStamp.x = x * mTileWidth;
 			mStamp.y = y * mTileHeight;
 			return mStamp;
+		}else
+			return null;
+	}
+	
+	public function getTileTerrain(tileId : Int) : Array<Int> {
+		if (tileId >= mFirstGid && tileId <= mLastGid) {
+			tileId -= mFirstGid;
+			
+			if (Reflect.hasField(mData, "tiles")) {
+				var tiles = mData.tiles;
+				if (Reflect.hasField(tiles, "" + tileId))
+					return Reflect.field(tiles, "" + tileId).terrain;
+			}
+			return [-1,-1,-1,-1];
 		}else
 			return null;
 	}

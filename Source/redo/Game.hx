@@ -61,7 +61,7 @@ class Game extends Sprite
 		mBuffer = new BitmapData(bW, bH, false, 0);
 		mClearRect = new Rectangle(0, 0, bW, bH);
 		
-		mCanvas = new Bitmap(mBuffer, PixelSnapping.ALWAYS, false);
+		mCanvas = new Bitmap(mBuffer, PixelSnapping.NEVER, false);
 		mCanvas.scaleX = mPixelSize;
 		mCanvas.scaleY = mPixelSize;
 		Lib.current.stage.addChild(mCanvas);
@@ -84,7 +84,7 @@ class Game extends Sprite
 		mBuffer.lock();
 		mBuffer.fillRect(mClearRect, 0);
 		
-		mCurrentScreen._draw(mBuffer);
+		mCurrentScreen._draw(mBuffer, mCurrentScreen.pos);
 			
 		mBuffer.unlock();
 	}
