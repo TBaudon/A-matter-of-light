@@ -21,14 +21,14 @@
                  "name":"Hero",
                  "properties":
                     {
-
+                     "hasFocus":"true"
                     },
                  "rotation":0,
                  "type":"entities.Hero",
                  "visible":true,
                  "width":0,
-                 "x":84,
-                 "y":217
+                 "x":139,
+                 "y":104.5
                 }],
          "opacity":1,
          "type":"objectgroup",

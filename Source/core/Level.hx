@@ -20,6 +20,7 @@ typedef MapLayerData = {
 	var type : String;
 	var data : Array<Int>;
 	var properties : Dynamic;
+	var objects : Array<Dynamic>;
 }
 
 typedef MapTileSetData = {
@@ -61,6 +62,8 @@ class Level extends Entity
 	
 	var mPointer : Pointer;
 	
+	var mCamera : Camera;
+	
 	public function new(level : String) 
 	{
 		super(level);
@@ -70,6 +73,7 @@ class Level extends Entity
 		mGravity = new Vec2(0, 25);
 		mTileCoordinateRep = new Vec2();
 		mPointer = new Pointer();
+		mCamera = new Camera();
 	}
 	
 	public function load() {
@@ -78,6 +82,8 @@ class Level extends Entity
 		loadTileSets(mMapData);
 		loadLayers(mMapData);
 		add(mPointer);
+		
+		mCamera.shake(3, 100000);
 	}
 	
 	public function getTilSets() : Array<TileSet>{
@@ -130,6 +136,11 @@ class Level extends Entity
 	override function update(delta:Float) 
 	{
 		super.update(delta);
+		
+		mCamera.update(delta);
+		pos.x = -mCamera.pos.x;
+		pos.y = -mCamera.pos.y;
+		
 		var stage = Lib.current.stage;
 		mPointer.pos.set(Std.int(stage.mouseX / 2), Std.int(stage.mouseY / 2));
 		Mouse.hide();
@@ -184,10 +195,15 @@ class Level extends Entity
 	
 	function loadObjectLayer(layer:MapLayerData) 
 	{
-		var hero = new Hero(this);
-		hero.pos.x = 150;
-		hero.pos.y = 20;
-		add(hero);
+		var objects : Array<Dynamic> = layer.objects;
+		for (object in objects) {
+			var objectClass = Type.resolveClass(object.type);
+			var instance : Entity = Type.createInstance(objectClass, [this]);
+			add(instance);
+			instance.pos.set(object.x, object.y);
+			if (Reflect.hasField(object.properties, "hasFocus"))
+				mCamera.setTarget(instance);
+		}
 	}
 	
 	function loadTileMapLayer(layer:MapLayerData) 

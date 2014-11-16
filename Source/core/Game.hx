@@ -6,6 +6,7 @@ import openfl.display.Sprite;
 import openfl.geom.Rectangle;
 import openfl.Lib;
 import openfl.events.Event;
+import openfl.system.System;
 
 /**
  * ...
