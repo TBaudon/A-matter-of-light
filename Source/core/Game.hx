@@ -1,9 +1,11 @@
 package core ;
-
+import openfl.display.BitmapData;
+import openfl.display.Bitmap;
+import openfl.display.PixelSnapping;
 import openfl.display.Sprite;
-import openfl.events.Event;
+import openfl.geom.Rectangle;
 import openfl.Lib;
-import core.Screen;
+import openfl.events.Event;
 
 /**
  * ...
@@ -11,94 +13,80 @@ import core.Screen;
  */
 class Game extends Sprite
 {
-	/*********************************
-	* static part
-	**********************************/
+	var mLastTime : UInt;
+	
+	// rendering
+	var mPixelSize : UInt;
+	var mBuffer : BitmapData;
+	var mClearRect : Rectangle;
+	var mCanvas : Bitmap;
+	
+	// screen
+	var mCurrentScreen : Screen;
 	
 	static var mInstance : Game;
-
-	public static function getI() : Game {
+	
+	public static function init(pixelSize : UInt = 2) : Game {
 		if (mInstance == null)
-			throw "Game must be inited.";
+			mInstance = new Game(pixelSize);
 		return mInstance;
 	}
 	
-	public static function init() {
-		if(mInstance == null){
-			mInstance = new Game();
-			Lib.current.addChild(mInstance);
-		}
-		else
-			throw "Game already inited.";
-		
+	public static function getInstance() : Game {
 		return mInstance;
 	}
-	
-	/*********************************
-	* instance part
-	**********************************/
-	
-	var mCurrentScreen : Screen;
-	var mPaused : Bool;
-	var mLastTime : Int;
-	
-	var mUiLayer : Sprite;
-	var mGameLayer : Sprite;
-	
-	function new() 
+
+	function new(pixelSize : UInt = 2) 
 	{
 		super();
-		mPaused = false;
 		
-		mUiLayer = new Sprite();
-		mGameLayer = new Sprite();
+		initRender(pixelSize);
 		
-		addChild(mGameLayer);
-		addChild(mUiLayer);
-		
+		addEventListener(Event.ENTER_FRAME, update);
 		mLastTime = Lib.getTimer();
-		
-		Lib.current.stage.addEventListener(Event.ENTER_FRAME, update);
-	}
-	
-	function update(e:Event):Void 
-	{
-		var time = Lib.getTimer();
-		var delta = time - mLastTime;
-		mLastTime = time;
-		
-		if (mCurrentScreen != null)
-			mCurrentScreen.update(delta * 0.001);
-	}
-	
-	public function togglePause() {
-		mPaused = !mPaused;
-		if (mPaused)
-			mCurrentScreen.pause();
-		else
-			mCurrentScreen.play();
 	}
 	
 	public function gotoScreen(screen : Screen) {
-		if (mCurrentScreen != null){
-			mCurrentScreen.stop();
+		if (mCurrentScreen != null)
 			mCurrentScreen.destroy();
-			mUiLayer.removeChildren();
-			mGameLayer.removeChildren();
-		}
-		
+			
 		mCurrentScreen = screen;
-		mCurrentScreen.start();
+	}
+	
+	function initRender(pixelSize:UInt) 
+	{
+		mPixelSize = pixelSize;
+		var bW : Int = Std.int(Lib.current.stage.stageWidth / mPixelSize);
+		var bH : Int = Std.int(Lib.current.stage.stageHeight / mPixelSize);
+		mBuffer = new BitmapData(bW, bH, false, 0);
+		mClearRect = new Rectangle(0, 0, bW, bH);
 		
-		mCurrentScreen.play();
+		mCanvas = new Bitmap(mBuffer, PixelSnapping.NEVER, false);
+		mCanvas.scaleX = mPixelSize;
+		mCanvas.scaleY = mPixelSize;
+		Lib.current.stage.addChild(mCanvas);
 	}
 	
-	public function getUiLayer() : Sprite {
-		return mUiLayer;
+	function update(e :Event) {
+		
+		var time = Lib.getTimer();
+		var delta = (time - mLastTime) / 1000;
+		mLastTime = time;
+		
+		if (mCurrentScreen != null){
+			mCurrentScreen._update(delta);
+			render();
+		}
 	}
 	
-	public function getGameLayer() : Sprite {
-		return mGameLayer;
+	function render() : Void 
+	{
+		mBuffer.lock();
+		mBuffer.fillRect(mClearRect, 0);
+		
+		mCurrentScreen._draw(mBuffer, mCurrentScreen.pos);
+			
+		mBuffer.unlock();
 	}
 	
 }

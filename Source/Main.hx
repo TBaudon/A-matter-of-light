@@ -1,9 +1,9 @@
 package;
 
 import openfl.display.Sprite;
-import redo.Game;
-import redo.Level;
-import redo.Screen;
+import core.Game;
+import core.Level;
+import core.Screen;
 
 class Main extends Sprite {
 	
