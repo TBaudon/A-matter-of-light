@@ -2,6 +2,8 @@ package core ;
 import geom.Vec2;
 import haxe.Json;
 import openfl.Assets;
+import openfl.display.BitmapData;
+import openfl.geom.Rectangle;
 import openfl.Lib;
 import openfl.ui.Mouse;
 import core.Level.MapData;
@@ -82,8 +84,6 @@ class Level extends Entity
 		loadTileSets(mMapData);
 		loadLayers(mMapData);
 		add(mPointer);
-		
-		mCamera.shake(3, 100000);
 	}
 	
 	public function getTilSets() : Array<TileSet>{
@@ -192,7 +192,6 @@ class Level extends Entity
 		}
 	}
 	
-	
 	function loadObjectLayer(layer:MapLayerData) 
 	{
 		var objects : Array<Dynamic> = layer.objects;
@@ -209,8 +208,13 @@ class Level extends Entity
 	function loadTileMapLayer(layer:MapLayerData) 
 	{
 		var tileMapLayer = new TileMapLayer(this, mMapData.tilewidth, mMapData.tileheight, layer);
+		
 		add(tileMapLayer);
 		if (tileMapLayer.name == "main")
 			mMainLayer = tileMapLayer;
+	}
+	
+	public function getCamera() : Camera {
+		return mCamera;
 	}
 }

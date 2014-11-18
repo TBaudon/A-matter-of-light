@@ -26,7 +26,7 @@ class Actor extends Entity
 		
 		mLevel = level;
 		mNextPos = new Vec2();
-		
+		collidable = true;
 		mDim.set(10, 10);
 	}
 	

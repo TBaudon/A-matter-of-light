@@ -1,5 +1,6 @@
 package core;
 import geom.Vec2;
+import haxe.Timer;
 
 /**
  * ...
@@ -14,6 +15,7 @@ class Camera
 	var mShakePhase : Int;
 	var mShakeOffsetX : Int;
 	var mShakeOffsetY : Int;
+	var mShaking : Bool;
 	
 	public var pos : Vec2;
 
@@ -38,7 +40,7 @@ class Camera
 				pos.y = mTargetEntity.pos.y - 50;
 		}
 		
-		if (mShakeTime > 0)
+		if (mShaking || mShakePhase == 1)
 		{
 			if (mShakePhase == 0) {
 				mShakeOffsetX = cast Math.random() * mShakeIntensity * 2 - mShakeIntensity;
@@ -53,13 +55,12 @@ class Camera
 			
 			mShakeTime -= cast 1000 * delta;
 			
-			if (mShakeTime <= 0) {
+			if (!mShaking) {
 				if(mShakePhase == 0){
 					pos.x -= mShakeOffsetX;
 					pos.y -= mShakeOffsetY;
 				}
 			}
-			
 			mShakePhase ++;
 			if (mShakePhase > 1)
 				mShakePhase = 0;
@@ -67,9 +68,18 @@ class Camera
 	}
 	
 	public function shake(intensity : Int, time : Int) {
-		mShakeIntensity = intensity;
-		mShakeTime = time;
+		startShake(intensity);
+		Timer.delay(stopShake, time);
+	}
+	
+	public function startShake(intensity : Int) {
+		mShaking = true;
 		mShakePhase = 0;
+		mShakeIntensity = intensity;
+	}
+	
+	public function stopShake() {
+		mShaking = false;
 	}
 	
 }

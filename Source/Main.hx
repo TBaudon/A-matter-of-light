@@ -11,7 +11,7 @@ class Main extends Sprite {
 		
 		super ();
 		
-		var game = Game.init();
+		var game = Game.init(2);
 		var level = new Level("testMap");
 		level.load();
 		

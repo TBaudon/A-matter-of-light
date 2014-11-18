@@ -17,6 +17,8 @@ class Entity
 	public var parent : Entity;
 	public var children : Array<Entity>;
 	
+	public var collidable : Bool;
+	
 	public var name : String;
 	
 	var mDim : Vec2;
@@ -34,10 +36,10 @@ class Entity
 	}
 	
 	public function _update(delta : Float) {
-		update(delta);
-		
 		for (child in children)
 			child._update(delta);
+		
+		update(delta);
 	}
 	
 	function update(delta : Float) {
@@ -70,7 +72,8 @@ class Entity
 	}
 	
 	public function destroy() {
-		
+		if (parent != null)
+			parent.remove(this);
 	}
 	
 }

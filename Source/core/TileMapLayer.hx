@@ -102,6 +102,14 @@ class TileMapLayer extends Entity
 		return mData;
 	}
 	
+	public function getWidth() : Int {
+		return mNbCol;
+	}
+	
+	public function getHeight() : Int {
+		return mNbLine;
+	}
+	
 	function getStamp(tile : Int) : TileStamp {
 		for (tileSet in mLevel.getTilSets()) {
 			var stamp = tileSet.getStamp(tile);
