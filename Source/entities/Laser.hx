@@ -33,8 +33,12 @@ class Laser extends Entity
 	var mEndPos:Vec2;
 	
 	var mTile : Array<{x : Int, y : Int}>;
+	
+	var mColor : UInt;
+	
+	var mImpact : Bool;
 
-	public function new(level : Level) 
+	public function new(level : Level, color : UInt = 0xff0000) 
 	{
 		super();
 		mLevel = level;
@@ -42,6 +46,7 @@ class Laser extends Entity
 		mFiring = false;
 		mDir = new Vec2();
 		mDrawLine = new Shape();
+		mColor = color;
 	}
 	
 	public function setAngle(angle : Float) {
@@ -58,42 +63,14 @@ class Laser extends Entity
 		super.update(delta);
 		if (mEndPos == null) return;
 		
-		mStartX = cast pos.x / mLevel.getTileWidth();
-		mStartY = cast pos.y / mLevel.getTileHeight();
+		mImpact = false;
 		
-		mEndX = cast mEndPos.x / mLevel.getTileWidth();
-		if (mEndX < 0) mEndX = 0;
-		/*if (mEndX > mLevel.getMainLayer().getWidth() - 1)
-			mEndX = mLevel.getMainLayer().getWidth() - 1;*/
-		
-		mEndY = cast mEndPos.y / mLevel.getTileHeight();
-		if (mEndY < 0) mEndY = 0;
-		/*if (mEndY > mLevel.getMainLayer().getHeight() - 1)
-			mEndY = mLevel.getMainLayer().getHeight() - 1;*/
-			
-		trace(mEndX, mEndY);
-		var ar = Utils.getLine(mStartX, mStartY, mEndX, mEndY);
-		mTile = ar;
-		var closestObstacleX = mEndX;
-		var closestObstacleY = mEndY;
-		
-		var xDist = mEndX - mStartX;
-		var yDist = mEndY - mStartY;
-		var minDist = Math.sqrt(xDist * xDist + yDist * yDist);
-		
-		for (tileCoord in ar) {	
-			var tile = mLevel.getTileAt(tileCoord.x * mLevel.getTileWidth(), tileCoord.y * mLevel.getTileHeight()) ;
-			if (tile != 0) {
-				xDist = tileCoord.x - mStartX;
-				yDist = tileCoord.y - mStartY;
-				var dist = Math.sqrt(xDist * xDist + yDist * yDist);
-				if (dist < minDist) {
-					minDist = dist;
-					mEndX = tileCoord.x;
-					mEndY = tileCoord.y;
-				}
-			}
-		}
+		var end = mLevel.castRay(pos, mEndPos);
+		if (end != null) {
+			mEndPos = end;
+			mDir.set(mEndPos.x - pos.x, mEndPos.y - pos.y);
+			mImpact = true;
+		} 
 	}
 	
 	override function draw(buffer:BitmapData, dest:Vec2) 
@@ -101,17 +78,29 @@ class Laser extends Entity
 		super.draw(buffer, dest);
 		
 		mDrawLine.graphics.clear();
-		mDrawLine.graphics.lineStyle(12, 0xff0000, 0.8);
+		mDrawLine.graphics.lineStyle(8, mColor, 0.8);
 		mDrawLine.graphics.moveTo(dest.x,dest.y);
 		mDrawLine.graphics.lineTo(dest.x + mDir.x, dest.y + mDir.y);
-		mDrawLine.graphics.lineStyle(8, 0xffffff, 0.4);
+		mDrawLine.graphics.lineStyle(5, 0xffffff, 0.4);
 		mDrawLine.graphics.moveTo(dest.x,dest.y);
 		mDrawLine.graphics.lineTo(dest.x + mDir.x, dest.y + mDir.y);
-		mDrawLine.graphics.lineStyle(4, 0xffffff, 0.8);
+		mDrawLine.graphics.lineStyle(2, 0xffffff, 0.8);
 		mDrawLine.graphics.moveTo(dest.x,dest.y);
 		mDrawLine.graphics.lineTo(dest.x + mDir.x, dest.y + mDir.y);
-		mDrawLine.filters = [new GlowFilter(0xff0000)];
+		mDrawLine.filters = [new GlowFilter(mColor)];
+		
+		if (mImpact) {
+			var radius = Math.random() * 5 + 5;
+			mDrawLine.graphics.lineStyle(0, 0, 0);
+			mDrawLine.graphics.beginFill(0xffffff, 0.8);
+			mDrawLine.graphics.drawCircle(dest.x + mDir.x, dest.y + mDir.y, radius);
+		}
+		
 		buffer.draw(mDrawLine);
+	}
+	
+	public function getDir() : Vec2 {
+		return mDir;
 	}
 	
 }

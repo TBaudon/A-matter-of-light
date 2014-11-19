@@ -27,7 +27,7 @@ class Game extends Sprite
 	
 	static var mInstance : Game;
 	
-	public static function init(pixelSize : UInt = 2) : Game {
+	public static function init(pixelSize : UInt = 3) : Game {
 		if (mInstance == null)
 			mInstance = new Game(pixelSize);
 		return mInstance;

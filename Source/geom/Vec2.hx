@@ -50,6 +50,11 @@ class Vec2
 		return Math.sqrt(x * x + y * y);
 	}
 	
+	public static function Norm(v : Vec2) : Vec2 {
+		return new Vec2(v.x / v.length(), v.y / v.length());
+		
+	}
+	
 	public function set(x : Float, y : Float) {
 		this.x = x;
 		this.y = y;

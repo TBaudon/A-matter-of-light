@@ -44,6 +44,12 @@ class Utils
 				y += ystep;
 				error -= deltax;
 			}
+			if (error < 0) {
+				if(steep)
+					result.push( { x : y, y: x } );
+				else
+					result.push( { x : x , y: y } );
+			}
 			x++;
 		}
 

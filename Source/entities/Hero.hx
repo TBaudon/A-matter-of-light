@@ -37,11 +37,11 @@ class Hero extends Actor
 	
 	function onMouseDown(e:MouseEvent) : Void {
 		mFiring = true;
-		mLaser = new Laser(mLevel);
+		mLaser = new Laser(mLevel, cast Math.random() * 0xffffff);
 		mLevel.add(mLaser);
 		var cam = mLevel.getCamera();
 		if (cam != null)
-			cam.startShake(3);
+			cam.startShake(2);
 	}
 	
 	function onMouseUp(e : MouseEvent) : Void {
@@ -94,11 +94,11 @@ class Hero extends Actor
 			vel.x = -200;
 		
 		if (mFiring) {
-			mLaser.pos.set(pos.x, pos.y);
-			
+			mLaser.pos.set(pos.x+5, pos.y+5);
 			var endX = Lib.current.stage.mouseX/2 - mLevel.pos.x;
 			var endY = Lib.current.stage.mouseY/2 - mLevel.pos.y;
 			mLaser.setEndPos(new Vec2(endX, endY));
+			vel.sub(Vec2.Mul(Vec2.Norm(mLaser.getDir()), delta * 500));
 		}
 	}
 	
