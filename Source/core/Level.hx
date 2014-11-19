@@ -72,7 +72,7 @@ class Level extends Entity
 		
 		mLevelPath = "levels/" + level + ".json";
 		mCollisionMap = new Array<Int>();
-		mGravity = new Vec2(0, 25);
+		mGravity = new Vec2(0, 1500);
 		mTileCoordinateRep = new Vec2();
 		mPointer = new Pointer();
 		mCamera = new Camera();
@@ -228,7 +228,7 @@ class Level extends Entity
 	
 		if ( Std.int( p1.x ) == Std.int( p2.x ) && Std.int( p1.y ) == Std.int( p2.y ) ) {
 			//since it doesn't cross any boundaries, there can't be a collision
-			return p2Original;
+			return null;
 		}
 		
 		//find out which direction to step, on each axis
@@ -301,7 +301,7 @@ class Level extends Entity
 		}
 		
 		//no intersection found, just return end point:
-		return p2Original;
+		return null;
 	}
 	
 	public function getCamera() : Camera {

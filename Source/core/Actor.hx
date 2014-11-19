@@ -41,8 +41,8 @@ class Actor extends Entity
 		super.update(delta);
 		
 		if(!mOnFloor){
-			vel.x += mLevel.getGravity().x;
-			vel.y += mLevel.getGravity().y;
+			vel.x += mLevel.getGravity().x * delta;
+			vel.y += mLevel.getGravity().y * delta;
 		}else {
 			vel.x *= 0.9;
 		}

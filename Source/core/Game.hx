@@ -22,6 +22,11 @@ class Game extends Sprite
 	var mClearRect : Rectangle;
 	var mCanvas : Bitmap;
 	
+	var mDeltas : Array<Float>;
+	var mCurrentDelta : Int;
+	var mDelta : Float;
+	var mDeltaSample : Int = 30;
+	
 	// screen
 	var mCurrentScreen : Screen;
 	
@@ -40,6 +45,11 @@ class Game extends Sprite
 	function new(pixelSize : UInt = 2) 
 	{
 		super();
+		
+		mDeltas = new Array<Float>();
+		for (i in 0 ... mDeltaSample)
+			mDeltas.push(0.016);
+		mCurrentDelta = mDeltas.length - 1;
 		
 		initRender(pixelSize);
 		
@@ -62,7 +72,7 @@ class Game extends Sprite
 		mBuffer = new BitmapData(bW, bH, false, 0);
 		mClearRect = new Rectangle(0, 0, bW, bH);
 		
-		mCanvas = new Bitmap(mBuffer, PixelSnapping.NEVER, false);
+		mCanvas = new Bitmap(mBuffer, PixelSnapping.ALWAYS, false);
 		mCanvas.scaleX = mPixelSize;
 		mCanvas.scaleY = mPixelSize;
 		Lib.current.stage.addChild(mCanvas);
@@ -74,8 +84,20 @@ class Game extends Sprite
 		var delta = (time - mLastTime) / 1000;
 		mLastTime = time;
 		
+		mCurrentDelta++;
+		if (mCurrentDelta == mDeltas.length) {
+			mCurrentDelta = 0;
+			mDelta = 0;
+			for (d in mDeltas)
+				mDelta += d;
+			mDelta = mDelta / mDeltas.length;
+			trace(1 / mDelta);
+		}
+		
+		mDeltas[mCurrentDelta] = delta;
+		
 		if (mCurrentScreen != null){
-			mCurrentScreen._update(delta);
+			mCurrentScreen._update(mDelta);
 			render();
 		}
 	}

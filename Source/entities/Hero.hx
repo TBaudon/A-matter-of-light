@@ -21,11 +21,23 @@ class Hero extends Actor
 	var mXAxis : Float;
 	var mFiring : Bool;
 	var mLaser : Laser;
+	
+	var mInventory : Array<UInt>;
+	var mEquipedItem : UInt;
+	var mChangedWeapon : Bool;
 
 	public function new(level : Level) 
 	{
 		super(level);
 		mXAxis = 0;
+		
+		mInventory = new Array<UInt>();
+		
+		mInventory.push(0xe32323);
+		mInventory.push(0x454dee);
+		mInventory.push(0x0fa90f);
+		
+		mEquipedItem = 0;
 		
 		Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 		Lib.current.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
@@ -37,7 +49,7 @@ class Hero extends Actor
 	
 	function onMouseDown(e:MouseEvent) : Void {
 		mFiring = true;
-		mLaser = new Laser(mLevel, cast Math.random() * 0xffffff);
+		mLaser = new Laser(mLevel, mInventory[mEquipedItem]);
 		mLevel.add(mLaser);
 		var cam = mLevel.getCamera();
 		if (cam != null)
@@ -76,6 +88,15 @@ class Hero extends Actor
 				mXAxis = -1;
 			case Keyboard.D :
 				mXAxis = 1;
+			case Keyboard.NUMBER_1 :
+				mEquipedItem = 0;
+				mChangedWeapon = true;
+			case Keyboard.NUMBER_2 :
+				mEquipedItem = 1;
+				mChangedWeapon = true;
+			case Keyboard.NUMBER_3 :
+				mEquipedItem = 2;
+				mChangedWeapon = true;
 		}
 	}
 	
@@ -83,8 +104,15 @@ class Hero extends Actor
 	{
 		super.update(delta);
 		
+		if (mChangedWeapon && mLaser != null) {
+			mChangedWeapon = false;
+			mLaser.destroy();
+			mLaser = new Laser(mLevel, mInventory[mEquipedItem]);
+			mLevel.add(mLaser);
+		}
+		
 		if (mOnFloor && mJumpDown)
-			vel.y -= 200;
+			vel.y -= 180;
 			
 		vel.x += mXAxis * delta * 1000;
 		
