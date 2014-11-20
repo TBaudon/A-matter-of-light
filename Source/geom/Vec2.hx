@@ -1,4 +1,5 @@
 package geom;
+import openfl.geom.Point;
 
 /**
  * ...
@@ -9,9 +10,12 @@ class Vec2
 	
 	public var x : Float;
 	public var y : Float;
+	
+	public static var mSPoint : Point;
 
 	public function new(x:Float = 0, y : Float = 0) 
 	{
+		if (mSPoint == null) mSPoint = new Point();
 		this.x = x;
 		this.y = y;
 	}
@@ -88,5 +92,9 @@ class Vec2
 		return "(" + x + ";" + y + ")";
 	}
 
-	
+	inline public function toPoint() : Point {
+		mSPoint.x = x;
+		mSPoint.y = y;
+		return mSPoint;
+	}
 }

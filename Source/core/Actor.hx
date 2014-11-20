@@ -13,7 +13,7 @@ class Actor extends Entity
 	
 	var mLevel : Level;
 	
-	var mNextPosTL : Vec2;
+	var mNextPos : Vec2;
 	var mNextPosBL : Vec2;
 	var mNextPosTR : Vec2;
 	var mNextPosBR : Vec2;
@@ -21,27 +21,32 @@ class Actor extends Entity
 	var mOnFloor : Bool;
 	
 	var mTopCollisionSensor : Array<Vec2>;
-	var mRightCollisionSensor : Array<Vec2>;
-	var mBottomCollisionSensor : Array<Vec2>;
-	var mLeftCollisionSensor : Array<Vec2>;
+	
+	var mSpriteSheet : SpriteSheet;
+	var mAnimation : Animation;
+	var mCurrentFrame : Int;
 
-	public function new(level : Level) 
+	public function new(level : Level, spriteSheet : String ) 
 	{
 		super();
 		
 		mLevel = level;
-		mNextPosTL = new Vec2();
+		mNextPos = new Vec2();
 		mNextPosBL = new Vec2();
 		mNextPosTR = new Vec2();
 		mNextPosBR = new Vec2();
 		collidable = true;
+		mSpriteSheet = new SpriteSheet(spriteSheet, 16, 16);
+		mCurrentFrame = 0;
 		mDim.set(10, 10);
 	}
 	
 	override function draw(buffer:BitmapData, dest:Vec2) 
 	{
 		super.draw(buffer, dest);
-		buffer.fillRect(new Rectangle(Std.int(dest.x), Std.int(dest.y), mDim.x, mDim.y), 0x0000cc);
+		dest.x -= mSpriteSheet.offsetX;
+		dest.y -= mSpriteSheet.offsetY;
+		buffer.copyPixels(mSpriteSheet.getBitmap(), mSpriteSheet.getFrame(mCurrentFrame), dest.toPoint());
 	}
 	
 	override function update(delta:Float) 
@@ -56,22 +61,21 @@ class Actor extends Entity
 		
 		mOnFloor = false;
 			
-		mNextPosTL.x = pos.x + vel.x * delta;
-		mNextPosTL.y = pos.y + vel.y * delta;
-		
-		mNextPosTR.x = mNextPosTL.x + mDim.x;
-		mNextPosTR.y = mNextPosTL.y;
-		
-		mNextPosBL.x = mNextPosTL.x;
-		mNextPosBL.y = mNextPosTL.y + mDim.y;
-		
-		mNextPosBR.x = mNextPosTR.x;
-		mNextPosBR.y = mNextPosBL.y;
-		
+		mNextPos.x = pos.x + vel.x * delta;
+		mNextPos.y = pos.y + vel.y * delta;		
 		
 		resolveCollisionWithMap();
 		
-		pos.copy(mNextPosTL);
+		pos.copy(mNextPos);
+		
+		if (mAnimation != null)
+			mCurrentFrame = mAnimation.getNextFrame(delta);
+		else
+			mCurrentFrame = 0;
+	}
+	
+	public function setAnimation(animation : Animation) {
+		mAnimation = animation;
 	}
 	
 	function resolveCollisionWithMap():Void 
@@ -84,28 +88,28 @@ class Actor extends Entity
 	function resolveYCollision():Void 
 	{
 		if (vel.y > 0) {
-			var tileInfoBL = mLevel.getTileInfoAt(pos.x, mNextPosTL.y + mDim.y );
-			var tileInfoBR = mLevel.getTileInfoAt(pos.x + mDim.x - 1, mNextPosTL.y + mDim.y);
+			var tileInfoBL = mLevel.getTileInfoAt(pos.x, mNextPos.y + mDim.y );
+			var tileInfoBR = mLevel.getTileInfoAt(pos.x + mDim.x - 1, mNextPos.y + mDim.y);
 			
 			var tileAtBottomLeft = tileInfoBL != null ? tileInfoBL.block : false;
 			var tileAtBottomRight = tileInfoBR != null ? tileInfoBR.block : false;
 			
-			var mNextTileCoord = mLevel.getTileCoordinate(mNextPosTL.x, mNextPosTL.y + mDim.y);
+			var mNextTileCoord = mLevel.getTileCoordinate(mNextPos.x, mNextPos.y + mDim.y);
 			if (tileAtBottomLeft || tileAtBottomRight) {
-				mNextPosTL.y = (mNextTileCoord.y) * mLevel.getTileHeight() - mDim.y;
+				mNextPos.y = (mNextTileCoord.y) * mLevel.getTileHeight() - mDim.y;
 				vel.y = 0;
 				mOnFloor = true;
 			}
 		}else if (vel.y < 0) {
-			var tileInfoTL = mLevel.getTileInfoAt(pos.x, mNextPosTL.y);
-			var tileInfoTR = mLevel.getTileInfoAt(pos.x + mDim.x - 1, mNextPosTL.y);
+			var tileInfoTL = mLevel.getTileInfoAt(pos.x, mNextPos.y);
+			var tileInfoTR = mLevel.getTileInfoAt(pos.x + mDim.x - 1, mNextPos.y);
 			
 			var tileAtTopLeft = tileInfoTL != null ? tileInfoTL.block : false;
 			var tileAtTopRight = tileInfoTR != null ? tileInfoTR.block : false;
 			
-			var mNextTileCoord = mLevel.getTileCoordinate(mNextPosTL.x, mNextPosTL.y);
+			var mNextTileCoord = mLevel.getTileCoordinate(mNextPos.x, mNextPos.y);
 			if (tileAtTopLeft || tileAtTopRight) {
-				mNextPosTL.y = (mNextTileCoord.y+1) * mLevel.getTileHeight();
+				mNextPos.y = (mNextTileCoord.y+1) * mLevel.getTileHeight();
 				vel.y = 0;
 			}
 		}
@@ -114,27 +118,27 @@ class Actor extends Entity
 	function resolveXCollision():Void 
 	{
 		if (vel.x > 0) {
-			var tileInfoTR = mLevel.getTileInfoAt(mNextPosTL.x + mDim.x, pos.y);
-			var tileInfoBR = mLevel.getTileInfoAt(mNextPosTL.x + mDim.x, pos.y + mDim.y - 1);
+			var tileInfoTR = mLevel.getTileInfoAt(mNextPos.x + mDim.x, pos.y);
+			var tileInfoBR = mLevel.getTileInfoAt(mNextPos.x + mDim.x, pos.y + mDim.y - 1);
 			
 			var tileAtTopRight = tileInfoTR != null ? tileInfoTR.block : false;
 			var tileAtBottomRight = tileInfoBR != null ? tileInfoBR.block : false;
 			
-			var mNextTileCoord = mLevel.getTileCoordinate(mNextPosTL.x + mDim.x, mNextPosTL.y);
+			var mNextTileCoord = mLevel.getTileCoordinate(mNextPos.x + mDim.x, mNextPos.y);
 			if (tileAtTopRight || tileAtBottomRight) {
-				mNextPosTL.x = (mNextTileCoord.x) * mLevel.getTileWidth() - mDim.x;
+				mNextPos.x = (mNextTileCoord.x) * mLevel.getTileWidth() - mDim.x;
 				vel.x = 0;
 			}
 		}else if (vel.x < 0) {
-			var tileInfoTL = mLevel.getTileInfoAt(mNextPosTL.x, mNextPosTL.y);
-			var tileInfoBL = mLevel.getTileInfoAt(mNextPosTL.x, mNextPosTL.y + mDim.y - 1);
+			var tileInfoTL = mLevel.getTileInfoAt(mNextPos.x, mNextPos.y);
+			var tileInfoBL = mLevel.getTileInfoAt(mNextPos.x, mNextPos.y + mDim.y - 1);
 			
 			var tileAtTopLeft = tileInfoTL != null ? tileInfoTL.block : false;
 			var tileAtBottomLeft = tileInfoBL != null ? tileInfoBL.block : false;
 			
-			var mNextTileCoord = mLevel.getTileCoordinate(mNextPosTL.x, mNextPosTL.y);
+			var mNextTileCoord = mLevel.getTileCoordinate(mNextPos.x, mNextPos.y);
 			if (tileAtTopLeft || tileAtBottomLeft ) {
-				mNextPosTL.x = (mNextTileCoord.x+1) * mLevel.getTileWidth();
+				mNextPos.x = (mNextTileCoord.x+1) * mLevel.getTileWidth();
 				vel.x = 0;
 			}
 		}

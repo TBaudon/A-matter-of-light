@@ -16,12 +16,14 @@ class Camera
 	var mShakeOffsetX : Int;
 	var mShakeOffsetY : Int;
 	var mShaking : Bool;
+	var mGame : Game;
 	
 	public var pos : Vec2;
 
 	public function new() 
 	{
 		pos = new Vec2();
+		mGame = Game.getInstance();
 	}
 	
 	public function setTarget(ent : Entity) {
@@ -30,14 +32,8 @@ class Camera
 	
 	public function update(delta : Float) {
 		if (mTargetEntity != null) {
-			if (mTargetEntity.pos.x - pos.x > 300)
-				pos.x = mTargetEntity.pos.x - 300;
-			if (mTargetEntity.pos.x - pos.x < 100)
-				pos.x = mTargetEntity.pos.x - 100;
-			if (mTargetEntity.pos.y - pos.y > 190)
-				pos.y = mTargetEntity.pos.y - 190;
-			if (mTargetEntity.pos.y - pos.y < 50)
-				pos.y = mTargetEntity.pos.y - 50;
+			pos.x = mTargetEntity.pos.x + (mTargetEntity.getDim().x - mGame.getWidth()) / 2;
+			pos.y = mTargetEntity.pos.y + (mTargetEntity.getDim().y - mGame.getHeight()) / 2;
 		}
 		
 		if (mShaking || mShakePhase == 1)

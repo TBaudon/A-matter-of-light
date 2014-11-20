@@ -1,6 +1,8 @@
 package core ;
+import geom.Vec2;
 import openfl.display.BitmapData;
 import openfl.display.Bitmap;
+import openfl.display.BlendMode;
 import openfl.display.PixelSnapping;
 import openfl.display.Sprite;
 import openfl.geom.Rectangle;
@@ -25,7 +27,7 @@ class Game extends Sprite
 	var mDeltas : Array<Float>;
 	var mCurrentDelta : Int;
 	var mDelta : Float;
-	var mDeltaSample : Int = 30;
+	var mDeltaSample : Int = 10;
 	
 	// screen
 	var mCurrentScreen : Screen;
@@ -76,6 +78,18 @@ class Game extends Sprite
 		mCanvas.scaleX = mPixelSize;
 		mCanvas.scaleY = mPixelSize;
 		Lib.current.stage.addChild(mCanvas);
+		
+		var bevel = new Bitmap(new BitmapData(cast mCanvas.width,cast mCanvas.height,false,0x808080));
+		bevel.blendMode = BlendMode.OVERLAY; 
+		Lib.current.stage.addChild(bevel);
+		
+		for (i in 0 ... cast bevel.height) 
+			for (j in 0 ... cast bevel.width) 
+				if (j % pixelSize== 0 && i % pixelSize == 0) {
+					bevel.bitmapData.setPixel(j, i, 0x111111);
+					bevel.bitmapData.setPixel(j-1, i-1, 0x111111);
+					bevel.bitmapData.setPixel(j-2, i-2, 0x111111);
+				}
 	}
 	
 	function update(e :Event) {
@@ -109,6 +123,14 @@ class Game extends Sprite
 		mCurrentScreen._draw(mBuffer, mCurrentScreen.pos);
 			
 		mBuffer.unlock();
+	}
+	
+	public function getWidth() : Int {
+		return mBuffer.width;
+	}
+	
+	public function getHeight() : Int {
+		return mBuffer.height;
 	}
 	
 }

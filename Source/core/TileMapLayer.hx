@@ -110,6 +110,14 @@ class TileMapLayer extends Entity
 		return mNbLine;
 	}
 	
+	public function getScrollWidth() : Int {
+		return mScrollWidth;
+	}
+	
+	public function getScrollHeight() : Int {
+		return mScrollHeight;
+	}
+	
 	function getStamp(tile : Int) : TileStamp {
 		var tileSet = mLevel.getTileTileset(tile);
 		if (tileSet == null) return null;

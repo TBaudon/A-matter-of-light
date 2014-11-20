@@ -4,7 +4,7 @@
 	<meta title="AMatterOfLight" package="com.sample.project" version="1.0.0" company="Company Name" />
 	<app main="Main" path="Export" file="AMatterOfLight" />
 	
-	<window fps="60" width="800" height="480" />
+	<window fps="60" width="816" height="528" />
 	
 	<source path="Source" />
 	

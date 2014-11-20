@@ -139,7 +139,16 @@ class Level extends Entity
 		
 		mCamera.update(delta);
 		pos.x = -mCamera.pos.x;
+		if (pos.x > 0)
+			pos.x = 0;
+		else if (pos.x < (-mMapData.width + mMainLayer.getScrollWidth()-1) * mMapData.tilewidth )
+			pos.x = (-mMapData.width + mMainLayer.getScrollWidth()-1) * mMapData.tilewidth;
+		
 		pos.y = -mCamera.pos.y;
+		if (pos.y > 0)
+			pos.y = 0;
+		else if (pos.y < (-mMapData.height + mMainLayer.getScrollHeight()-1) * mMapData.tileheight )
+			pos.y = (-mMapData.height + mMainLayer.getScrollHeight()-1) * mMapData.tileheight;
 		
 		var stage = Lib.current.stage;
 		mPointer.pos.set(Std.int(stage.mouseX / 2), Std.int(stage.mouseY / 2));

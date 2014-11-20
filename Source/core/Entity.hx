@@ -71,6 +71,10 @@ class Entity
 		mDim.set(x, y);
 	}
 	
+	public function getDim() : Vec2 {
+		return mDim;
+	}
+	
 	public function destroy() {
 		if (parent != null)
 			parent.remove(this);
