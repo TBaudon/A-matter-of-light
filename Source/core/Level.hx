@@ -1,4 +1,5 @@
 package core ;
+import core.TileSet.TileInfo;
 import geom.Vec2;
 import haxe.Json;
 import openfl.Assets;
@@ -32,6 +33,7 @@ typedef MapTileSetData = {
 	var imageheight : Int;
 	var name : String;
 	var properties : Dynamic;
+	var tileproperties : Dynamic;
 	var tilewidth : Int;
 	var tileheight : Int;
 	var terrains : Array<Dynamic>;
@@ -47,6 +49,19 @@ typedef MapData = {
 	var properties : Dynamic;
 	var tilesets : Array<MapTileSetData>;
 }
+
+enum HitDirection {
+	TOP;
+	LEFT;
+	RIGHT;
+	BOTTOM;
+}
+
+typedef RaycastData = {
+	var object : Dynamic;
+	var hitPos : Vec2;
+	var from : HitDirection;
+}
  
 class Level extends Entity
 {
@@ -55,8 +70,6 @@ class Level extends Entity
 	var mTilesets : Array<TileSet>;
 	var mMapData : MapData;
 	var mMainLayer : TileMapLayer;
-	
-	var mCollisionMap : Array<Int>;
 	
 	var mGravity : Vec2;
 	
@@ -71,7 +84,6 @@ class Level extends Entity
 		super(level);
 		
 		mLevelPath = "levels/" + level + ".json";
-		mCollisionMap = new Array<Int>();
 		mGravity = new Vec2(0, 1500);
 		mTileCoordinateRep = new Vec2();
 		mPointer = new Pointer();
@@ -94,29 +106,13 @@ class Level extends Entity
 		return mMainLayer;
 	}
 	
-	public function getCollisionMap() : Array<Int> {
-		return mCollisionMap;
-	}
-	
 	public function getGravity() 
 	{
 		return mGravity;
 	}
 	
-	public function getTile(px : Int, py : Int) : Int {
+	inline public function getTile(px : Int, py : Int) : Int {
 		return mMainLayer.getData()[px + py * mMapData.width];
-	}
-	
-	public function getTileAt(px : Float, py : Float) : Int {
-		px = Std.int(px);
-		py = Std.int(py);
-		
-		var w = mMapData.tilewidth;
-		var h = mMapData.tileheight;
-		var x : Int = Math.floor(px / w);
-		var y : Int = Math.floor(py / h);
-		var i : Int = y * mMapData.width + x;
-		return mCollisionMap[i];
 	}
 	
 	public function getTileCoordinate(x : Float, y : Float) : Vec2 {
@@ -168,32 +164,9 @@ class Level extends Entity
 				default :
 					trace("unknown layer type");
 			}
+			
 		if (mMainLayer == null)
 			throw "No main layer";
-		else
-			makeCollisionMap();
-	}
-	
-	function makeCollisionMap() 
-	{
-		for (tile in mMainLayer.getData()) {
-			var terrain : Array<Int> = null;
-			for (tileset in mTilesets) {
-				terrain = tileset.getTileTerrain(tile);
-				if (terrain != null)
-					break;
-			}
-			if (terrain == null)
-				mCollisionMap.push(0);
-			else {
-				var mask : Int = 0;
-				for (i in 0 ... terrain.length){
-					if (terrain[i] != -1)
-						mask = mask | cast Math.pow(2, i);
-				}
-				mCollisionMap.push(mask);
-			}
-		}
 	}
 	
 	function loadObjectLayer(layer:MapLayerData) 
@@ -218,13 +191,15 @@ class Level extends Entity
 			mMainLayer = tileMapLayer;
 	}
 	
-	public function castRay( p1Original:Vec2, p2Original:Vec2, tileSize:Int = 16 ):Vec2
+	public function castRay( x1 : Float, y1 : Float, x2 : Float, y2 : Float):RaycastData
 	{
+		var data : RaycastData = { object : null, hitPos:new Vec2(), from : TOP };
 		//INITIALISE//////////////////////////////////////////
+		var tileSize = mMapData.tilewidth;
 
 		// normalise the points
-		var p1:Vec2 = new Vec2( p1Original.x / tileSize, p1Original.y / tileSize);
-		var p2:Vec2 = new Vec2( p2Original.x / tileSize, p2Original.y / tileSize);
+		var p1:Vec2 = new Vec2( x1 / tileSize, y1 / tileSize);
+		var p2:Vec2 = new Vec2( x2 / tileSize, y2 / tileSize);
 	
 		if ( Std.int( p1.x ) == Std.int( p2.x ) && Std.int( p1.y ) == Std.int( p2.y ) ) {
 			//since it doesn't cross any boundaries, there can't be a collision
@@ -272,29 +247,45 @@ class Level extends Entity
 				maxX += deltaX;
 				testX += stepX;
 				
-				if ( getTile( testX, testY ) == 1 ) {
+				var tile = getTile(testX, testY);
+				var infos : TileInfo = getTileInfo(tile);
+				
+				if ( infos != null && infos.block ) {
 					collisionPoint.x = testX;
-					if ( stepX < 0 ) { collisionPoint.x += 1.0; //add one if going left
-						trace("par la droite");
-					}else { trace("par la gauche");}
+					if ( stepX < 0 ) { 
+						collisionPoint.x += 1.0; //add one if going left
+						data.from = RIGHT;
+					}else 
+						data.from = LEFT;
 					collisionPoint.y = p1.y + ratioY * ( collisionPoint.x - p1.x);	
 					collisionPoint.x *= tileSize;//scale up
 					collisionPoint.y *= tileSize;
-					return collisionPoint;
+					data.object = tile;
+					data.hitPos = collisionPoint;
+					return data;
 				}
 			
 			} else {
 				
 				maxY += deltaY;
 				testY += stepY;
+				
+				var tile = getTile(testX, testY);
+				var infos : TileInfo = getTileInfo(tile);
 
-				if ( getTile( testX, testY ) == 1 ) {
+				if ( infos != null && infos.block ) {
 					collisionPoint.y = testY;
-					if ( stepY < 0 ) collisionPoint.y += 1.0; //add one if going up
+					if ( stepY < 0 ) {
+						collisionPoint.y += 1.0; //add one if going up
+						data.from = BOTTOM;
+					}else
+						data.from = TOP;
 					collisionPoint.x = p1.x + ratioX * ( collisionPoint.y - p1.y);
 					collisionPoint.x *= tileSize;//scale up
 					collisionPoint.y *= tileSize;
-					return collisionPoint;
+					data.object = tile;
+					data.hitPos = collisionPoint;
+					return data;
 				}
 			}
 	
@@ -306,5 +297,23 @@ class Level extends Entity
 	
 	public function getCamera() : Camera {
 		return mCamera;
+	}
+	
+	inline public function getTileTileset(tileId : Int) : TileSet {
+		var rep : TileSet = null;
+		for (tileset in mTilesets)
+			if (tileset.hasTile(tileId)){
+				rep = tileset;
+				break;
+			}
+		return rep;
+	}
+	
+	inline public function getTileInfoAt(x : Float, y : Float) : TileInfo {
+		return getTileInfo(getTile(Std.int(x / mMapData.tilewidth), Std.int(y / mMapData.tileheight)));
+	}
+	
+	inline public function getTileInfo(id : Int) : TileInfo {
+		return getTileTileset(id).getTileInfo(id);
 	}
 }

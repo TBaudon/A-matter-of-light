@@ -91,7 +91,6 @@ class Game extends Sprite
 			for (d in mDeltas)
 				mDelta += d;
 			mDelta = mDelta / mDeltas.length;
-			trace(1 / mDelta);
 		}
 		
 		mDeltas[mCurrentDelta] = delta;

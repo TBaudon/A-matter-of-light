@@ -16,6 +16,11 @@ typedef TileStamp = {
 	var w : Int;
 	var h : Int;
 }
+
+typedef TileInfo = {
+	var block : Bool ;
+	var reflect : Bool ;
+}
  
 class TileSet
 {
@@ -35,6 +40,8 @@ class TileSet
 	var mStamp : TileStamp;
 	
 	var mData : MapTileSetData;
+	
+	var mTileProperties : Dynamic;
 
 	public function new(data : MapTileSetData) 
 	{
@@ -58,6 +65,8 @@ class TileSet
 		
 		mData = data;
 		
+		mTileProperties = data.tileproperties;
+		
 		mStamp = {
 			bitmap : mBitampData,
 			x : 0,
@@ -67,8 +76,12 @@ class TileSet
 		};
 	}
 	
+	inline public function hasTile(id : Int) : Bool {
+		return id >= mFirstGid && id <= mLastGid;
+	}
+	
 	public function getStamp(tileId : Int) : TileStamp {
-		if (tileId >= mFirstGid && tileId <= mLastGid) {
+		if (hasTile(tileId)) {
 			tileId-= mFirstGid;
 			
 			var x = tileId % mNbCol;
@@ -93,6 +106,12 @@ class TileSet
 			return [-1,-1,-1,-1];
 		}else
 			return null;
+	}
+	
+	inline public function getTileInfo(tile : Int) : TileInfo {
+		tile-= mFirstGid;
+		var infos : TileInfo = Reflect.field(mTileProperties, "" + tile);
+		return infos;
 	}
 	
 }

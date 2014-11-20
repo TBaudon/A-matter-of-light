@@ -90,8 +90,8 @@ class TileMapLayer extends Entity
 					var destY = i * mTileHeight;
 					destY -= Std.int(scrollY);
 					
-					mPointStamp.x = destX;
-					mPointStamp.y = destY;
+					mPointStamp.x = Std.int(destX);
+					mPointStamp.y = Std.int(destY);
 					
 					buffer.copyPixels(stamp.bitmap, mRectStamp, mPointStamp);
 				}
@@ -111,10 +111,11 @@ class TileMapLayer extends Entity
 	}
 	
 	function getStamp(tile : Int) : TileStamp {
-		for (tileSet in mLevel.getTilSets()) {
-			var stamp = tileSet.getStamp(tile);
-			if (stamp != null) return stamp;
-		}
+		var tileSet = mLevel.getTileTileset(tile);
+		if (tileSet == null) return null;
+		
+		var stamp = tileSet.getStamp(tile);
+		if (stamp != null) return stamp;
 		return null;
 	}
 	

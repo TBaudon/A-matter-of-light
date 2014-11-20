@@ -25,10 +25,12 @@ class Hero extends Actor
 	var mInventory : Array<UInt>;
 	var mEquipedItem : UInt;
 	var mChangedWeapon : Bool;
+	static private inline var JUMP_STRENGHT:Float = 430;
 
 	public function new(level : Level) 
 	{
 		super(level);
+		setDim(12, 12);
 		mXAxis = 0;
 		
 		mInventory = new Array<UInt>();
@@ -112,7 +114,7 @@ class Hero extends Actor
 		}
 		
 		if (mOnFloor && mJumpDown)
-			vel.y -= 180;
+			vel.y -= JUMP_STRENGHT;
 			
 		vel.x += mXAxis * delta * 1000;
 		

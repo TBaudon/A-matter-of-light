@@ -65,9 +65,9 @@ class Laser extends Entity
 		
 		mImpact = false;
 		
-		var end = mLevel.castRay(pos, mEndPos);
+		var end = mLevel.castRay(pos.x, pos.y, mEndPos.x, mEndPos.y);
 		if (end != null) {
-			mEndPos = end;
+			mEndPos = end.hitPos;
 			mDir.set(mEndPos.x - pos.x, mEndPos.y - pos.y);
 			mImpact = true;
 		} 
