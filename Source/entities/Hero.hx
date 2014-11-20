@@ -31,11 +31,19 @@ class Hero extends Actor
 	var mWalkAnimR : Animation;
 	var mStandAnimL : Animation;
 	var mWalkAnimL : Animation;
+	var mJumpAnimR : Animation;
+	var mJumpAnimL : Animation;
+	var mFallAnimR : Animation;
+	var mFallAnimL : Animation;
 	
 	var mStandAnimRFiring : Animation;
 	var mWalkAnimRFiring : Animation;
 	var mStandAnimLFiring : Animation;
 	var mWalkAnimLFiring : Animation;
+	var mJumpAnimRFiring : Animation;
+	var mJumpAnimLFiring : Animation;
+	var mFallAnimRFiring : Animation;
+	var mFallAnimLFiring : Animation;
 	
 	var mLookingDir : Int;
 	
@@ -70,10 +78,20 @@ class Hero extends Actor
 		mStandAnimL = new Animation([4],1);
 		mWalkAnimL = new Animation([5, 6, 7], 10);
 		
+		mJumpAnimR = new Animation([1], 1);
+		mJumpAnimL = new Animation([7], 1);
+		mFallAnimR = new Animation([2], 1);
+		mFallAnimL = new Animation([6], 1);
+		
 		mStandAnimRFiring = new Animation([8], 1);
 		mWalkAnimRFiring = new Animation([9, 10, 11], 10);
 		mStandAnimLFiring = new Animation( [12], 1);
 		mWalkAnimLFiring = new Animation( [13, 14, 15], 10);
+		
+		mJumpAnimRFiring  = new Animation([9], 1);
+		mJumpAnimLFiring  = new Animation([15], 1);
+		mFallAnimRFiring  = new Animation([10], 1);
+		mFallAnimLFiring  = new Animation([14], 1);
 	}
 	
 	function onMouseDown(e:MouseEvent) : Void {
@@ -145,6 +163,11 @@ class Hero extends Actor
 		if (mOnFloor && mJumpDown)
 			vel.y -= JUMP_STRENGHT;
 			
+		if (mXAxis != 0)
+			mFloorFriction = 1;
+		else 
+			mFloorFriction = 0.7;
+			
 		vel.x += mXAxis * delta * 1000;
 		
 		if(!mFiring)
@@ -168,25 +191,69 @@ class Hero extends Actor
 			vel.sub(Vec2.Mul(Vec2.Norm(mLaser.getDir()), delta * 500));
 		
 			if (mLookingDir > 0 && vel.x > 25) 
-				setAnimation(mWalkAnimRFiring);
+				if(mOnFloor)
+					setAnimation(mWalkAnimRFiring);
+				else 
+					if (vel.y < 0)
+						setAnimation(mJumpAnimRFiring);
+					else
+						setAnimation(mFallAnimRFiring);
 			else if (mLookingDir < 0 && vel.x < -25)
-				setAnimation(mWalkAnimLFiring);
+				if(mOnFloor)
+					setAnimation(mWalkAnimLFiring);
+				else
+					if (vel.y < 0)
+						setAnimation(mJumpAnimLFiring);
+					else
+						setAnimation(mFallAnimLFiring);
 			else 
 				if (mLookingDir > 0)
-					setAnimation(mStandAnimRFiring);
+					if (mOnFloor) setAnimation(mStandAnimRFiring);
+					else 
+						if (vel.y < 0)
+							setAnimation(mJumpAnimRFiring);
+						else
+							setAnimation(mFallAnimRFiring);
 				else
-					setAnimation(mStandAnimLFiring);
+					if (mOnFloor) setAnimation(mStandAnimLFiring);
+					else 
+						if (vel.y < 0)
+						setAnimation(mJumpAnimLFiring);
+					else
+						setAnimation(mFallAnimLFiring);
 		}
 		else
 			if (mLookingDir > 0 && vel.x > 25) 
-				setAnimation(mWalkAnimR);
-			else if (mLookingDir < 0 && vel.x < -25) 
-				setAnimation(mWalkAnimL);
+				if(mOnFloor)
+					setAnimation(mWalkAnimR);
+				else 
+					if (vel.y < 0)
+						setAnimation(mJumpAnimR);
+					else
+						setAnimation(mFallAnimR);
+			else if (mLookingDir < 0 && vel.x < -25)
+				if(mOnFloor)
+					setAnimation(mWalkAnimL);
+				else
+					if (vel.y < 0)
+						setAnimation(mJumpAnimL);
+					else
+						setAnimation(mFallAnimL);
 			else 
 				if (mLookingDir > 0)
-					setAnimation(mStandAnimR);
+					if (mOnFloor) setAnimation(mStandAnimR);
+					else 
+						if (vel.y < 0)
+							setAnimation(mJumpAnimR);
+						else
+							setAnimation(mFallAnimR);
 				else
-					setAnimation(mStandAnimL);
+					if (mOnFloor) setAnimation(mStandAnimL);
+					else 
+						if (vel.y < 0)
+						setAnimation(mJumpAnimL);
+					else
+						setAnimation(mFallAnimL);
 		
 		if (vel.x > 200)
 			vel.x = 200;

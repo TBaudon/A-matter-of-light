@@ -86,9 +86,9 @@ class Game extends Sprite
 		for (i in 0 ... cast bevel.height) 
 			for (j in 0 ... cast bevel.width) 
 				if (j % pixelSize== 0 && i % pixelSize == 0) {
-					bevel.bitmapData.setPixel(j, i, 0x111111);
-					bevel.bitmapData.setPixel(j-1, i-1, 0x111111);
-					bevel.bitmapData.setPixel(j-2, i-2, 0x111111);
+					bevel.bitmapData.setPixel(j, i, 0);
+					bevel.bitmapData.setPixel(j-1, i-1, 0);
+					bevel.bitmapData.setPixel(j-2, i-2, 0);
 				}
 	}
 	
