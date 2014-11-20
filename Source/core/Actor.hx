@@ -26,6 +26,7 @@ class Actor extends Entity
 	var mAnimation : Animation;
 	var mCurrentFrame : Int;
 	var mFloorFriction : Float;
+	var mAirFriction : Float;
 
 	public function new(level : Level, spriteSheet : String ) 
 	{
@@ -40,7 +41,8 @@ class Actor extends Entity
 		mSpriteSheet = new SpriteSheet(spriteSheet, 16, 16);
 		mCurrentFrame = 0;
 		mDim.set(10, 10);
-		mFloorFriction = 0.8;
+		mFloorFriction = 0.75;
+		mAirFriction = 0.9;
 	}
 	
 	override function draw(buffer:BitmapData, dest:Vec2) 
@@ -60,6 +62,8 @@ class Actor extends Entity
 			
 		if(mOnFloor)
 			vel.x *= mFloorFriction;
+		else
+			vel.x *= mAirFriction;
 		
 		mOnFloor = false;
 			

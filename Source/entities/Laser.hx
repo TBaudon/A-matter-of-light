@@ -78,19 +78,17 @@ class Laser extends Entity
 		super.draw(buffer, dest);
 		
 		mDrawLine.graphics.clear();
-		mDrawLine.graphics.lineStyle(8, mColor, 0.8);
+		mDrawLine.graphics.lineStyle(5, mColor, 0.8);
 		mDrawLine.graphics.moveTo(dest.x,dest.y);
 		mDrawLine.graphics.lineTo(dest.x + mDir.x, dest.y + mDir.y);
-		mDrawLine.graphics.lineStyle(5, 0xffffff, 0.4);
-		mDrawLine.graphics.moveTo(dest.x,dest.y);
-		mDrawLine.graphics.lineTo(dest.x + mDir.x, dest.y + mDir.y);
+		
 		mDrawLine.graphics.lineStyle(2, 0xffffff, 0.8);
 		mDrawLine.graphics.moveTo(dest.x,dest.y);
 		mDrawLine.graphics.lineTo(dest.x + mDir.x, dest.y + mDir.y);
 		mDrawLine.filters = [new GlowFilter(mColor)];
 		
 		if (mImpact) {
-			var radius = Math.random() * 5 + 5;
+			var radius = Math.random() * 5 + 3;
 			mDrawLine.graphics.lineStyle(0, 0, 0);
 			mDrawLine.graphics.beginFill(0xffffff, 0.8);
 			mDrawLine.graphics.drawCircle(dest.x + mDir.x, dest.y + mDir.y, radius);

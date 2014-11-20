@@ -45,6 +45,8 @@ class Hero extends Actor
 	var mFallAnimRFiring : Animation;
 	var mFallAnimLFiring : Animation;
 	
+	inline static var WALK_STRENGTH : Int = 1000;
+	
 	var mLookingDir : Int;
 	
 	static private inline var JUMP_STRENGHT:Float = 430;
@@ -76,7 +78,7 @@ class Hero extends Actor
 		mStandAnimR = new Animation([0],1);
 		mWalkAnimR = new Animation([1, 2, 3], 10);
 		mStandAnimL = new Animation([4],1);
-		mWalkAnimL = new Animation([5, 6, 7], 10);
+		mWalkAnimL = new Animation([7, 6, 5], 10);
 		
 		mJumpAnimR = new Animation([1], 1);
 		mJumpAnimL = new Animation([7], 1);
@@ -86,7 +88,7 @@ class Hero extends Actor
 		mStandAnimRFiring = new Animation([8], 1);
 		mWalkAnimRFiring = new Animation([9, 10, 11], 10);
 		mStandAnimLFiring = new Animation( [12], 1);
-		mWalkAnimLFiring = new Animation( [13, 14, 15], 10);
+		mWalkAnimLFiring = new Animation( [15, 14, 13], 10);
 		
 		mJumpAnimRFiring  = new Animation([9], 1);
 		mJumpAnimLFiring  = new Animation([15], 1);
@@ -162,13 +164,24 @@ class Hero extends Actor
 		
 		if (mOnFloor && mJumpDown)
 			vel.y -= JUMP_STRENGHT;
+		
+		var mAxisSameAsVel = (
+			mXAxis < 0 && vel.x < 0 ||
+			mXAxis > 0 && vel.x > 0
+			);
 			
-		if (mXAxis != 0)
+		if (mOnFloor && mAxisSameAsVel)
 			mFloorFriction = 1;
 		else 
-			mFloorFriction = 0.7;
+			mFloorFriction = 0.75;
 			
-		vel.x += mXAxis * delta * 1000;
+		if (!mOnFloor && mAxisSameAsVel)
+			mAirFriction = 1;
+		else
+			mAirFriction = 0.9;
+			
+			
+		vel.x += mXAxis * delta * WALK_STRENGTH;
 		
 		if(!mFiring)
 			if (mXAxis > 0) 
@@ -177,8 +190,9 @@ class Hero extends Actor
 				mLookingDir = -1;
 			
 		if (mFiring) {
-		
-			mLaser.pos.set(pos.x + mDim.x / 2 + mLookingDir * 7 , pos.y + 4);
+			var xLaser = mLookingDir * 4;
+			if (mLookingDir < 0) xLaser = mLookingDir * 5;
+			mLaser.pos.set(pos.x + mDim.x / 2 + xLaser, pos.y + 5);
 			
 			var endX = Lib.current.stage.mouseX/2 - mLevel.pos.x;
 			var endY = Lib.current.stage.mouseY / 2 - mLevel.pos.y;
@@ -255,10 +269,10 @@ class Hero extends Actor
 					else
 						setAnimation(mFallAnimL);
 		
-		if (vel.x > 200)
-			vel.x = 200;
-		if (vel.x < -200)
-			vel.x = -200;
+		if (vel.x > 250)
+			vel.x = 250;
+		if (vel.x < -250)
+			vel.x = -250;
 	}
 	
 }
