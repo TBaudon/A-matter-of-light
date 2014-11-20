@@ -60,6 +60,12 @@ class TileMapLayer extends Entity
 		var startI : Int = Std.int(scrollY / mTileHeight);
 		var startJ : Int = Std.int(scrollX / mTileWidth);
 		
+		if (startI < 0)
+			startI = 0;
+			
+		if (startJ < 0)
+			startJ = 0;
+		
 		var endI : Int;
 		var endJ : Int;
 		

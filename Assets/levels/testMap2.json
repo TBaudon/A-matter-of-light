@@ -1,0 +1,85 @@
+{ "height":6,
+ "layers":[
+        {
+         "data":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+         "height":6,
+         "name":"main",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":6,
+         "name":"Calque d'objets 1",
+         "objects":[
+                {
+                 "height":0,
+                 "name":"Hero",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"entities.Hero",
+                 "visible":true,
+                 "width":0,
+                 "x":65,
+                 "y":45
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }],
+ "orientation":"orthogonal",
+ "properties":
+    {
+
+    },
+ "renderorder":"right-down",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "image":"..\/img\/testTileSet.png",
+         "imageheight":48,
+         "imagewidth":32,
+         "margin":0,
+         "name":"test",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "terrains":[
+                {
+                 "name":"testTerrain",
+                 "tile":-1
+                }],
+         "tileheight":16,
+         "tileproperties":
+            {
+             "0":
+                {
+                 "block":"true"
+                }
+            },
+         "tiles":
+            {
+             "0":
+                {
+                 "terrain":[0, 0, 0, 0]
+                }
+            },
+         "tilewidth":16
+        }],
+ "tilewidth":16,
+ "version":1,
+ "width":10
+}

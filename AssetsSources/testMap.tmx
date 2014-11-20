@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="left-up" width="100" height="16" tilewidth="16" tileheight="16">
- <tileset firstgid="1" name="test" tilewidth="16" tileheight="16">
-  <image source="../Assets/img/testTileSet.png" width="32" height="48"/>
-  <terraintypes>
-   <terrain name="testTerrain" tile="-1"/>
-  </terraintypes>
-  <tile id="0" terrain="0,0,0,0">
-   <properties>
-    <property name="block" value="true"/>
-   </properties>
-  </tile>
- </tileset>
+ <tileset firstgid="1" source="test.tsx"/>
  <tileset firstgid="7" name="testTileSet2" tilewidth="16" tileheight="16">
   <image source="../Assets/img/testTileSet2.png" width="32" height="48"/>
   <tile id="0">

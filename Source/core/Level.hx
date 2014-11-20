@@ -143,6 +143,10 @@ class Level extends Entity
 			pos.x = 0;
 		else if (pos.x < (-mMapData.width + mMainLayer.getScrollWidth()-1) * mMapData.tilewidth )
 			pos.x = ( -mMapData.width + mMainLayer.getScrollWidth() - 1) * mMapData.tilewidth;
+			
+		if (mMainLayer.getWidth() * mMapData.tilewidth < Game.getInstance().getWidth())
+			pos.x =- (mMainLayer.getWidth() * mMapData.tilewidth - Game.getInstance().getWidth()) / 2;
+			
 		pos.x += -mCamera.shakePosOffset.x;
 		
 		pos.y = -mCamera.pos.y;
@@ -150,6 +154,10 @@ class Level extends Entity
 			pos.y = 0;
 		else if (pos.y < (-mMapData.height + mMainLayer.getScrollHeight()-1) * mMapData.tileheight )
 			pos.y = ( -mMapData.height + mMainLayer.getScrollHeight() - 1) * mMapData.tileheight;
+			
+		if (mMainLayer.getHeight() * mMapData.tileheight < Game.getInstance().getHeight())
+			pos.y =- (mMainLayer.getHeight() * mMapData.tileheight - Game.getInstance().getHeight()) / 2;
+		
 		pos.y -= mCamera.shakePosOffset.y;
 		
 		var stage = Lib.current.stage;
