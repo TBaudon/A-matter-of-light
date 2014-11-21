@@ -335,4 +335,14 @@ class Level extends Entity
 	inline public function getTileInfo(id : Int) : TileInfo {
 		return getTileTileset(id).getTileInfo(id);
 	}
+	
+	override public function destroy() 
+	{
+		super.destroy();
+		for (child in children)
+		{
+			remove(child);
+			child.destroy();
+		}
+	}
 }

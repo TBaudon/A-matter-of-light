@@ -37,19 +37,20 @@ class Hero extends Actor
 	var mFallAnimL : Animation;
 	
 	var mStandAnimRFiring : Animation;
-	var mWalkAnimRFiring : Animation;
 	var mStandAnimLFiring : Animation;
+	var mWalkAnimRFiring : Animation;
 	var mWalkAnimLFiring : Animation;
 	var mJumpAnimRFiring : Animation;
 	var mJumpAnimLFiring : Animation;
 	var mFallAnimRFiring : Animation;
 	var mFallAnimLFiring : Animation;
 	
-	inline static var WALK_STRENGTH : Int = 1000;
+	inline static var WALK_STRENGTH : Int = 600;
 	
 	var mLookingDir : Int;
 	
 	static private inline var JUMP_STRENGHT:Float = 430;
+	static private inline var MAX_X_VEL:Float = 150;
 
 	public function new(level : Level) 
 	{
@@ -269,10 +270,10 @@ class Hero extends Actor
 					else
 						setAnimation(mFallAnimL);
 		
-		if (vel.x > 250)
-			vel.x = 250;
-		if (vel.x < -250)
-			vel.x = -250;
+		if (vel.x > MAX_X_VEL)
+			vel.x = MAX_X_VEL;
+		if (vel.x < -MAX_X_VEL)
+			vel.x = -MAX_X_VEL;
 	}
 	
 }
