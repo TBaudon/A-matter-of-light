@@ -8,6 +8,7 @@ import openfl.geom.Rectangle;
 import openfl.Lib;
 import openfl.ui.Mouse;
 import core.Level.MapData;
+import screens.GameScreen;
 
 /**
  * ...
@@ -79,7 +80,11 @@ class Level extends Entity
 	
 	var mCamera : Camera;
 	
-	public function new(level : String) 
+	var mActorToKeep : Map<String, Actor>;
+	
+	var mGameScreen : GameScreen;
+	
+	public function new(gameScreen : GameScreen, level : String, entityToKeep : Map<String, Actor>) 
 	{
 		super(level);
 		
@@ -88,6 +93,8 @@ class Level extends Entity
 		mTileCoordinateRep = new Vec2();
 		mPointer = new Pointer();
 		mCamera = new Camera();
+		mActorToKeep = entityToKeep;
+		mGameScreen = gameScreen;
 	}
 	
 	public function load() {
@@ -165,6 +172,10 @@ class Level extends Entity
 		Mouse.hide();
 	}
 	
+	public function changeTo(levelName : String) {
+		mGameScreen.loadLevel(levelName);
+	}
+	
 	function loadTileSets(data:MapData) 
 	{
 		mTilesets = new Array<TileSet>();
@@ -192,8 +203,16 @@ class Level extends Entity
 	{
 		var objects : Array<Dynamic> = layer.objects;
 		for (object in objects) {
-			var objectClass = Type.resolveClass(object.type);
-			var instance : Entity = Type.createInstance(objectClass, [this]);
+			var instance : Actor;
+			if (mActorToKeep[object.name] != null) {
+				instance = mActorToKeep[object.name];
+			}else{
+				var objectClass = Type.resolveClass(object.type);
+				instance = Type.createInstance(objectClass, []);
+			}
+			instance.setLevel(this);
+			if (Reflect.hasField(object, "properties"))
+				instance.setProperties(object.properties);
 			add(instance);
 			instance.pos.set(object.x, object.y);
 			if (Reflect.hasField(object.properties, "hasFocus"))
@@ -342,7 +361,8 @@ class Level extends Entity
 		for (child in children)
 		{
 			remove(child);
-			child.destroy();
+			if(mActorToKeep != null && mActorToKeep[child.name] == null)
+				child.destroy();
 		}
 	}
 }

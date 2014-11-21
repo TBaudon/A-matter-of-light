@@ -1411,7 +1411,7 @@
    <tile gid="3"/>
    <tile gid="3"/>
    <tile gid="1"/>
-   <tile gid="1"/>
+   <tile gid="3"/>
    <tile gid="3"/>
    <tile gid="3"/>
    <tile gid="3"/>
@@ -1617,6 +1617,13 @@
   <object name="Hero" type="entities.Hero" x="139" y="104.5">
    <properties>
     <property name="hasFocus" value="true"/>
+   </properties>
+  </object>
+  <object name="Door" type="entities.Door" gid="2" x="-13" y="224">
+   <properties>
+    <property name="to" value="testMap2"/>
+    <property name="x" value="128"/>
+    <property name="y" value="64"/>
    </properties>
   </object>
  </objectgroup>

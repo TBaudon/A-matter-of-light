@@ -1,5 +1,6 @@
 package core ;
 import geom.Vec2;
+import haxe.crypto.BaseCode;
 import openfl.display.BitmapData;
 
 /**
@@ -22,6 +23,7 @@ class Entity
 	public var name : String;
 	
 	var mDim : Vec2;
+	var mPaused : Bool;
 
 	public function new(name : String = "") {
 		this.name = name;
@@ -36,6 +38,7 @@ class Entity
 	}
 	
 	public function _update(delta : Float) {
+		if (mPaused) return;
 		for (child in children)
 			child._update(delta);
 		
@@ -55,6 +58,14 @@ class Entity
 	
 	function draw(buffer : BitmapData, dest : Vec2) {
 		
+	}
+	
+	public function pause() {
+		mPaused = true;
+	}
+	
+	public function play() {
+		mPaused = false;
 	}
 	
 	public function add(child : Entity) {

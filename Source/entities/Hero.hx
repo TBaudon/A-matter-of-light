@@ -52,9 +52,10 @@ class Hero extends Actor
 	static private inline var JUMP_STRENGHT:Float = 430;
 	static private inline var MAX_X_VEL:Float = 150;
 
-	public function new(level : Level) 
+	public function new() 
 	{
-		super(level, "hero");
+		super("hero");
+		name = "Hero";
 		mSpriteSheet.offsetX = 5;
 		mSpriteSheet.offsetY = 4;
 		setDim(6, 12);

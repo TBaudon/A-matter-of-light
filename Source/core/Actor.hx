@@ -27,52 +27,76 @@ class Actor extends Entity
 	var mCurrentFrame : Int;
 	var mFloorFriction : Float;
 	var mAirFriction : Float;
+	
+	var mSolid : Bool;
+	var mStatic : Bool;
+	
+	static var mAllActors : Array<Actor>;
 
-	public function new(level : Level, spriteSheet : String ) 
+	public function new(spriteSheet : String = null) 
 	{
 		super();
 		
-		mLevel = level;
+		if (mAllActors == null)
+			mAllActors = new Array<Actor>();
+		mAllActors.push(this);
+		
 		mNextPos = new Vec2();
 		mNextPosBL = new Vec2();
 		mNextPosTR = new Vec2();
 		mNextPosBR = new Vec2();
 		collidable = true;
-		mSpriteSheet = new SpriteSheet(spriteSheet, 16, 16);
+		if(spriteSheet != null)
+			mSpriteSheet = new SpriteSheet(spriteSheet, 16, 16);
 		mCurrentFrame = 0;
 		mDim.set(10, 10);
 		mFloorFriction = 0.75;
 		mAirFriction = 0.9;
 	}
 	
+	public function setLevel(level : Level) {
+		mLevel = level;
+	}
+	
 	override function draw(buffer:BitmapData, dest:Vec2) 
 	{
 		super.draw(buffer, dest);
-		dest.x -= mSpriteSheet.offsetX;
-		dest.y -= mSpriteSheet.offsetY;
-		buffer.copyPixels(mSpriteSheet.getBitmap(), mSpriteSheet.getFrame(mCurrentFrame), dest.toPoint());
+		if(mSpriteSheet != null){
+			dest.x -= mSpriteSheet.offsetX;
+			dest.y -= mSpriteSheet.offsetY;
+			buffer.copyPixels(mSpriteSheet.getBitmap(), mSpriteSheet.getFrame(mCurrentFrame), dest.toPoint());
+		}
+	}
+	
+	public function setProperties(props : Dynamic) {
+		
 	}
 	
 	override function update(delta:Float) 
 	{
 		super.update(delta);
-		
-		vel.x += mLevel.getGravity().x * delta;
-		vel.y += mLevel.getGravity().y * delta;
+		if(!mStatic){
+			vel.x += mLevel.getGravity().x * delta;
+			vel.y += mLevel.getGravity().y * delta;
 			
-		if(mOnFloor)
-			vel.x *= mFloorFriction;
-		else
-			vel.x *= mAirFriction;
-		
-		mOnFloor = false;
+			if(mOnFloor)
+				vel.x *= mFloorFriction;
+			else
+				vel.x *= mAirFriction;
 			
-		mNextPos.x = pos.x + vel.x * delta;
-		mNextPos.y = pos.y + vel.y * delta;		
+			mOnFloor = false;
+		}
+				
+			mNextPos.x = pos.x + vel.x * delta;
+			mNextPos.y = pos.y + vel.y * delta;		
 		
-		resolveCollisionWithMap();
+		if(!mStatic)
+			resolveCollisionWithMap();
+			
+		resolveCollisionWithOthers();
 		
-		pos.copy(mNextPos);
+		if(!mStatic)
+			pos.copy(mNextPos);
 		
 		if (mAnimation != null)
 			mCurrentFrame = mAnimation.getNextFrame(delta);
@@ -80,14 +104,55 @@ class Actor extends Entity
 			mCurrentFrame = 0;
 	}
 	
+	function resolveCollisionWithOthers() 
+	{
+		for (actor in mAllActors) {
+			if (actor != this) {
+				if (mNextPos.x < actor.pos.x + actor.getDim().x &&
+					mNextPos.x + mDim.x > actor.pos.x &&
+					mNextPos.y < actor.pos.y + actor.getDim().y &&
+					mNextPos.y + mDim.y > actor.pos.y) {
+						onCollideOther(actor);
+					}
+			}
+		}
+	}
+	
+	public function onCollideOther(actor : Actor) {
+		if (mStatic) return;
+		if (mSolid && actor.isSolid())
+		{
+			var diffX = (actor.pos.x + actor.getDim().x / 2) - (pos.x + mDim.x / 2);
+			var diffY = (actor.pos.y + actor.getDim().y / 2) - (pos.y + mDim.y / 2);
+			var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+			actor.vel.x -= diffX;
+			actor.vel.y -= diffY;
+		}
+		
+	}
+	
 	public function setAnimation(animation : Animation) {
 		mAnimation = animation;
+	}
+	
+	public function isStatic() : Bool {
+		return mStatic;
+	}
+	
+	public function isSolid() : Bool {
+		return mSolid;
 	}
 	
 	function resolveCollisionWithMap():Void 
 	{
 		resolveYCollision();
 		resolveXCollision();	
+	}
+	
+	override public function destroy() 
+	{
+		super.destroy();
+		mAllActors.remove(this);
 	}
 
 	

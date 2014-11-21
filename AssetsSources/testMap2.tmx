@@ -7,6 +7,13 @@
   </data>
  </layer>
  <objectgroup name="Calque d'objets 1">
-  <object name="Hero" type="entities.Hero" x="65" y="45"/>
+  <object name="Door" type="entities.Door" gid="2" x="157" y="64" width="16" height="16">
+   <properties>
+    <property name="to" value="testMap"/>
+    <property name="x" value="20"/>
+    <property name="y" value="224"/>
+   </properties>
+  </object>
+  <object name="Hero" type="entities.Hero" x="27.3333" y="68.6667"/>
  </objectgroup>
 </map>

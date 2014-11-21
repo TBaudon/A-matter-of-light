@@ -4,6 +4,7 @@ import openfl.display.Sprite;
 import core.Game;
 import core.Level;
 import core.Screen;
+import screens.GameScreen;
 
 class Main extends Sprite {
 	
@@ -12,15 +13,8 @@ class Main extends Sprite {
 		super ();
 		
 		var game = Game.init(3);
-		var level = new Level("testMap2");
-		level.load();
 		
-		var screen = new Screen();
-		screen.add(level);
-		
-		game.gotoScreen(screen);
-		
-		
+		game.gotoScreen(new GameScreen());
 	}
 	
 	
