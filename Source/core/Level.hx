@@ -1,5 +1,4 @@
 package core ;
-import core.TileSet.TileInfo;
 import geom.Vec2;
 import haxe.Json;
 import openfl.Assets;
@@ -83,6 +82,7 @@ class Level extends Entity
 	var mActorToKeep : Map<String, Actor>;
 	
 	var mGameScreen : GameScreen;
+	
 	
 	public function new(gameScreen : GameScreen, level : String, entityToKeep : Map<String, Actor>) 
 	{
@@ -298,7 +298,7 @@ class Level extends Entity
 					collisionPoint.y = p1.y + ratioY * ( collisionPoint.x - p1.x);	
 					collisionPoint.x *= tileSize;//scale up
 					collisionPoint.y *= tileSize;
-					data.object = tile;
+					data.object = infos;
 					data.hitPos = collisionPoint;
 					return data;
 				}
@@ -321,7 +321,7 @@ class Level extends Entity
 					collisionPoint.x = p1.x + ratioX * ( collisionPoint.y - p1.y);
 					collisionPoint.x *= tileSize;//scale up
 					collisionPoint.y *= tileSize;
-					data.object = tile;
+					data.object = infos;
 					data.hitPos = collisionPoint;
 					return data;
 				}
@@ -347,7 +347,9 @@ class Level extends Entity
 		return rep;
 	}
 	
-	inline public function getTileInfoAt(x : Float, y : Float) : TileInfo {
+	inline public function getTileInfoAt(x : Float, y : Float) : TileInfo { 
+		if (x > -1 && x < mMapData.width && y > -1 && y < mMapData.height)
+			return null;
 		return getTileInfo(getTile(Std.int(x / mMapData.tilewidth), Std.int(y / mMapData.tileheight)));
 	}
 	

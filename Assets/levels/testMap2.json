@@ -1,7 +1,7 @@
 { "height":6,
  "layers":[
         {
-         "data":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+         "data":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
          "height":6,
          "name":"main",
          "opacity":1,
@@ -44,8 +44,8 @@
                  "type":"entities.Hero",
                  "visible":true,
                  "width":0,
-                 "x":27.3333333333333,
-                 "y":68.6666666666667
+                 "x":27.3333,
+                 "y":68.6667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -66,7 +66,7 @@
          "firstgid":1,
          "image":"..\/img\/testTileSet.png",
          "imageheight":48,
-         "imagewidth":32,
+         "imagewidth":48,
          "margin":0,
          "name":"test",
          "properties":
@@ -85,11 +85,51 @@
              "0":
                 {
                  "block":"true"
+                },
+             "4":
+                {
+                 "block":"true",
+                 "reflect":"true",
+                 "reflectPos":"bottom"
+                },
+             "5":
+                {
+                 "block":"true",
+                 "reflect":"true",
+                 "reflectPos":"left"
+                },
+             "7":
+                {
+                 "block":"true",
+                 "reflect":"true",
+                 "reflectPos":"top"
+                },
+             "8":
+                {
+                 "block":"true",
+                 "reflect":"true",
+                 "reflectPos":"right"
                 }
             },
          "tiles":
             {
              "0":
+                {
+                 "terrain":[0, 0, 0, 0]
+                },
+             "4":
+                {
+                 "terrain":[0, 0, 0, 0]
+                },
+             "5":
+                {
+                 "terrain":[0, 0, 0, 0]
+                },
+             "7":
+                {
+                 "terrain":[0, 0, 0, 0]
+                },
+             "8":
                 {
                  "terrain":[0, 0, 0, 0]
                 }

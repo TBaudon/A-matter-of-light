@@ -9,4 +9,32 @@
    <property name="block" value="true"/>
   </properties>
  </tile>
+  <tile id="4" terrain="0,0,0,0">
+  <properties>
+   <property name="block" value="true"/>
+   <property name="reflect" value="true"/>
+   <property name="reflectPos" value="bottom"/>
+  </properties>
+ </tile>
+  <tile id="5" terrain="0,0,0,0">
+  <properties>
+   <property name="block" value="true"/>
+   <property name="reflect" value="true"/>
+   <property name="reflectPos" value="left"/>
+  </properties>
+ </tile>
+   <tile id="7" terrain="0,0,0,0">
+  <properties>
+   <property name="block" value="true"/>
+   <property name="reflect" value="true"/>
+   <property name="reflectPos" value="top"/>
+  </properties>
+ </tile>
+  <tile id="8" terrain="0,0,0,0">
+  <properties>
+   <property name="block" value="true"/>
+   <property name="reflect" value="true"/>
+   <property name="reflectPos" value="right"/>
+  </properties>
+ </tile>
 </tileset>

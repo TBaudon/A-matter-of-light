@@ -1,6 +1,8 @@
 package entities ;
+import core.Actor;
 import core.Entity;
 import core.Level;
+import core.TileInfo;
 import core.Utils;
 import geom.Vec2;
 import haxe.Log;
@@ -37,10 +39,24 @@ class Laser extends Entity
 	var mColor : UInt;
 	
 	var mImpact : Bool;
+	
+	var mNextLaser : Laser;
+	
+	var mReflectNum : UInt;
+	
+	static var mAllLaser : Array<Laser>;
+	
+	inline static var MAX_REFLECT : UInt = 25;
 
-	public function new(level : Level, color : UInt = 0xff0000) 
+	public function new(level : Level, color : UInt = 0xff0000, reflectNum : UInt = 0) 
 	{
 		super();
+		
+		if (mAllLaser == null)
+			mAllLaser = new Array<Laser>();
+		mAllLaser.push(this);
+		
+		mReflectNum = reflectNum;
 		mLevel = level;
 		mAngle = 0;
 		mFiring = false;
@@ -53,14 +69,14 @@ class Laser extends Entity
 	public function setAngle(angle : Float) {
 		mAngle = angle / Math.PI * 180;
 		
-		var x = Math.cos(angle) * 1000;
-		var y = Math.sin(angle) * 1000;
+		var x = Math.cos(angle) * 10000;
+		var y = Math.sin(angle) * 10000;
 		
 		mDir.set(x, y);
 	}
 	
-	public function setDir(dir : Vec2) {
-		mDir = dir;
+	public function setDir(x : Float, y : Float) {
+		mDir.set(x, y);
 	}
 	
 	override function update(delta:Float) 
@@ -69,11 +85,53 @@ class Laser extends Entity
 		
 		mImpact = false;
 		
-		var end = mLevel.castRay(pos.x, pos.y, pos.x + mDir.x, pos.y + mDir.y);
+		var end : RaycastData = mLevel.castRay(pos.x, pos.y, pos.x + mDir.x, pos.y + mDir.y);
 		if (end != null) {
 			mEndPos = end.hitPos;
 			mImpact = true;
+			if (Std.is(end.object, TileInfo)) {
+				var tileInfo : TileInfo = end.object;
+				if (tileInfo.reflect && mReflectNum < MAX_REFLECT)
+					reflect(end.from, tileInfo);
+				else if (mNextLaser != null){
+					mNextLaser.destroy();
+					mNextLaser = null;
+				}
+			}
 		} 
+	}
+	
+	function reflect(from:HitDirection, tileInfo:TileInfo) 
+	{
+		if (mNextLaser == null){
+			mNextLaser = new Laser(mLevel, mColor, mReflectNum + 1);
+			mLevel.add(mNextLaser);
+		}
+			
+		if (from == HitDirection.BOTTOM && tileInfo.reflectPos == "bottom")
+		{
+			mNextLaser.pos.x = mEndPos.x;
+			mNextLaser.pos.y = mEndPos.y;
+			mNextLaser.setDir(mDir.x, -mDir.y);
+		}else if (from == HitDirection.LEFT && tileInfo.reflectPos == "left")
+		{
+			mNextLaser.pos.x = mEndPos.x;
+			mNextLaser.pos.y = mEndPos.y;
+			mNextLaser.setDir(-mDir.x, mDir.y);
+		}else if (from == HitDirection.TOP && tileInfo.reflectPos == "top")
+		{
+			mNextLaser.pos.x = mEndPos.x;
+			mNextLaser.pos.y = mEndPos.y;
+			mNextLaser.setDir(mDir.x, -mDir.y);
+		}else if (from == HitDirection.RIGHT && tileInfo.reflectPos == "right")
+		{
+			mNextLaser.pos.x = mEndPos.x;
+			mNextLaser.pos.y = mEndPos.y;
+			mNextLaser.setDir(-mDir.x, mDir.y);
+		}else {
+			mNextLaser.destroy();
+			mNextLaser = null;
+		}
 	}
 	
 	override function draw(buffer:BitmapData, dest:Vec2) 
@@ -102,6 +160,14 @@ class Laser extends Entity
 	
 	public function getDir() : Vec2 {
 		return mDir;
+	}
+	
+	override public function destroy() 
+	{
+		super.destroy();
+		mAllLaser.remove(this);
+		if (mNextLaser != null)
+			mNextLaser.destroy();
 	}
 	
 }
