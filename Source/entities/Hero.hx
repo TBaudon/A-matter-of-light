@@ -203,7 +203,10 @@ class Hero extends Actor
 				mLookingDir = 1;
 			else
 				mLookingDir = -1;
-			mLaser.setEndPos(new Vec2(endX, endY));
+				
+			mLaser.setAngle(Math.atan2(endY-(pos.y+mDim.y/2), endX-(pos.x+mDim.x/2)));
+			//mLaser.setEndPos(new Vec2(endX, endY));
+			
 			vel.sub(Vec2.Mul(Vec2.Norm(mLaser.getDir()), delta * 500));
 		
 			if (mLookingDir > 0 && vel.x > 25) 

@@ -47,28 +47,31 @@ class Laser extends Entity
 		mDir = new Vec2();
 		mDrawLine = new Shape();
 		mColor = color;
+		mEndPos = new Vec2();
 	}
 	
 	public function setAngle(angle : Float) {
 		mAngle = angle / Math.PI * 180;
+		
+		var x = Math.cos(angle) * 1000;
+		var y = Math.sin(angle) * 1000;
+		
+		mDir.set(x, y);
 	}
 	
-	public function setEndPos(vec : Vec2) {
-		mEndPos = vec;
-		mDir.set(mEndPos.x - pos.x, mEndPos.y - pos.y);
+	public function setDir(dir : Vec2) {
+		mDir = dir;
 	}
 	
 	override function update(delta:Float) 
 	{
 		super.update(delta);
-		if (mEndPos == null) return;
 		
 		mImpact = false;
 		
-		var end = mLevel.castRay(pos.x, pos.y, mEndPos.x, mEndPos.y);
+		var end = mLevel.castRay(pos.x, pos.y, pos.x + mDir.x, pos.y + mDir.y);
 		if (end != null) {
 			mEndPos = end.hitPos;
-			mDir.set(mEndPos.x - pos.x, mEndPos.y - pos.y);
 			mImpact = true;
 		} 
 	}
@@ -80,18 +83,18 @@ class Laser extends Entity
 		mDrawLine.graphics.clear();
 		mDrawLine.graphics.lineStyle(5, mColor, 0.8);
 		mDrawLine.graphics.moveTo(dest.x,dest.y);
-		mDrawLine.graphics.lineTo(dest.x + mDir.x, dest.y + mDir.y);
+		mDrawLine.graphics.lineTo(dest.x + (mEndPos.x - pos.x), dest.y + (mEndPos.y - pos.y));
 		
 		mDrawLine.graphics.lineStyle(2, 0xffffff, 0.8);
 		mDrawLine.graphics.moveTo(dest.x,dest.y);
-		mDrawLine.graphics.lineTo(dest.x + mDir.x, dest.y + mDir.y);
+		mDrawLine.graphics.lineTo(dest.x + (mEndPos.x - pos.x), dest.y + (mEndPos.y - pos.y));
 		mDrawLine.filters = [new GlowFilter(mColor)];
 		
 		if (mImpact) {
 			var radius = Math.random() * 5 + 3;
 			mDrawLine.graphics.lineStyle(0, 0, 0);
 			mDrawLine.graphics.beginFill(0xffffff, 0.8);
-			mDrawLine.graphics.drawCircle(dest.x + mDir.x, dest.y + mDir.y, radius);
+			mDrawLine.graphics.drawCircle(dest.x + (mEndPos.x - pos.x), dest.y + (mEndPos.y - pos.y), radius);
 		}
 		
 		buffer.draw(mDrawLine);
