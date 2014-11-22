@@ -65,9 +65,9 @@ class Hero extends Actor
 		
 		mInventory = new Array<UInt>();
 		
-		mInventory.push(0xe32323);
-		mInventory.push(0x454dee);
-		mInventory.push(0x0fa90f);
+		mInventory.push(Laser.getColor(0));
+		mInventory.push(Laser.getColor(1));
+		mInventory.push(Laser.getColor(2));
 		
 		mEquipedItem = 0;
 		
@@ -100,7 +100,7 @@ class Hero extends Actor
 	
 	function onMouseDown(e:MouseEvent) : Void {
 		mFiring = true;
-		mLaser = new Laser(mLevel, mInventory[mEquipedItem]);
+		mLaser = new Laser(pos, mLevel, mInventory[mEquipedItem]);
 		mLevel.add(mLaser);
 		var cam = mLevel.getCamera();
 		if (cam != null)
@@ -160,7 +160,7 @@ class Hero extends Actor
 		if (mChangedWeapon && mLaser != null) {
 			mChangedWeapon = false;
 			mLaser.destroy();
-			mLaser = new Laser(mLevel, mInventory[mEquipedItem]);
+			mLaser = new Laser(pos, mLevel, mInventory[mEquipedItem]);
 			mLevel.add(mLaser);
 		}
 		

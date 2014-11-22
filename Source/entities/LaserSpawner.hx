@@ -23,7 +23,7 @@ class LaserSpawner extends Actor
 	{
 		super.setProperties(props);
 		
-		mLaser = new Laser(mLevel, Laser.getColor(props.color));
+		mLaser = new Laser(pos, mLevel, Laser.getColor(props.color));
 		mLaser.setAngle(props.angle/180*Math.PI);
 	}
 	

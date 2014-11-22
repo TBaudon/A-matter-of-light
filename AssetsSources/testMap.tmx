@@ -932,7 +932,7 @@
    <tile gid="4"/>
    <tile gid="4"/>
    <tile gid="4"/>
-   <tile gid="4"/>
+   <tile gid="6"/>
    <tile gid="4"/>
    <tile gid="4"/>
    <tile gid="4"/>
@@ -1032,7 +1032,7 @@
    <tile gid="4"/>
    <tile gid="4"/>
    <tile gid="4"/>
-   <tile gid="4"/>
+   <tile gid="6"/>
    <tile gid="4"/>
    <tile gid="4"/>
    <tile gid="4"/>
@@ -1132,7 +1132,7 @@
    <tile gid="4"/>
    <tile gid="4"/>
    <tile gid="4"/>
-   <tile gid="4"/>
+   <tile gid="6"/>
    <tile gid="4"/>
    <tile gid="4"/>
    <tile gid="4"/>
@@ -1232,7 +1232,7 @@
    <tile gid="4"/>
    <tile gid="4"/>
    <tile gid="4"/>
-   <tile gid="4"/>
+   <tile gid="6"/>
    <tile gid="4"/>
    <tile gid="4"/>
    <tile gid="1"/>
@@ -1626,10 +1626,16 @@
     <property name="y" value="64"/>
    </properties>
   </object>
-  <object name="LaserSpawnerA" type="entities.LaserSpawner" gid="2" x="293.333" y="193.333">
+  <object name="LaserSpawnerA" type="entities.LaserSpawner" gid="2" x="266" y="146.333">
    <properties>
-    <property name="angle" value="45"/>
+    <property name="angle" value="90"/>
     <property name="color" value="2"/>
+   </properties>
+  </object>
+  <object name="LaserSpawnerB" type="entities.LaserSpawner" gid="2" x="318.667" y="145">
+   <properties>
+    <property name="angle" value="90"/>
+    <property name="color" value="1"/>
    </properties>
   </object>
  </objectgroup>
