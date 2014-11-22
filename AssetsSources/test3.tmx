@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" source="test.tsx"/>
+ <layer name="main" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYCUDMwIxJxCzkIHZRqBeRiQME2fEgnHJ4TKbkBy5enG5j1gMAOReAiY=
+  </data>
+ </layer>
+ <objectgroup name="Calque d'objets 1">
+  <object name="Door" type="entities.Door" gid="2" x="237" y="128">
+   <properties>
+    <property name="244" value=""/>
+    <property name="to" value="testMap"/>
+    <property name="x" value="16"/>
+    <property name="y" value="144"/>
+   </properties>
+  </object>
+  <object name="Hero" type="entities.Hero" x="31.3333" y="127.667"/>
+  <object name="LaserSpawnerA" type="entities.LaserSpawner" gid="2" x="48.3333" y="104.333">
+   <properties>
+    <property name="angle" value="0"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+  <object name="LaserSpawnerB" type="entities.LaserSpawner" gid="2" x="191.333" y="104">
+   <properties>
+    <property name="angle" value="180"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

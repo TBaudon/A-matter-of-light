@@ -1,4 +1,5 @@
 package core ;
+import entities.Laser;
 import geom.Vec2;
 import haxe.Json;
 import openfl.Assets;
@@ -95,6 +96,8 @@ class Level extends Entity
 		mCamera = new Camera();
 		mActorToKeep = entityToKeep;
 		mGameScreen = gameScreen;
+		
+		Laser.All = new Array<Laser>();
 	}
 	
 	public function load() {
@@ -143,6 +146,9 @@ class Level extends Entity
 	override function update(delta:Float) 
 	{
 		super.update(delta);
+		
+		for (laser in Laser.All)
+			laser.checkIntersect();
 		
 		mCamera.update(delta);
 		pos.x = -mCamera.pos.x;

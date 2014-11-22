@@ -49,7 +49,7 @@ class Laser extends Entity
 	var mSectionColor : Array<UInt>;
 	var mNbSection : Int = 0;
 	
-	static var mAllLaser : Array<Laser>;
+	public static var All : Array<Laser>;
 	
 	inline static var MAX_REFLECT : UInt = 25;
 	
@@ -71,9 +71,7 @@ class Laser extends Entity
 		
 		pos.copy(startPos);
 		
-		if (mAllLaser == null)
-			mAllLaser = new Array<Laser>();
-		mAllLaser.push(this);
+		All.push(this);
 		
 		mReflectNum = reflectNum;
 		mPrevLaser = prev;
@@ -99,6 +97,7 @@ class Laser extends Entity
 	
 	public function setDir(x : Float, y : Float) {
 		mDir.set(x, y);
+		mAngle = Math.atan2(y, x) / Math.PI * 180;
 	}
 	
 	override function update(delta:Float) 
@@ -108,7 +107,9 @@ class Laser extends Entity
 		mImpact = false;
 		
 		var end : RaycastData = mLevel.castRay(pos.x, pos.y, pos.x + mDir.x, pos.y + mDir.y);
-		checkIntersect();
+		//checkIntersect();
+		if (mNextLaser != null)
+			mNextLaser.setColor(getLastColor());
 		
 		if (end != null) {
 			mEndPos = end.hitPos;
@@ -126,17 +127,17 @@ class Laser extends Entity
 		} 
 	}
 	
-	function checkIntersect()
+	public function checkIntersect()
 	{
-		var max = mAllLaser.length;
+		var max = All.length;
 		var cross : Bool = false;
 		mNbSection = 0;
 		for (i in 0 ... max) {
-			var laser = mAllLaser[i];
-			if (laser == mNextLaser || laser == mPrevLaser) continue;
+			var laser = All[i];
+			if (laser == mNextLaser || laser == mPrevLaser || laser == this) continue;
+			
 			var a : Vec2 = pos;
 			var b : Vec2 = mEndPos.clone();
-			
 			var c : Vec2 = laser.pos.clone();
 			var d : Vec2 = laser.getEndPos().clone();
 			
@@ -166,7 +167,11 @@ class Laser extends Entity
 			var px = pos.x + cos * ABpos;
 			var py = pos.y + sin * ABpos;
 			
-			var color = mColor | laser.getColorAt(px, py);
+			//if (laser.getColorAt(px, py) == getColorAt(px, py)) continue;
+			
+			var color = getColorAt(px, py) | laser.getColorAt(px, py);
+			if (laser.getColorAt(px, py) == 0xffffff)
+				color = getColorAt(px, py);
 			
 			cross = true;
 			
@@ -181,7 +186,6 @@ class Laser extends Entity
 			mNbSection++;
 		}
 		if (cross) {
-			trace(cross);
 			var end = mNbSection - 1;
 			while (end != 0) {
 				for (i in 0 ... end) {
@@ -213,7 +217,7 @@ class Laser extends Entity
 				return mColor;
 			
 			for (i in 0 ... mNbSection - 1) {
-				if (len > mSection[i] && len < mSection[i + 1])
+				if (len > mSection[i] && len <= mSection[i + 1])
 					return mSectionColor[i];
 			}
 			return mSectionColor[mNbSection -1];
@@ -221,10 +225,15 @@ class Laser extends Entity
 	}
 	
 	public function getLastColor() : UInt{
-		if (mNbSection == 0)
+		if (mNbSection == 0){
 			return mColor;
+		}
 		else
 			return mSectionColor[mNbSection - 1];
+	}
+	
+	public function setColor(color : UInt) {
+		mColor = color;
 	}
 	
 	function createNextLaser(color : UInt) {
@@ -235,12 +244,11 @@ class Laser extends Entity
 		
 		mNextLaser.pos.x = mEndPos.x;
 		mNextLaser.pos.y = mEndPos.y;
-		mNextLaser.setDir(mDir.x, mDir.y);
 	}
 	
 	function reflect(from:HitDirection, tileInfo:TileInfo) 
 	{
-		createNextLaser(mColor);
+		createNextLaser(getLastColor());
 			
 		if (from == HitDirection.BOTTOM && tileInfo.reflectPos == "bottom")
 			mNextLaser.setDir(mDir.x, -mDir.y);
@@ -274,7 +282,6 @@ class Laser extends Entity
 			}
 			else
 				for (i in 0 ... mNbSection) {
-					
 					var x = dest.x + mSection[i] * Math.cos(mAngle / 180 * Math.PI);
 					var y = dest.y + mSection[i] * Math.sin(mAngle / 180 * Math.PI);
 					
@@ -351,7 +358,7 @@ class Laser extends Entity
 	override public function destroy() 
 	{
 		super.destroy();
-		mAllLaser.remove(this);
+		All.remove(this);
 		if (mNextLaser != null)
 			mNextLaser.destroy();
 	}

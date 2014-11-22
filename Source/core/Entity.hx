@@ -60,6 +60,15 @@ class Entity
 		
 	}
 	
+	public function swap(a : Entity, b : Entity) {
+		var temp = a;
+		var i = children.indexOf(a);
+		var j = children.indexOf(b);
+		
+		children[i] = children[j];
+		children[j] = temp;
+	}
+	
 	public function pause() {
 		mPaused = true;
 	}
