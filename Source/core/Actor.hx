@@ -1,5 +1,6 @@
 package core ;
 import core.Level.HitDirection;
+import entities.Laser;
 import geom.Vec2;
 import openfl.display.BitmapData;
 import openfl.geom.Rectangle;
@@ -31,6 +32,9 @@ class Actor extends Entity
 	var mSolid : Bool;
 	var mStatic : Bool;
 	
+	var mTimeMutiplier : Float;
+	var mSlowDownTimeCounter : Float;
+	
 	public static var AllActors : Array<Actor>;
 
 	public function new(spriteSheet : String = null) 
@@ -52,6 +56,7 @@ class Actor extends Entity
 		mDim.set(10, 10);
 		mFloorFriction = 0.75;
 		mAirFriction = 0.9;
+		mTimeMutiplier = 1;
 	}
 	
 	public function setLevel(level : Level) {
@@ -74,6 +79,7 @@ class Actor extends Entity
 	
 	override function update(delta:Float) 
 	{
+		delta *= mTimeMutiplier;
 		super.update(delta);
 		if(!mStatic){
 			vel.x += mLevel.getGravity().x * delta;
@@ -102,6 +108,12 @@ class Actor extends Entity
 			mCurrentFrame = mAnimation.getNextFrame(delta);
 		else
 			mCurrentFrame = 0;
+			
+		if(mTimeMutiplier < 1){
+			mSlowDownTimeCounter += delta / mTimeMutiplier;
+			if (mSlowDownTimeCounter >= 5)
+				mTimeMutiplier = 1;
+		}
 	}
 	
 	function resolveCollisionWithOthers() 
@@ -154,7 +166,19 @@ class Actor extends Entity
 		super.destroy();
 		AllActors.remove(this);
 	}
-
+	
+	public function onLaserHit(laser : Laser, delta : Float) {
+		if (laser.getLastColor() == 0xff0000) {
+			vel.add(Vec2.Mul(laser.getDir(), 0.1 * delta));
+		}else if (laser.getLastColor() == 0x0000ff) {
+			slowDown(0.2,delta);
+		}
+	}
+	
+	function slowDown(coef : Float, time : Float) {
+		mSlowDownTimeCounter = 0;
+		mTimeMutiplier = coef;
+	}
 	
 	function resolveYCollision():Void 
 	{

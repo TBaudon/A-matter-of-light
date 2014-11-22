@@ -63,6 +63,8 @@ class Hero extends Actor
 		
 		mLookingDir = 1;
 		
+		mSolid = true;
+		
 		mInventory = new Array<UInt>();
 		
 		mInventory.push(Laser.getColor(0));
@@ -207,7 +209,7 @@ class Hero extends Actor
 			mLaser.setAngle(Math.atan2(endY-(pos.y+mDim.y/2), endX-(pos.x+mDim.x/2)));
 			//mLaser.setEndPos(new Vec2(endX, endY));
 			
-			vel.sub(Vec2.Mul(Vec2.Norm(mLaser.getDir()), delta * 500));
+			onFiringLaser(delta);
 		
 			if (mLookingDir > 0 && vel.x > 25) 
 				if(mOnFloor)
@@ -278,6 +280,12 @@ class Hero extends Actor
 			vel.x = MAX_X_VEL;
 		if (vel.x < -MAX_X_VEL)
 			vel.x = -MAX_X_VEL;
+	}
+	
+	function onFiringLaser(delta : Float) 
+	{
+		if(mLaser.getCol() == 0xff0000)
+			vel.sub(Vec2.Mul(Vec2.Norm(mLaser.getDir()), delta * 500 * mTimeMutiplier));
 	}
 	
 }
