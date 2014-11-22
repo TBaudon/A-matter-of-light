@@ -47,7 +47,19 @@ class Laser extends Entity
 	static var mAllLaser : Array<Laser>;
 	
 	inline static var MAX_REFLECT : UInt = 25;
-
+	
+	public static function getColor(code : Int) : UInt {
+		switch(code) {
+			case 0 :
+				return 0xe32323;
+			case 1 :
+				return 0x454dee;
+			case 2 :
+				return 0x0fa90f;
+		}
+		return 0;
+	}
+	
 	public function new(level : Level, color : UInt = 0xff0000, reflectNum : UInt = 0) 
 	{
 		super();
