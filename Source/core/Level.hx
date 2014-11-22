@@ -308,7 +308,7 @@ class Level extends Entity
 					data.hitPos = collisionPoint;
 					return data;
 				}
-			
+				
 			} else {
 				
 				maxY += deltaY;

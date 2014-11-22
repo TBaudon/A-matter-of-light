@@ -107,12 +107,12 @@ class Laser extends Entity
 		mImpact = false;
 		
 		var end : RaycastData = mLevel.castRay(pos.x, pos.y, pos.x + mDir.x, pos.y + mDir.y);
-		//checkIntersect();
 		if (mNextLaser != null)
 			mNextLaser.setColor(getLastColor());
 		
 		if (end != null) {
 			mEndPos = end.hitPos;
+			checkActorsCollision();
 			mImpact = true;
 			
 			if (Std.is(end.object, TileInfo)) {
@@ -361,6 +361,70 @@ class Laser extends Entity
 		All.remove(this);
 		if (mNextLaser != null)
 			mNextLaser.destroy();
+	}
+	
+	function checkActorsCollision() {
+		for (actor in Actor.AllActors) {
+			if (!actor.isSolid()) continue;
+			var collisions : Array<Vec2> = rayBoxIntersect(pos, mEndPos, actor.pos, Vec2.Add(actor.pos, actor.getDim()));
+			if (collisions != null && collisions[0] != null) {
+				mEndPos = collisions[0];
+			}
+		}
+	}
+	
+	public static function rayBoxIntersect(r1:Vec2, r2:Vec2, box1:Vec2, box2:Vec2):Array<Vec2> {
+			
+		// lower values of bounding box
+		var b1:Vec2 = new Vec2();
+		// higher values of bounding box
+		var b2:Vec2 = new Vec2();
+		
+		b1.x = Math.min(box1.x, box2.x);
+		b1.y = Math.min(box1.y, box2.y);
+		b2.x = Math.max(box1.x, box2.x);
+		b2.y = Math.max(box1.y, box2.y);
+		
+		if (b2.x < Math.min(r1.x, r2.x) || b1.x > Math.max(r1.x, r2.x)) return null;
+		if (b2.y < Math.min(r1.y, r2.y) || b1.y > Math.max(r1.y, r2.y)) return null;
+		
+		var arr:Array<Vec2> = [];
+		var tnear:Float;	// near value on plane
+		var tfar:Float;	// far value on plane
+		
+		tnear = Math.max((b1.x - r1.x) / (r2.x - r1.x), (b1.y - r1.y) / (r2.y - r1.y));
+		tfar = Math.min((b2.x - r1.x) / (r2.x - r1.x), (b2.y - r1.y) / (r2.y - r1.y));
+		if (tnear < tfar) {
+			if (tnear >=0 && tnear <= 1) arr[0] = Vec2.interpolate(r2, r1, tnear);
+			if (tfar >= 0 && tfar <= 1) arr[1] = Vec2.interpolate(r2, r1, tfar);
+			return arr;
+		}
+		
+		tnear = Math.min((b1.x - r1.x) / (r2.x - r1.x), (b1.y - r1.y) / (r2.y - r1.y));
+		tfar = Math.max((b2.x - r1.x) / (r2.x - r1.x), (b2.y - r1.y) / (r2.y - r1.y));
+		if (tnear > tfar) {
+			if (tnear >=0 && tnear <= 1) arr[0] = Vec2.interpolate(r2, r1, tnear);
+			if (tfar >= 0 && tfar <= 1) arr[1] = Vec2.interpolate(r2, r1, tfar);
+			return arr;
+		}
+		
+		tnear = Math.min((b2.x - r1.x) / (r2.x - r1.x), (b1.y - r1.y) / (r2.y - r1.y));
+		tfar = Math.max((b1.x - r1.x) / (r2.x - r1.x), (b2.y - r1.y) / (r2.y - r1.y));
+		if (tnear > tfar) {
+			if (tnear >=0 && tnear <= 1) arr[0] = Vec2.interpolate(r2, r1, tnear);
+			if (tfar >= 0 && tfar <= 1) arr[1] = Vec2.interpolate(r2, r1, tfar);
+			return arr;
+		}
+		
+		tnear = Math.max((b2.x - r1.x) / (r2.x - r1.x), (b1.y - r1.y) / (r2.y - r1.y));
+		tfar = Math.min((b1.x - r1.x) / (r2.x - r1.x), (b2.y - r1.y) / (r2.y - r1.y));
+		if (tnear < tfar) {
+			if (tnear >=0 && tnear <= 1) arr[0] = Vec2.interpolate(r2, r1, tnear);
+			if (tfar >= 0 && tfar <= 1) arr[1] = Vec2.interpolate(r2, r1, tfar);
+			return arr;
+		}
+		
+		return null;
 	}
 	
 }

@@ -31,15 +31,15 @@ class Actor extends Entity
 	var mSolid : Bool;
 	var mStatic : Bool;
 	
-	static var mAllActors : Array<Actor>;
+	public static var AllActors : Array<Actor>;
 
 	public function new(spriteSheet : String = null) 
 	{
 		super();
 		
-		if (mAllActors == null)
-			mAllActors = new Array<Actor>();
-		mAllActors.push(this);
+		if (AllActors == null)
+			AllActors = new Array<Actor>();
+		AllActors.push(this);
 		
 		mNextPos = new Vec2();
 		mNextPosBL = new Vec2();
@@ -106,7 +106,7 @@ class Actor extends Entity
 	
 	function resolveCollisionWithOthers() 
 	{
-		for (actor in mAllActors) {
+		for (actor in AllActors) {
 			if (actor != this) {
 				if (mNextPos.x < actor.pos.x + actor.getDim().x &&
 					mNextPos.x + mDim.x > actor.pos.x &&
@@ -152,7 +152,7 @@ class Actor extends Entity
 	override public function destroy() 
 	{
 		super.destroy();
-		mAllActors.remove(this);
+		AllActors.remove(this);
 	}
 
 	

@@ -97,4 +97,8 @@ class Vec2
 		mSPoint.y = y;
 		return mSPoint;
 	}
+	
+	inline public static function interpolate(a : Vec2, b : Vec2, f : Float) : Vec2{
+		return new Vec2(a.x + (b.x-a.x)*(1 - f),a.y + (b.y-a.y)*(1 - f));
+	}
 }
