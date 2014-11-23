@@ -1,4 +1,5 @@
 package core ;
+import core.Actor;
 import core.Level.HitDirection;
 import entities.Hero;
 import entities.Laser;
@@ -21,6 +22,8 @@ class Actor extends Entity
 	var mNextPosBR : Vec2;
 	
 	var mOnFloor : Bool;
+	var mBlockedRight : Bool;
+	var mBlockedLeft : Bool;
 	
 	var mTopCollisionSensor : Array<Vec2>;
 	
@@ -94,20 +97,14 @@ class Actor extends Entity
 				vel.x *= mAirFriction;
 			
 			mOnFloor = false;
+			mBlockedLeft = false;
+			mBlockedRight = false;
 		}
 				
-			mNextPos.x = pos.x + vel.x * delta;
-			mNextPos.y = pos.y + vel.y * delta;		
+		mNextPos.x = pos.x + vel.x * delta;
+		mNextPos.y = pos.y + vel.y * delta;		
 		
-		if (!mStatic && mSolid) {
-			resolveCollisionWithMap();
-			resolveCollisionWithOthers(delta);
-		}
-			
-		if(!mStatic)
-			pos.copy(mNextPos);
-		
-		getOutOfWall();
+		move(delta);
 		
 		if (mAnimation != null)
 			mCurrentFrame = mAnimation.getNextFrame(delta);
@@ -127,7 +124,6 @@ class Actor extends Entity
 		
 		var info = mLevel.getTileInfoAt(testX, testY);
 		if (info != null && info.block) {
-			trace("top in wall");
 			pos.y = Std.int(pos.y / mLevel.getTileHeight()+1) * mLevel.getTileHeight();
 		}
 			
@@ -136,7 +132,6 @@ class Actor extends Entity
 		
 		info = mLevel.getTileInfoAt(testX, testY);
 		if (info != null && info.block) {
-			trace("right in wall");
 			pos.x = Std.int(pos.x / mLevel.getTileWidth() +1) * mLevel.getTileWidth() - mDim.x;
 		}
 			
@@ -145,7 +140,6 @@ class Actor extends Entity
 		
 		info = mLevel.getTileInfoAt(testX, testY);
 		if (info != null && info.block) {
-			trace("bottom in wall");
 			pos.y = Std.int(pos.y / mLevel.getTileHeight() +1) * mLevel.getTileHeight() - mDim.y;
 		}
 			
@@ -154,7 +148,6 @@ class Actor extends Entity
 		
 		var info = mLevel.getTileInfoAt(testX, testY);
 		if (info != null && info.block) {
-			trace("left in wall");
 			pos.x = Std.int(pos.x / mLevel.getTileWidth()+1) * mLevel.getTileWidth();
 		}
 	}
@@ -183,12 +176,14 @@ class Actor extends Entity
 				mNextPos.y = actor.pos.y - mDim.y;
 				if (Std.is(actor, Hero))
 					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
+				actor.onCollideOtherFromTop(this);
 			}
 			else if (actor.pos.y + actor.getDim().y <= pos.y ) {
 				vel.y = 0;
 				mNextPos.y = actor.pos.y + actor.getDim().y;
 				if (Std.is(actor, Hero))
 					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
+				actor.onCollideOtherFromBottom(this);
 			}
 			
 			if (actor.pos.x >= pos.x + mDim.x ) {
@@ -197,17 +192,12 @@ class Actor extends Entity
 					mNextPos.x = actor.pos.x - mDim.x;
 				}else {
 					var acNextPosX = mNextPos.x + mDim.x;
-					var info = mLevel.getTileInfoAt(acNextPosX + actor.getDim().x, actor.pos.y + actor.getDim().y / 2);
-					if (info != null && info.block){
-						actor.pos.x = Std.int((acNextPosX + actor.getDim().x) / mLevel.getTileWidth()) * mLevel.getTileWidth() - actor.getDim().x;
-						mNextPos.x = actor.pos.x - mDim.x;
-						vel.x = 0;
-					}
-					else{
-						actor.pos.x = acNextPosX;
-						vel.x *= 0.7;
-					}
+					actor.getNextPos().x = acNextPosX;
+					actor.move(delta);
+					vel.x *= 0.7;
+					mNextPos.x = actor.pos.x - mDim.x;
 				}
+				actor.onCollideOtherFromLeft(this);
 			}
 			else if (actor.pos.x + actor.getDim().x <= pos.x ) {
 				if (actor.isStatic()) {
@@ -215,19 +205,44 @@ class Actor extends Entity
 					mNextPos.x = actor.pos.x + actor.getDim().x;
 				}else {
 					var acNextPosX = mNextPos.x - actor.getDim().x;
-					var info = mLevel.getTileInfoAt(acNextPosX, actor.pos.y + actor.getDim().y / 2);
-					if (info != null && info.block){
-						actor.pos.x = Std.int(acNextPosX / mLevel.getTileWidth() + 1) * mLevel.getTileWidth();
-						mNextPos.x = actor.pos.x + actor.getDim().x;
-						vel.x = 0;
-					}
-					else{
-						actor.pos.x = acNextPosX;
-						vel.x *= 0.7;
-					}
+					actor.getNextPos().x = acNextPosX;
+					actor.move(delta);
+					vel.x *= 0.7;
+					mNextPos.x = actor.pos.x + actor.getDim().x;
+					//var info = mLevel.getTileInfoAt(acNextPosX, actor.pos.y + actor.getDim().y / 2);
+					//if (info != null && info.block){
+						//actor.pos.x = Std.int(acNextPosX / mLevel.getTileWidth() + 1) * mLevel.getTileWidth();
+						//mNextPos.x = actor.pos.x + actor.getDim().x;
+						//vel.x = 0;
+					//}
+					//else{
+						//actor.pos.x = acNextPosX;
+						//vel.x *= 0.7;
+					//}
 				}
+				actor.onCollideOtherFromRight(this);
 			}
 		}
+		
+	}
+	
+	function onCollideOtherFromRight(actor:Actor) 
+	{
+		
+	}
+	
+	function onCollideOtherFromLeft(actor:Actor) 
+	{
+		
+	}
+	
+	function onCollideOtherFromBottom(actor:Actor) 
+	{
+		
+	}
+	
+	function onCollideOtherFromTop(actor:Actor) 
+	{
 		
 	}
 	
@@ -313,6 +328,7 @@ class Actor extends Entity
 			if (tileAtTopRight || tileAtBottomRight) {
 				mNextPos.x = (mNextTileCoord.x) * mLevel.getTileWidth() - mDim.x;
 				vel.x = 0;
+				mBlockedRight = true;
 			}
 		}else if (vel.x < 0) {
 			var tileInfoTL = mLevel.getTileInfoAt(mNextPos.x, mNextPos.y);
@@ -325,7 +341,33 @@ class Actor extends Entity
 			if (tileAtTopLeft || tileAtBottomLeft ) {
 				mNextPos.x = (mNextTileCoord.x+1) * mLevel.getTileWidth();
 				vel.x = 0;
+				mBlockedLeft = true;
 			}
 		}
+	}
+	
+	public function isBlockedRight() : Bool {
+		return mBlockedRight;
+	}
+	
+	public function isBlockedLeft() : Bool {
+		return mBlockedLeft;
+	}
+	
+	public function getNextPos() : Vec2 {
+		return mNextPos;
+	}
+	
+	public function move(delta : Float):Void 
+	{
+		if (!mStatic && mSolid) {
+			resolveCollisionWithMap();
+			resolveCollisionWithOthers(delta);
+		}
+		
+		if(!mStatic)
+			pos.copy(mNextPos);
+			
+		getOutOfWall();
 	}
 }
