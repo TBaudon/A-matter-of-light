@@ -1,4 +1,5 @@
 package core ;
+import entities.Crate;
 import geom.Vec2;
 import haxe.crypto.BaseCode;
 import openfl.display.BitmapData;
@@ -79,12 +80,20 @@ class Entity
 	
 	public function add(child : Entity) {
 		children.push(child);
-		child.parent = this;
+		child.onAdded(this);
+	}
+	
+	public function onAdded(p : Entity) {
+		parent = p;
 	}
 	
 	public function remove(child : Entity) {
 		children.remove(child);
-		child.parent = null;
+		child.onRemoved(this);
+	}
+	
+	public function onRemoved(p : Entity) {
+		parent = null;
 	}
 	
 	public function setDim(x : Int, y : Int) {

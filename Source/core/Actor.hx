@@ -131,14 +131,21 @@ class Actor extends Entity
 	}
 	
 	public function onCollideOther(actor : Actor) {
-		if (mStatic) return;
+		if (mStatic && !mSolid) return;
 		if (mSolid && actor.isSolid())
 		{
-			var diffX = (actor.pos.x + actor.getDim().x / 2) - (pos.x + mDim.x / 2);
-			var diffY = (actor.pos.y + actor.getDim().y / 2) - (pos.y + mDim.y / 2);
-			var dist = Math.sqrt(diffX * diffX + diffY * diffY);
-			actor.vel.x -= diffX;
-			actor.vel.y -= diffY;
+			if (actor.pos.y + actor.getDim().y / 2 > pos.y && 
+				actor.pos.y + actor.getDim().y / 2 < pos.y + mDim.y) {
+				var diffX = (actor.pos.x + actor.getDim().x / 2) - (pos.x + mDim.x / 2);
+				var diffY = (actor.pos.y + actor.getDim().y / 2) - (pos.y + mDim.y / 2);
+				var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+				actor.vel.x += diffX * 10;
+				actor.vel.y += diffY * 10;
+			}else {
+				actor.pos.y = pos.y - actor.getDim().y;
+				actor.mOnFloor = true;
+				actor.vel.y = 0;
+			}
 		}
 		
 	}

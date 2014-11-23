@@ -1,6 +1,7 @@
 package entities ;
 import core.Actor;
 import core.Animation;
+import core.Entity;
 import entities.Laser;
 import core.Level;
 import geom.Vec2;

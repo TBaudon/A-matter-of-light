@@ -112,7 +112,9 @@ class Laser extends Entity
 		
 		if (end != null) {
 			mEndPos = end.hitPos;
-			checkActorsCollision(delta);
+			var hittedActor = checkActorsCollision(delta);
+			if (hittedActor != null)
+				end.object = hittedActor;
 			mImpact = true;
 			
 			if (Std.is(end.object, TileInfo)) {
@@ -123,6 +125,9 @@ class Laser extends Entity
 					mNextLaser.destroy();
 					mNextLaser = null;
 				}
+			}else if (mNextLaser != null){
+				mNextLaser.destroy();
+				mNextLaser = null;
 			}
 		} 
 	}
@@ -363,7 +368,7 @@ class Laser extends Entity
 			mNextLaser.destroy();
 	}
 	
-	function checkActorsCollision(delta : Float) {
+	function checkActorsCollision(delta : Float) : Actor{
 		var hittedActor : Actor = null;
 		for (actor in Actor.AllActors) {
 			if (!actor.isSolid()) continue;
@@ -388,6 +393,8 @@ class Laser extends Entity
 		}
 		if(hittedActor != null)
 			hittedActor.onLaserHit(this, delta );
+			
+		return hittedActor;
 	}
 	
 	public static function rayBoxIntersect(r1:Vec2, r2:Vec2, box1:Vec2, box2:Vec2):Array<Vec2> {

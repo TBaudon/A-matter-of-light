@@ -221,6 +221,7 @@ class Level extends Entity
 				instance.setProperties(object.properties);
 			add(instance);
 			instance.pos.set(object.x, object.y);
+			instance.name = object.name;
 			if (Reflect.hasField(object.properties, "hasFocus"))
 				mCamera.setTarget(instance);
 		}
@@ -368,11 +369,14 @@ class Level extends Entity
 	override public function destroy() 
 	{
 		super.destroy();
-		for (child in children)
+		
+		while(children.length > 0)
 		{
+			var child = children.shift();
 			remove(child);
-			if(mActorToKeep != null && mActorToKeep[child.name] == null)
+			if(mActorToKeep != null && mActorToKeep[child.name] == null){
 				child.destroy();
+			}
 		}
 	}
 }
