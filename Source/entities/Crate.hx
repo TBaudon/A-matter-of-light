@@ -18,8 +18,6 @@ class Crate extends Actor
 	override function update(delta:Float) 
 	{
 		super.update(delta);
-		
-		vel.x = 10;
 	}
 	
 }

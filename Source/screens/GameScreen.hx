@@ -22,7 +22,7 @@ class GameScreen extends Screen
 		mActorToKeep = new Map<String, Actor>();
 		mActorToKeep.set("Hero", new Hero());
 		
-		loadLevel("testMap");
+		loadLevel("AntiGrav-sample");
 	}
 	
 	public function loadLevel(name : String) {

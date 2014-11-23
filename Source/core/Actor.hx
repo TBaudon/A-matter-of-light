@@ -1,5 +1,6 @@
 package core ;
 import core.Level.HitDirection;
+import entities.Hero;
 import entities.Laser;
 import geom.Vec2;
 import openfl.display.BitmapData;
@@ -34,6 +35,8 @@ class Actor extends Entity
 	
 	var mTimeMutiplier : Float;
 	var mSlowDownTimeCounter : Float;
+	
+	
 	
 	public static var AllActors : Array<Actor>;
 
@@ -138,6 +141,8 @@ class Actor extends Entity
 				vel.y = 0 + actor.vel.y;
 				mNextPos.x = pos.x + (vel.x + actor.vel.x) * delta * mFloorFriction;
 				mNextPos.y = actor.pos.y - mDim.y;
+				if (Std.is(actor, Hero))
+					mNextPos.x = pos.x + (vel.x + actor.vel.x) * delta;
 			}
 			else if (actor.pos.y + actor.getDim().y <= pos.y ) {
 				vel.y = 0;
@@ -149,8 +154,17 @@ class Actor extends Entity
 					vel.x = 0;
 					mNextPos.x = actor.pos.x - mDim.x;
 				}else {
-					actor.pos.x = mNextPos.x + mDim.x;
-					vel.x *= 0.7;
+					var acNextPosX = mNextPos.x + mDim.x;
+					var info = mLevel.getTileInfoAt(acNextPosX + actor.getDim().x, actor.pos.y + actor.getDim().y / 2);
+					if (info != null && info.block){
+						actor.pos.x = Std.int((acNextPosX + actor.getDim().x) / mLevel.getTileWidth()) * mLevel.getTileWidth() - actor.getDim().x;
+						mNextPos.x = actor.pos.x - mDim.x;
+						vel.x = 0;
+					}
+					else{
+						actor.pos.x = acNextPosX;
+						vel.x *= 0.7;
+					}
 				}
 			}
 			else if (actor.pos.x + actor.getDim().x <= pos.x ) {
@@ -158,8 +172,17 @@ class Actor extends Entity
 					vel.x = 0;
 					mNextPos.x = actor.pos.x + actor.getDim().x;
 				}else {
-					actor.pos.x = mNextPos.x - actor.getDim().x;
-					vel.x *= 0.7;
+					var acNextPosX = mNextPos.x - actor.getDim().x;
+					var info = mLevel.getTileInfoAt(acNextPosX, actor.pos.y + actor.getDim().y / 2);
+					if (info != null && info.block){
+						actor.pos.x = Std.int(acNextPosX / mLevel.getTileWidth() + 1) * mLevel.getTileWidth();
+						mNextPos.x = actor.pos.x + actor.getDim().x;
+						vel.x = 0;
+					}
+					else{
+						actor.pos.x = acNextPosX;
+						vel.x *= 0.7;
+					}
 				}
 			}
 		}
@@ -192,11 +215,11 @@ class Actor extends Entity
 	
 	public function onLaserHit(laser : Laser, delta : Float) {
 		if (laser.getLastColor() == 0xff0000) {
-			vel.add(Vec2.Mul(laser.getDir(), 0.1 * delta));
+			vel.add(Vec2.Mul(laser.getDir(), 0.3 * delta));
 		}else if (laser.getLastColor() == 0x0000ff) {
 			slowDown(0.2,delta);
 		}else if (laser.getLastColor() == 0x00ff00) {
-			vel.add(Vec2.Mul(laser.getDir(), -0.3 * delta));
+			vel.add(Vec2.Mul(laser.getDir(), - 0.3 * delta));
 		}
 	}
 	
