@@ -19,21 +19,6 @@
                 {
                  "gid":2,
                  "height":0,
-                 "name":"Crate",
-                 "properties":
-                    {
-
-                    },
-                 "rotation":0,
-                 "type":"entities.Crate",
-                 "visible":true,
-                 "width":0,
-                 "x":62,
-                 "y":285
-                }, 
-                {
-                 "gid":2,
-                 "height":0,
                  "name":"Hero",
                  "properties":
                     {
@@ -43,8 +28,56 @@
                  "type":"entities.Hero",
                  "visible":true,
                  "width":0,
-                 "x":24,
-                 "y":282
+                 "x":20.3333333333333,
+                 "y":287.666666666667
+                }, 
+                {
+                 "gid":2,
+                 "height":0,
+                 "name":"ButtonA",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"entities.Button",
+                 "visible":true,
+                 "width":0,
+                 "x":48,
+                 "y":302.333333333333
+                }, 
+                {
+                 "gid":2,
+                 "height":0,
+                 "name":"CrateSpawner",
+                 "properties":
+                    {
+                     "direction":"Up",
+                     "entity":"entities.Crate",
+                     "interruptors":"ButtonA,ButtonB",
+                     "spawnSpeed":"20"
+                    },
+                 "rotation":0,
+                 "type":"entities.EntitiesSpawner",
+                 "visible":true,
+                 "width":0,
+                 "x":111.666666666667,
+                 "y":281.666666666667
+                }, 
+                {
+                 "gid":2,
+                 "height":0,
+                 "name":"ButtonB",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"entities.Button",
+                 "visible":true,
+                 "width":0,
+                 "x":71.3333333333333,
+                 "y":302
                 }, 
                 {
                  "gid":2,
@@ -58,23 +91,8 @@
                  "type":"entities.Crate",
                  "visible":true,
                  "width":0,
-                 "x":104,
-                 "y":276
-                }, 
-                {
-                 "gid":2,
-                 "height":0,
-                 "name":"Crate",
-                 "properties":
-                    {
-
-                    },
-                 "rotation":0,
-                 "type":"entities.Crate",
-                 "visible":true,
-                 "width":0,
-                 "x":138,
-                 "y":271
+                 "x":153,
+                 "y":189.333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",

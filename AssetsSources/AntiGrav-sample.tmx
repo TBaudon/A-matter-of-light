@@ -7,13 +7,21 @@
   </data>
  </layer>
  <objectgroup name="Calque d'objets 1">
-  <object name="Crate" type="entities.Crate" gid="2" x="62" y="285"/>
-  <object name="Hero" type="entities.Hero" gid="2" x="24" y="282">
+  <object name="Hero" type="entities.Hero" gid="2" x="20.3333" y="287.667">
    <properties>
     <property name="hasFocus" value="true"/>
    </properties>
   </object>
-  <object name="Crate" type="entities.Crate" gid="2" x="104" y="276"/>
-  <object name="Crate" type="entities.Crate" gid="2" x="138" y="271"/>
+  <object name="ButtonA" type="entities.Button" gid="2" x="48" y="302.333"/>
+  <object name="CrateSpawner" type="entities.EntitiesSpawner" gid="2" x="111.667" y="281.667">
+   <properties>
+    <property name="direction" value="Up"/>
+    <property name="entity" value="entities.Crate"/>
+    <property name="interruptors" value="ButtonA,ButtonB"/>
+    <property name="spawnSpeed" value="20"/>
+   </properties>
+  </object>
+  <object name="ButtonB" type="entities.Button" gid="2" x="71.3333" y="302"/>
+  <object name="Crate" gid="2" x="153" y="189.333"/>
  </objectgroup>
 </map>

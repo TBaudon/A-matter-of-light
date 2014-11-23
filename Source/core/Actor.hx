@@ -39,7 +39,10 @@ class Actor extends Entity
 	var mTimeMutiplier : Float;
 	var mSlowDownTimeCounter : Float;
 	
-	
+	var mTopCollision:Actor;
+	var mLeftCollision : Actor;
+	var mRightCollision : Actor;
+	var mDownCollition : Actor;
 	
 	public static var AllActors : Array<Actor>;
 
@@ -61,7 +64,7 @@ class Actor extends Entity
 		mCurrentFrame = 0;
 		mDim.set(10, 10);
 		mFloorFriction = 0.75;
-		mAirFriction = 0.9;
+		mAirFriction = 0.98;
 		mTimeMutiplier = 1;
 	}
 	
@@ -99,6 +102,9 @@ class Actor extends Entity
 			mOnFloor = false;
 			mBlockedLeft = false;
 			mBlockedRight = false;
+		}else {
+			vel.x = 0;
+			vel.y = 0;
 		}
 				
 		mNextPos.x = pos.x + vel.x * delta;
@@ -115,6 +121,26 @@ class Actor extends Entity
 			mSlowDownTimeCounter += delta / mTimeMutiplier;
 			if (mSlowDownTimeCounter >= 5)
 				mTimeMutiplier = 1;
+		}
+		
+		if (mTopCollision != null) {
+			onCollideOtherFromTop(mTopCollision);
+			mTopCollision = null;
+		}
+		
+		if (mLeftCollision != null) {
+			onCollideOtherFromLeft(mLeftCollision);
+			mLeftCollision = null;
+		}
+		
+		if (mRightCollision != null) {
+			onCollideOtherFromRight(mRightCollision);
+			mRightCollision = null;
+		}
+		
+		if (mDownCollition != null) {
+			onCollideOtherFromBottom(mDownCollition);
+			mDownCollition = null;
 		}
 	}
 	
@@ -176,14 +202,14 @@ class Actor extends Entity
 				mNextPos.y = actor.pos.y - mDim.y;
 				if (Std.is(actor, Hero))
 					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
-				actor.onCollideOtherFromTop(this);
+				actor.setTopCollisionWith(this);
 			}
 			else if (actor.pos.y + actor.getDim().y <= pos.y ) {
 				vel.y = 0;
 				mNextPos.y = actor.pos.y + actor.getDim().y;
 				if (Std.is(actor, Hero))
 					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
-				actor.onCollideOtherFromBottom(this);
+				actor.setDownCollisionWith(this);
 			}
 			
 			if (actor.pos.x >= pos.x + mDim.x ) {
@@ -197,7 +223,7 @@ class Actor extends Entity
 					vel.x *= 0.7;
 					mNextPos.x = actor.pos.x - mDim.x;
 				}
-				actor.onCollideOtherFromLeft(this);
+				actor.setLeftCollisionWith(this);
 			}
 			else if (actor.pos.x + actor.getDim().x <= pos.x ) {
 				if (actor.isStatic()) {
@@ -209,21 +235,27 @@ class Actor extends Entity
 					actor.move(delta);
 					vel.x *= 0.7;
 					mNextPos.x = actor.pos.x + actor.getDim().x;
-					//var info = mLevel.getTileInfoAt(acNextPosX, actor.pos.y + actor.getDim().y / 2);
-					//if (info != null && info.block){
-						//actor.pos.x = Std.int(acNextPosX / mLevel.getTileWidth() + 1) * mLevel.getTileWidth();
-						//mNextPos.x = actor.pos.x + actor.getDim().x;
-						//vel.x = 0;
-					//}
-					//else{
-						//actor.pos.x = acNextPosX;
-						//vel.x *= 0.7;
-					//}
 				}
-				actor.onCollideOtherFromRight(this);
+				actor.setRightCollisionWith(this);
 			}
 		}
 		
+	}
+	
+	public function setTopCollisionWith(actor : Actor) {
+		mTopCollision = actor;
+	}
+	
+	public function setRightCollisionWith(actor : Actor) {
+		mRightCollision = actor;
+	}
+	
+	public function setLeftCollisionWith(actor : Actor) {
+		mLeftCollision = actor;
+	}
+	
+	public function setDownCollisionWith(actor : Actor) {
+		mDownCollition = actor;
 	}
 	
 	function onCollideOtherFromRight(actor:Actor) 

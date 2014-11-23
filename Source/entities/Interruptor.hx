@@ -1,5 +1,6 @@
 package entities;
 import core.Actor;
+import entities.Mecanism;
 
 /**
  * ...
@@ -17,6 +18,12 @@ class Interruptor extends Actor
 	
 	public function isActive(): Bool {
 		return mActive;
+	}
+	
+	override function update(delta:Float) 
+	{
+		mActive = false;
+		super.update(delta);
 	}
 	
 }

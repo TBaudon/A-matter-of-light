@@ -1,5 +1,6 @@
 package entities;
 import core.Actor;
+import core.Entity;
 
 /**
  * ...
