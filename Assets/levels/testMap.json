@@ -124,8 +124,8 @@
                  "type":"entities.Crate",
                  "visible":true,
                  "width":0,
-                 "x":382.666666666667,
-                 "y":54.3333333333333
+                 "x":48,
+                 "y":134
                 }],
          "opacity":1,
          "type":"objectgroup",
