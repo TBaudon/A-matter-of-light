@@ -55,7 +55,7 @@
                      "direction":"Up",
                      "entity":"entities.Crate",
                      "interruptors":"ButtonA,ButtonB",
-                     "spawnSpeed":"20"
+                     "spawnSpeed":"100"
                     },
                  "rotation":0,
                  "type":"entities.EntitiesSpawner",
@@ -93,6 +93,21 @@
                  "width":0,
                  "x":153,
                  "y":189.333333333333
+                }, 
+                {
+                 "gid":2,
+                 "height":0,
+                 "name":"LaserPill",
+                 "properties":
+                    {
+                     "color":"0"
+                    },
+                 "rotation":0,
+                 "type":"entities.LaserPill",
+                 "visible":true,
+                 "width":0,
+                 "x":171.666666666667,
+                 "y":294.333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",

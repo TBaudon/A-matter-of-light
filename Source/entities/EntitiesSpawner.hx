@@ -40,6 +40,8 @@ class EntitiesSpawner extends Mecanism
 			case "Left" :
 				entity.vel.x = -mSpawnSpeed;
 		}
+		
+		mLevel.getCamera().shake(3, 300);
 	}
 	
 	override public function setProperties(props:Dynamic) 

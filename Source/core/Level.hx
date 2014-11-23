@@ -219,8 +219,8 @@ class Level extends Entity
 			instance.setLevel(this);
 			if (Reflect.hasField(object, "properties"))
 				instance.setProperties(object.properties);
-			add(instance);
 			instance.pos.set(object.x, object.y);
+			add(instance);
 			instance.name = object.name;
 			if (Reflect.hasField(object.properties, "hasFocus"))
 				mCamera.setTarget(instance);

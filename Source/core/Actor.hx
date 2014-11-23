@@ -123,25 +123,25 @@ class Actor extends Entity
 				mTimeMutiplier = 1;
 		}
 		
-		if (mTopCollision != null) {
+		if (mTopCollision != null) 
 			onCollideOtherFromTop(mTopCollision);
-			mTopCollision = null;
-		}
 		
-		if (mLeftCollision != null) {
+		if (mLeftCollision != null) 
 			onCollideOtherFromLeft(mLeftCollision);
-			mLeftCollision = null;
-		}
 		
-		if (mRightCollision != null) {
+		if (mRightCollision != null) 
 			onCollideOtherFromRight(mRightCollision);
-			mRightCollision = null;
-		}
-		
-		if (mDownCollition != null) {
+
+		if (mDownCollition != null) 
 			onCollideOtherFromBottom(mDownCollition);
-			mDownCollition = null;
-		}
+		
+		if (mDownCollition != null || mTopCollision != null || mLeftCollision != null || mRightCollision != null)
+			onCollideOtherFromAnyWhere(mDownCollition, mTopCollision, mLeftCollision, mRightCollision);
+			
+		mDownCollition = null;
+		mTopCollision = null;
+		mLeftCollision = null;
+		mRightCollision = null;
 	}
 	
 	function getOutOfWall() {
@@ -193,26 +193,30 @@ class Actor extends Entity
 	}
 	
 	public function onCollideOther(actor : Actor, delta : Float) {
-		if (actor.isSolid())
-		{
-			if (actor.pos.y >= pos.y + mDim.y ) {
+		
+		if (actor.pos.y >= pos.y + mDim.y ) {
+			if(actor.isSolid()){
 				mOnFloor = true;
 				vel.y = 0 + actor.vel.y;
 				mNextPos.x = pos.x + (vel.x + actor.vel.x) * delta * mFloorFriction;
 				mNextPos.y = actor.pos.y - mDim.y;
 				if (Std.is(actor, Hero))
 					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
-				actor.setTopCollisionWith(this);
 			}
-			else if (actor.pos.y + actor.getDim().y <= pos.y ) {
+			actor.setTopCollisionWith(this);
+		}
+		else if (actor.pos.y + actor.getDim().y <= pos.y ) {
+			if(actor.isSolid()){
 				vel.y = 0;
 				mNextPos.y = actor.pos.y + actor.getDim().y;
 				if (Std.is(actor, Hero))
 					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
-				actor.setDownCollisionWith(this);
 			}
-			
-			if (actor.pos.x >= pos.x + mDim.x ) {
+			actor.setDownCollisionWith(this);
+		}
+		
+		if (actor.pos.x >= pos.x + mDim.x ) {
+			if(actor.isSolid()){
 				if (actor.isStatic()) {
 					vel.x = 0;
 					mNextPos.x = actor.pos.x - mDim.x;
@@ -223,9 +227,11 @@ class Actor extends Entity
 					vel.x *= 0.7;
 					mNextPos.x = actor.pos.x - mDim.x;
 				}
-				actor.setLeftCollisionWith(this);
 			}
-			else if (actor.pos.x + actor.getDim().x <= pos.x ) {
+			actor.setLeftCollisionWith(this);
+		}
+		else if (actor.pos.x + actor.getDim().x <= pos.x ) {
+			if(actor.isSolid()){
 				if (actor.isStatic()) {
 					vel.x = 0;
 					mNextPos.x = actor.pos.x + actor.getDim().x;
@@ -236,9 +242,10 @@ class Actor extends Entity
 					vel.x *= 0.7;
 					mNextPos.x = actor.pos.x + actor.getDim().x;
 				}
-				actor.setRightCollisionWith(this);
 			}
+			actor.setRightCollisionWith(this);
 		}
+		
 		
 	}
 	
@@ -278,6 +285,10 @@ class Actor extends Entity
 		
 	}
 	
+	function onCollideOtherFromAnyWhere(downCollition:Actor, topCollision:Actor, leftCollision:Actor, rightCollision:Actor) 
+	{
+	}
+	
 	public function setAnimation(animation : Animation) {
 		mAnimation = animation;
 	}
@@ -304,11 +315,11 @@ class Actor extends Entity
 	
 	public function onLaserHit(laser : Laser, delta : Float) {
 		if (laser.getLastColor() == 0xff0000) {
-			vel.add(Vec2.Mul(laser.getDir(), 0.3 * delta));
+			vel.add(Vec2.Mul(laser.getDir(), 0.2 * delta));
 		}else if (laser.getLastColor() == 0x0000ff) {
 			slowDown(0.2,delta);
 		}else if (laser.getLastColor() == 0x00ff00) {
-			vel.add(Vec2.Mul(laser.getDir(), - 0.3 * delta));
+			vel.add(Vec2.Mul(laser.getDir(), - 0.2 * delta));
 		}
 	}
 	
@@ -392,13 +403,11 @@ class Actor extends Entity
 	
 	public function move(delta : Float):Void 
 	{
-		if (!mStatic && mSolid) {
+		if (!mStatic) {
 			resolveCollisionWithMap();
 			resolveCollisionWithOthers(delta);
-		}
-		
-		if(!mStatic)
 			pos.copy(mNextPos);
+		}
 			
 		getOutOfWall();
 	}

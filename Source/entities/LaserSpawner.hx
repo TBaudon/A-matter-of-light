@@ -5,41 +5,40 @@ import core.Actor;
  * ...
  * @author Thomas BAUDON
  */
-class LaserSpawner extends Actor
+class LaserSpawner extends Mecanism
 {
 	
 	var mLaser : Laser;
 	var mLaserAdded : Bool;
+	var mLaserColor : UInt;
+	var mLaserAngle : Float;
 
 	public function new() 
 	{
-		super();
+		super(null);
 		
-		mStatic = true;
 		mSolid = false;
+		mStatic = true;
 	}
 	
 	override public function setProperties(props:Dynamic) 
 	{
 		super.setProperties(props);
-		
-		mLaser = new Laser(pos, mLevel, Laser.getColor(props.color));
-		mLaser.setAngle(props.angle/180*Math.PI);
-	}
+		mLaserAngle = props.angle;
+		mLaserColor = props.color;
+	}	
 	
-	override function update(delta:Float) 
+	override function activate() 
 	{
-		super.update(delta);
-		
-		mLaser.pos.x = pos.x;
-		mLaser.pos.y = pos.y;
-		
-		if (!mLaserAdded){
-			mLevel.add(mLaser);
-			mLaserAdded = true;
-		}
+		super.activate();
+		mLaser = new Laser(pos, mLevel, mLaserColor);
+		mLaser.setAngle(mLaserAngle / 180 * Math.PI);
+		mLevel.add(mLaser);
 	}
 	
-	
-	
+	override function deactivate() 
+	{
+		super.deactivate();
+		mLaser.destroy();
+	}
 }

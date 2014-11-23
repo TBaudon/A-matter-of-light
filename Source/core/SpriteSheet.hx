@@ -23,11 +23,7 @@ class SpriteSheet
 	public function new(path : String, spriteWidth : Int, spriteHeight : Int) 
 	{
 		mBitmap = Assets.getBitmapData("img/" + path +".png");
-		mSpriteWidth = spriteWidth;
-		mSpriteHeight = spriteHeight;
-		mNbCol = Std.int(mBitmap.width / mSpriteWidth);
-		mNbLine = Std.int(mBitmap.height / mSpriteHeight);
-		mFrameRect = new Rectangle(0,0,mSpriteWidth,mSpriteHeight);
+		setFrameDim(spriteWidth, spriteHeight);
 	}
 	
 	public function getFrame(frame : Int) : Rectangle {
@@ -40,6 +36,15 @@ class SpriteSheet
 	
 	public function getBitmap() : BitmapData {
 		return mBitmap;
+	}
+	
+	public function setFrameDim(width : UInt, height : UInt) 
+	{
+		mSpriteWidth = width;
+		mSpriteHeight = height;
+		mFrameRect = new Rectangle(0, 0, mSpriteWidth, mSpriteHeight);
+		mNbCol = Std.int(mBitmap.width / mSpriteWidth);
+		mNbLine = Std.int(mBitmap.height / mSpriteHeight);
 	}
 	
 }

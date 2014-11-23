@@ -18,10 +18,15 @@
     <property name="direction" value="Up"/>
     <property name="entity" value="entities.Crate"/>
     <property name="interruptors" value="ButtonA,ButtonB"/>
-    <property name="spawnSpeed" value="20"/>
+    <property name="spawnSpeed" value="100"/>
    </properties>
   </object>
   <object name="ButtonB" type="entities.Button" gid="2" x="71.3333" y="302"/>
-  <object name="Crate" gid="2" x="153" y="189.333"/>
+  <object name="Crate" type="entities.Crate" gid="2" x="153" y="189.333"/>
+  <object name="LaserPill" type="entities.LaserPill" gid="2" x="171.667" y="294.333">
+   <properties>
+    <property name="color" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

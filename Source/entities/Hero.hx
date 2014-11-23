@@ -25,7 +25,7 @@ class Hero extends Actor
 	var mLaser : Laser;
 	
 	var mInventory : Array<UInt>;
-	var mEquipedItem : UInt;
+	var mEquipedItem : Int;
 	var mChangedWeapon : Bool;
 	
 	var mStandAnimR : Animation;
@@ -68,9 +68,9 @@ class Hero extends Actor
 		
 		mInventory = new Array<UInt>();
 		
-		mInventory.push(Laser.getColor(0));
+		/*mInventory.push(Laser.getColor(0));
 		mInventory.push(Laser.getColor(1));
-		mInventory.push(Laser.getColor(2));
+		mInventory.push(Laser.getColor(2));*/
 		
 		mEquipedItem = 0;
 		
@@ -102,17 +102,20 @@ class Hero extends Actor
 	}
 	
 	function onMouseDown(e:MouseEvent) : Void {
-		mFiring = true;
-		mLaser = new Laser(pos, mLevel, mInventory[mEquipedItem]);
-		mLevel.add(mLaser);
-		var cam = mLevel.getCamera();
-		if (cam != null)
-			cam.startShake(2);
+		if(mInventory.length > mEquipedItem){
+			mFiring = true;
+			mLaser = new Laser(pos, mLevel, mInventory[mEquipedItem]);
+			mLevel.add(mLaser);
+			var cam = mLevel.getCamera();
+			if (cam != null)
+				cam.startShake(2);
+		}
 	}
 	
 	function onMouseUp(e : MouseEvent) : Void {
 		mFiring = false;
-		mLaser.destroy();
+		if (mLaser != null)		
+			mLaser.destroy();
 		mLaser = null;
 		var cam = mLevel.getCamera();
 		if (cam != null)
@@ -162,9 +165,7 @@ class Hero extends Actor
 		
 		if (mChangedWeapon && mLaser != null) {
 			mChangedWeapon = false;
-			mLaser.destroy();
-			mLaser = new Laser(pos, mLevel, mInventory[mEquipedItem]);
-			mLevel.add(mLaser);
+			mLaser.setColor(mInventory[mEquipedItem]);
 		}
 		
 		if (mOnFloor && mJumpDown)
@@ -287,6 +288,10 @@ class Hero extends Actor
 	{
 		if(mLaser.getCol() == 0xff0000)
 			vel.sub(Vec2.Mul(Vec2.Norm(mLaser.getDir()), delta * 500 * mTimeMutiplier));
+	}
+	
+	public function giveLaser(code : UInt) {
+		mInventory.push(Laser.getColor(code));
 	}
 	
 }
