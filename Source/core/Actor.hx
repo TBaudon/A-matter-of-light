@@ -99,13 +99,15 @@ class Actor extends Entity
 			mNextPos.x = pos.x + vel.x * delta;
 			mNextPos.y = pos.y + vel.y * delta;		
 		
-		if(!mStatic && mSolid){
+		if (!mStatic && mSolid) {
 			resolveCollisionWithMap();
 			resolveCollisionWithOthers(delta);
 		}
 			
 		if(!mStatic)
 			pos.copy(mNextPos);
+		
+		getOutOfWall();
 		
 		if (mAnimation != null)
 			mCurrentFrame = mAnimation.getNextFrame(delta);
@@ -116,6 +118,44 @@ class Actor extends Entity
 			mSlowDownTimeCounter += delta / mTimeMutiplier;
 			if (mSlowDownTimeCounter >= 5)
 				mTimeMutiplier = 1;
+		}
+	}
+	
+	function getOutOfWall() {
+		var testX = pos.x + mDim.x / 2;
+		var testY = pos.y;
+		
+		var info = mLevel.getTileInfoAt(testX, testY);
+		if (info != null && info.block) {
+			trace("top in wall");
+			pos.y = Std.int(pos.y / mLevel.getTileHeight()+1) * mLevel.getTileHeight();
+		}
+			
+		testX = pos.x + mDim.x;
+		testY = pos.y + mDim.y / 2;
+		
+		info = mLevel.getTileInfoAt(testX, testY);
+		if (info != null && info.block) {
+			trace("right in wall");
+			pos.x = Std.int(pos.x / mLevel.getTileWidth() +1) * mLevel.getTileWidth() - mDim.x;
+		}
+			
+		testX = pos.x + mDim.x / 2;
+		testY = pos.y + mDim.y;
+		
+		info = mLevel.getTileInfoAt(testX, testY);
+		if (info != null && info.block) {
+			trace("bottom in wall");
+			pos.y = Std.int(pos.y / mLevel.getTileHeight() +1) * mLevel.getTileHeight() - mDim.y;
+		}
+			
+		var testX = pos.x;
+		testY = pos.y + mDim.y / 2;
+		
+		var info = mLevel.getTileInfoAt(testX, testY);
+		if (info != null && info.block) {
+			trace("left in wall");
+			pos.x = Std.int(pos.x / mLevel.getTileWidth()+1) * mLevel.getTileWidth();
 		}
 	}
 	
@@ -142,11 +182,13 @@ class Actor extends Entity
 				mNextPos.x = pos.x + (vel.x + actor.vel.x) * delta * mFloorFriction;
 				mNextPos.y = actor.pos.y - mDim.y;
 				if (Std.is(actor, Hero))
-					mNextPos.x = pos.x + (vel.x + actor.vel.x) * delta;
+					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
 			}
 			else if (actor.pos.y + actor.getDim().y <= pos.y ) {
 				vel.y = 0;
 				mNextPos.y = actor.pos.y + actor.getDim().y;
+				if (Std.is(actor, Hero))
+					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
 			}
 			
 			if (actor.pos.x >= pos.x + mDim.x ) {
