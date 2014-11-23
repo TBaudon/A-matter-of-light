@@ -179,6 +179,8 @@ class Actor extends Entity
 			vel.add(Vec2.Mul(laser.getDir(), 0.1 * delta));
 		}else if (laser.getLastColor() == 0x0000ff) {
 			slowDown(0.2,delta);
+		}else if (laser.getLastColor() == 0x00ff00) {
+			vel.add(Vec2.Mul(laser.getDir(), -0.3 * delta));
 		}
 	}
 	
