@@ -15,4 +15,11 @@ class Crate extends Actor
 		setDim(16, 16);
 	}
 	
+	override function update(delta:Float) 
+	{
+		super.update(delta);
+		
+		vel.x = 10;
+	}
+	
 }

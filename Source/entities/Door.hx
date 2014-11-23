@@ -31,9 +31,9 @@ class Door extends Actor
 		mTargetY = props.y;
 	}
 	
-	override public function onCollideOther(actor:Actor) 
+	override public function onCollideOther(actor:Actor, delta : Float) 
 	{
-		super.onCollideOther(actor);
+		super.onCollideOther(actor, delta);
 		
 		if (Std.is(actor, Hero)) {
 			mLevel.pause();

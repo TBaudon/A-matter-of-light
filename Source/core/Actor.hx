@@ -96,11 +96,11 @@ class Actor extends Entity
 			mNextPos.x = pos.x + vel.x * delta;
 			mNextPos.y = pos.y + vel.y * delta;		
 		
-		if(!mStatic)
+		if(!mStatic && mSolid){
 			resolveCollisionWithMap();
+			resolveCollisionWithOthers(delta);
+		}
 			
-		resolveCollisionWithOthers();
-		
 		if(!mStatic)
 			pos.copy(mNextPos);
 		
@@ -116,7 +116,7 @@ class Actor extends Entity
 		}
 	}
 	
-	function resolveCollisionWithOthers() 
+	function resolveCollisionWithOthers(delta : Float) 
 	{
 		for (actor in AllActors) {
 			if (actor != this) {
@@ -124,27 +124,43 @@ class Actor extends Entity
 					mNextPos.x + mDim.x > actor.pos.x &&
 					mNextPos.y < actor.pos.y + actor.getDim().y &&
 					mNextPos.y + mDim.y > actor.pos.y) {
-						onCollideOther(actor);
+						onCollideOther(actor, delta);
 					}
 			}
 		}
 	}
 	
-	public function onCollideOther(actor : Actor) {
-		if (mStatic && !mSolid) return;
-		if (mSolid && actor.isSolid())
+	public function onCollideOther(actor : Actor, delta : Float) {
+		if (actor.isSolid())
 		{
-			if (actor.pos.y + actor.getDim().y / 2 > pos.y && 
-				actor.pos.y + actor.getDim().y / 2 < pos.y + mDim.y) {
-				var diffX = (actor.pos.x + actor.getDim().x / 2) - (pos.x + mDim.x / 2);
-				var diffY = (actor.pos.y + actor.getDim().y / 2) - (pos.y + mDim.y / 2);
-				var dist = Math.sqrt(diffX * diffX + diffY * diffY);
-				actor.vel.x += diffX * 10;
-				actor.vel.y += diffY * 10;
-			}else {
-				actor.pos.y = pos.y - actor.getDim().y;
-				actor.mOnFloor = true;
-				actor.vel.y = 0;
+			if (actor.pos.y >= pos.y + mDim.y ) {
+				mOnFloor = true;
+				vel.y = 0 + actor.vel.y;
+				mNextPos.x = pos.x + (vel.x + actor.vel.x) * delta * mFloorFriction;
+				mNextPos.y = actor.pos.y - mDim.y;
+			}
+			else if (actor.pos.y + actor.getDim().y <= pos.y ) {
+				vel.y = 0;
+				mNextPos.y = actor.pos.y + actor.getDim().y;
+			}
+			
+			if (actor.pos.x >= pos.x + mDim.x ) {
+				if (actor.isStatic()) {
+					vel.x = 0;
+					mNextPos.x = actor.pos.x - mDim.x;
+				}else {
+					actor.pos.x = mNextPos.x + mDim.x;
+					vel.x *= 0.7;
+				}
+			}
+			else if (actor.pos.x + actor.getDim().x <= pos.x ) {
+				if (actor.isStatic()) {
+					vel.x = 0;
+					mNextPos.x = actor.pos.x + actor.getDim().x;
+				}else {
+					actor.pos.x = mNextPos.x - actor.getDim().x;
+					vel.x *= 0.7;
+				}
 			}
 		}
 		
