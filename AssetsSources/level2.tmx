@@ -25,7 +25,7 @@
   </object>
   <object name="ButtonB" type="entities.Button" gid="4" x="208" y="94"/>
   <object name="Crate" type="entities.Crate" gid="4" x="95.6667" y="62.3333"/>
-  <object name="LaserSpawner" type="entities.LaserSpawner" gid="4" x="13" y="55.6667">
+  <object name="LaserSpawner" type="entities.LaserSpawner" gid="4" x="16" y="47">
    <properties>
     <property name="angle" value="0"/>
     <property name="color" value="0"/>

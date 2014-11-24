@@ -24,7 +24,7 @@
         }, 
         {
          "draworder":"topdown",
-         "height":10,
+         "height":0,
          "name":"objects",
          "objects":[
                 {
@@ -55,7 +55,7 @@
                  "visible":true,
                  "width":0,
                  "x":19,
-                 "y":142.333333333333
+                 "y":142.333
                 }, 
                 {
                  "gid":4,
@@ -99,8 +99,8 @@
                  "type":"entities.Crate",
                  "visible":true,
                  "width":0,
-                 "x":95.6666666666667,
-                 "y":62.3333333333333
+                 "x":95.6667,
+                 "y":62.3333
                 }, 
                 {
                  "gid":4,
@@ -116,8 +116,8 @@
                  "type":"entities.LaserSpawner",
                  "visible":true,
                  "width":0,
-                 "x":13,
-                 "y":55.6666666666667
+                 "x":16,
+                 "y":48
                 }, 
                 {
                  "gid":4,
@@ -137,7 +137,7 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":15,
+         "width":0,
          "x":0,
          "y":0
         }],
