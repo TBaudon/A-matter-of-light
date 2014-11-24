@@ -5,6 +5,7 @@ import core.Entity;
 import entities.Laser;
 import core.Level;
 import geom.Vec2;
+import haxe.Timer;
 import openfl.display.BitmapData;
 import openfl.events.KeyboardEvent;
 import openfl.events.MouseEvent;
@@ -163,6 +164,7 @@ class Hero extends Actor
 	
 	override function update(delta:Float) 
 	{
+		if (mDead) return;
 		super.update(delta);
 		
 		if (mChangedWeapon && mLaser != null) {
@@ -285,6 +287,29 @@ class Hero extends Actor
 			vel.x = -MAX_X_VEL;
 	}
 	
+	override function onHurt() 
+	{
+		super.onHurt();
+		
+		die();
+	}
+	
+	override function onDie() 
+	{
+		super.onDie();
+		
+		mLevel.getCamera().shake(7, 300);
+		for (i in 0 ... 50)
+		{
+			var b = new BloodParticle();
+			b.pos.copy(pos);
+			b.setLevel(mLevel);
+			mLevel.add(b);
+		}
+		destroy();
+		Timer.delay(mLevel.restart, 2000);
+	}
+	
 	function onFiringLaser(delta : Float) 
 	{
 		if(mLaser.getCol() == 0xff0000)
@@ -293,6 +318,12 @@ class Hero extends Actor
 	
 	public function giveLaser(code : UInt) {
 		mInventory.push(Laser.getColor(code));
+	}
+	
+	override function draw(buffer:BitmapData, dest:Vec2) 
+	{
+		if(!mDead)
+			super.draw(buffer, dest);
 	}
 	
 }

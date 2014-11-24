@@ -84,6 +84,8 @@ class Level extends Entity
 	
 	var mGameScreen : GameScreen;
 	
+	var mLevel : String;
+	
 	
 	public function new(gameScreen : GameScreen, level : String, entityToKeep : Map<String, Actor>) 
 	{
@@ -96,6 +98,7 @@ class Level extends Entity
 		mCamera = new Camera();
 		mActorToKeep = entityToKeep;
 		mGameScreen = gameScreen;
+		mLevel = level;
 		
 		Laser.All = new Array<Laser>();
 	}
@@ -382,5 +385,9 @@ class Level extends Entity
 				child.destroy();
 			}
 		}
+	}
+	
+	public function restart() {
+		mGameScreen.loadLevel(mLevel);
 	}
 }

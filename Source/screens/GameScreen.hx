@@ -20,9 +20,10 @@ class GameScreen extends Screen
 		super();
 		
 		mActorToKeep = new Map<String, Actor>();
-		mActorToKeep.set("Hero", new Hero());
+		//mActorToKeep.set("Hero", new Hero());
 		
-		loadLevel("level1");
+		//loadLevel("level1");
+		loadLevel("level3");
 		//loadLevel("test3");
 	}
 	

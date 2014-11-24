@@ -43,6 +43,7 @@ class Actor extends Entity
 	var mLeftCollision : Actor;
 	var mRightCollision : Actor;
 	var mDownCollition : Actor;
+	var mDead : Bool;
 	
 	public static var AllActors : Array<Actor>;
 
@@ -334,8 +335,8 @@ class Actor extends Entity
 			var tileInfoBL = mLevel.getTileInfoAt(pos.x, mNextPos.y + mDim.y );
 			var tileInfoBR = mLevel.getTileInfoAt(pos.x + mDim.x - 1, mNextPos.y + mDim.y);
 			
-			var tileAtBottomLeft = tileInfoBL != null ? tileInfoBL.block : false;
-			var tileAtBottomRight = tileInfoBR != null ? tileInfoBR.block : false;
+			var tileAtBottomLeft  = tileInfoBL != null ? tileInfoBL.block : false;
+			var tileAtBottomRight  = tileInfoBR != null ? tileInfoBR.block : false;
 			
 			var mNextTileCoord = mLevel.getTileCoordinate(mNextPos.x, mNextPos.y + mDim.y);
 			if (tileAtBottomLeft || tileAtBottomRight) {
@@ -343,6 +344,11 @@ class Actor extends Entity
 				vel.y = 0;
 				mOnFloor = true;
 			}
+			
+			if ((tileInfoBL != null && tileInfoBL.hurt) ||
+			    (tileInfoBR != null && tileInfoBR.hurt)) {
+					onHurt();
+				}
 		}else if (vel.y < 0) {
 			var tileInfoTL = mLevel.getTileInfoAt(pos.x, mNextPos.y);
 			var tileInfoTR = mLevel.getTileInfoAt(pos.x + mDim.x - 1, mNextPos.y);
@@ -355,7 +361,17 @@ class Actor extends Entity
 				mNextPos.y = (mNextTileCoord.y+1) * mLevel.getTileHeight();
 				vel.y = 0;
 			}
+			
+			if ((tileInfoTL != null && tileInfoTL.hurt) ||
+			    (tileInfoTR != null && tileInfoTR.hurt)) {
+					onHurt();
+				}
 		}
+	}
+	
+	function onHurt() 
+	{
+		
 	}
 	
 	function resolveXCollision():Void 
@@ -373,6 +389,11 @@ class Actor extends Entity
 				vel.x = 0;
 				mBlockedRight = true;
 			}
+			
+			if ((tileInfoTR != null && tileInfoTR.hurt) ||
+			    (tileInfoBR != null && tileInfoBR.hurt)) {
+					onHurt();
+				}
 		}else if (vel.x < 0) {
 			var tileInfoTL = mLevel.getTileInfoAt(mNextPos.x, mNextPos.y);
 			var tileInfoBL = mLevel.getTileInfoAt(mNextPos.x, mNextPos.y + mDim.y - 1);
@@ -386,7 +407,24 @@ class Actor extends Entity
 				vel.x = 0;
 				mBlockedLeft = true;
 			}
+			
+			if ((tileInfoTL != null && tileInfoTL.hurt) ||
+			    (tileInfoBL != null && tileInfoBL.hurt)) {
+					onHurt();
+				}
 		}
+	}
+	
+	public function die() {
+		if (!mDead){
+			mDead = true;
+			onDie();
+		}
+	}
+	
+	function onDie() 
+	{
+		
 	}
 	
 	public function isBlockedRight() : Bool {
