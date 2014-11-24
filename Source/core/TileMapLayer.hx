@@ -99,7 +99,7 @@ class TileMapLayer extends Entity
 					mPointStamp.x = Std.int(destX);
 					mPointStamp.y = Std.int(destY);
 					
-					buffer.copyPixels(stamp.bitmap, mRectStamp, mPointStamp);
+					buffer.copyPixels(stamp.bitmap, mRectStamp, mPointStamp,null,null,true);
 				}
 			}
 	}

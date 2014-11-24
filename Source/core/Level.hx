@@ -173,13 +173,17 @@ class Level extends Entity
 		
 		pos.y -= mCamera.shakePosOffset.y;
 		
-		var stage = Lib.current.stage;
-		mPointer.pos.set(Std.int(stage.mouseX / 2), Std.int(stage.mouseY / 2));
+		var stage = Game.getInstance();
+		mPointer.pos.set(Std.int(stage.mouseX / Game.getInstance().getPixelsSize()), Std.int(stage.mouseY / Game.getInstance().getPixelsSize()));
 		Mouse.hide();
 	}
 	
 	public function changeTo(levelName : String) {
 		mGameScreen.loadLevel(levelName);
+	}
+	
+	public function getPointer() : Pointer {
+		return mPointer;
 	}
 	
 	function loadTileSets(data:MapData) 

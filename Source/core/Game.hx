@@ -5,6 +5,8 @@ import openfl.display.Bitmap;
 import openfl.display.BlendMode;
 import openfl.display.PixelSnapping;
 import openfl.display.Sprite;
+import openfl.display.StageAlign;
+import openfl.display.StageScaleMode;
 import openfl.geom.Rectangle;
 import openfl.Lib;
 import openfl.events.Event;
@@ -55,7 +57,7 @@ class Game extends Sprite
 		
 		initRender(pixelSize);
 		
-		addEventListener(Event.ENTER_FRAME, update);
+		Lib.current.stage.addEventListener(Event.ENTER_FRAME, update);
 		mLastTime = Lib.getTimer();
 	}
 	
@@ -77,11 +79,13 @@ class Game extends Sprite
 		mCanvas = new Bitmap(mBuffer, PixelSnapping.ALWAYS, false);
 		mCanvas.scaleX = mPixelSize;
 		mCanvas.scaleY = mPixelSize;
-		Lib.current.stage.addChild(mCanvas);
 		
+		addChild(mCanvas);
+		
+		#if flash
 		var bevel = new Bitmap(new BitmapData(cast mCanvas.width,cast mCanvas.height,false,0x808080));
 		bevel.blendMode = BlendMode.OVERLAY; 
-		Lib.current.stage.addChild(bevel);
+		addChild(bevel);
 		
 		for (i in 0 ... cast bevel.height) 
 			for (j in 0 ... cast bevel.width) 
@@ -90,10 +94,10 @@ class Game extends Sprite
 					bevel.bitmapData.setPixel(j-1, i-1, 0);
 					bevel.bitmapData.setPixel(j-2, i-2, 0);
 				}
+		#end
 	}
 	
 	function update(e :Event) {
-		
 		var time = Lib.getTimer();
 		var delta = (time - mLastTime) / 1000;
 		mLastTime = time;
@@ -121,8 +125,11 @@ class Game extends Sprite
 		mBuffer.fillRect(mClearRect, 0);
 		
 		mCurrentScreen._draw(mBuffer, mCurrentScreen.pos);
-			
 		mBuffer.unlock();
+	}
+	
+	public function getPixelsSize() : UInt {
+		return mPixelSize;
 	}
 	
 	public function getWidth() : Int {

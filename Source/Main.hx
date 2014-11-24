@@ -13,7 +13,7 @@ class Main extends Sprite {
 		super ();
 		
 		var game = Game.init(3);
-		
+		addChild(game);
 		game.gotoScreen(new GameScreen());
 	}
 	

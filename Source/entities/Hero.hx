@@ -68,9 +68,11 @@ class Hero extends Actor
 		
 		mInventory = new Array<UInt>();
 		
-		/*mInventory.push(Laser.getColor(0));
+		#if debug
+		mInventory.push(Laser.getColor(0));
 		mInventory.push(Laser.getColor(1));
-		mInventory.push(Laser.getColor(2));*/
+		mInventory.push(Laser.getColor(2));
+		#end
 		
 		mEquipedItem = 0;
 		
@@ -200,8 +202,8 @@ class Hero extends Actor
 			if (mLookingDir < 0) xLaser = mLookingDir * 5;
 			mLaser.pos.set(pos.x + mDim.x / 2 + xLaser, pos.y + 5);
 			
-			var endX = Lib.current.stage.mouseX/2 - mLevel.pos.x;
-			var endY = Lib.current.stage.mouseY / 2 - mLevel.pos.y;
+			var endX = mLevel.getPointer().pos.x - mLevel.pos.x;
+			var endY = mLevel.getPointer().pos.y - mLevel.pos.y;
 			
 			if (endX >= pos.x +mDim.x / 2)
 				mLookingDir = 1;
@@ -209,7 +211,6 @@ class Hero extends Actor
 				mLookingDir = -1;
 				
 			mLaser.setAngle(Math.atan2(endY-(pos.y+mDim.y/2), endX-(pos.x+mDim.x/2)));
-			//mLaser.setEndPos(new Vec2(endX, endY));
 			
 			onFiringLaser(delta);
 		
