@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" source="TileSet.tsx"/>
+ <layer name="bg" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJx9kUEOACEMAkv7/z+7m3ggZOqBGEIFqVNV86EvdLmMN+gNusDDMYEGLXNT7wVbh8zfspy7X/aj7gMa+VC23xfkZbecpzzf1XYq/P1dtMvMff3vP3sAWM8BKA==
+  </data>
+ </layer>
+ <layer name="main" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJwTZWBg4CUDiwExHwN5gGcA9coDMTcJWAJJLwiIMhAfRkpoekl1tzgQK6CZRSxQhOqjBJASTugYAK2AA+s=
+  </data>
+ </layer>
+ <objectgroup name="objects">
+  <object name="ButtonA" type="entities.Button" gid="4" x="96" y="142"/>
+  <object name="Hero" type="entities.Hero" gid="4" x="19" y="142.333">
+   <properties>
+    <property name="hasFocus" value="true"/>
+   </properties>
+  </object>
+  <object name="closedDoor" type="entities.DoorMecanism" gid="4" x="0" y="128">
+   <properties>
+    <property name="no" value="true"/>
+   </properties>
+  </object>
+  <object name="ButtonB" type="entities.Button" gid="4" x="208" y="94"/>
+  <object name="Crate" type="entities.Crate" gid="4" x="95.6667" y="62.3333"/>
+  <object name="LaserSpawner" type="entities.LaserSpawner" gid="4" x="13" y="55.6667">
+   <properties>
+    <property name="angle" value="0"/>
+    <property name="color" value="0"/>
+    <property name="interruptors" value="ButtonA"/>
+   </properties>
+  </object>
+  <object name="DoorR" type="entities.DoorMecanism" gid="4" x="216" y="128">
+   <properties>
+    <property name="interruptors" value="ButtonB"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
