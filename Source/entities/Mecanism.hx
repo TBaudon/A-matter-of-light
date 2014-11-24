@@ -68,6 +68,7 @@ class Mecanism extends Actor
 	}
 	
 	function activate() {
+		mLevel.getCamera().shake(3, 200);
 	}
 	
 	function deactivate() {

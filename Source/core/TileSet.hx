@@ -115,6 +115,7 @@ class TileSet
 			mTileInfoRep.block = infos.block;
 			mTileInfoRep.reflect = infos.reflect;
 			mTileInfoRep.reflectPos = infos.reflectPos;
+			mTileInfoRep.hurt = infos.hurt;
 			return mTileInfoRep;
 		}
 		return null;
