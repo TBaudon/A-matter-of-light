@@ -23,6 +23,7 @@ class GameScreen extends Screen
 		mActorToKeep.set("Hero", new Hero());
 		
 		loadLevel("level1");
+		//loadLevel("test3");
 	}
 	
 	public function loadLevel(name : String) {

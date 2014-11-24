@@ -12,7 +12,7 @@
          "y":0
         }, 
         {
-         "data":[21, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 22, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11],
+         "data":[21, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 22, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 14, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 12, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 32, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 14, 0, 0, 0, 23, 24, 0, 0, 0, 0, 33, 13, 14, 0, 0, 0, 12, 14, 0, 0, 0, 0, 0, 0, 31, 11, 11, 11, 32, 31, 11, 11, 11, 11, 11, 11],
          "height":8,
          "name":"main",
          "opacity":0.899999976158142,
@@ -24,7 +24,7 @@
         }, 
         {
          "draworder":"topdown",
-         "height":8,
+         "height":0,
          "name":"objects",
          "objects":[
                 {
@@ -41,11 +41,73 @@
                  "width":0,
                  "x":27,
                  "y":102
+                }, 
+                {
+                 "gid":4,
+                 "height":0,
+                 "name":"Door",
+                 "properties":
+                    {
+                     "interruptors":"ButtonA"
+                    },
+                 "rotation":0,
+                 "type":"entities.DoorMecanism",
+                 "visible":true,
+                 "width":0,
+                 "x":168,
+                 "y":96
+                }, 
+                {
+                 "gid":4,
+                 "height":0,
+                 "name":"ButtonA",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"entities.Button",
+                 "visible":true,
+                 "width":0,
+                 "x":96,
+                 "y":110
+                }, 
+                {
+                 "gid":4,
+                 "height":0,
+                 "name":"Crate",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"entities.Crate",
+                 "visible":true,
+                 "width":0,
+                 "x":72.6666666666667,
+                 "y":74
+                }, 
+                {
+                 "gid":4,
+                 "height":0,
+                 "name":"Door",
+                 "properties":
+                    {
+                     "to":"level2",
+                     "x":"21",
+                     "y":"130"
+                    },
+                 "rotation":0,
+                 "type":"entities.Door",
+                 "visible":true,
+                 "width":0,
+                 "x":189,
+                 "y":96
                 }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":12,
+         "width":0,
          "x":0,
          "y":0
         }],
@@ -69,6 +131,11 @@
 
             },
          "spacing":0,
+         "terrains":[
+                {
+                 "name":"autotile",
+                 "tile":-1
+                }],
          "tileheight":16,
          "tileproperties":
             {
@@ -88,6 +155,18 @@
                 {
                  "block":"true"
                 },
+             "14":
+                {
+                 "hurt":"true"
+                },
+             "15":
+                {
+                 "hurt":"true"
+                },
+             "16":
+                {
+                 "hurt":"true"
+                },
              "20":
                 {
                  "block":"true"
@@ -103,6 +182,85 @@
              "23":
                 {
                  "block":"true"
+                },
+             "24":
+                {
+                 "hurt":"true"
+                },
+             "30":
+                {
+                 "block":"true"
+                },
+             "31":
+                {
+                 "block":"true"
+                },
+             "32":
+                {
+                 "block":"true"
+                },
+             "33":
+                {
+                 "block":"true"
+                },
+             "4":
+                {
+                 "block":"true",
+                 "reflect":"true",
+                 "reflectPos":"top"
+                },
+             "5":
+                {
+                 "block":"true",
+                 "reflect":"true",
+                 "reflectPos":"left"
+                },
+             "6":
+                {
+                 "block":"true",
+                 "reflect":"true",
+                 "reflectPos":"bottom"
+                },
+             "7":
+                {
+                 "block":"true",
+                 "reflect":"true",
+                 "reflectPos":"right"
+                }
+            },
+         "tiles":
+            {
+             "20":
+                {
+                 "terrain":[0, 0, 0, -1]
+                },
+             "21":
+                {
+                 "terrain":[0, 0, -1, 0]
+                },
+             "22":
+                {
+                 "terrain":[-1, -1, -1, 0]
+                },
+             "23":
+                {
+                 "terrain":[-1, -1, 0, -1]
+                },
+             "30":
+                {
+                 "terrain":[0, -1, 0, 0]
+                },
+             "31":
+                {
+                 "terrain":[-1, 0, 0, 0]
+                },
+             "32":
+                {
+                 "terrain":[-1, 0, -1, -1]
+                },
+             "33":
+                {
+                 "terrain":[0, -1, -1, -1]
                 }
             },
          "tilewidth":16

@@ -25,7 +25,7 @@ class LaserSpawner extends Mecanism
 	{
 		super.setProperties(props);
 		mLaserAngle = props.angle;
-		mLaserColor = props.color;
+		mLaserColor = Laser.getColor(props.color);
 	}	
 	
 	override function activate() 

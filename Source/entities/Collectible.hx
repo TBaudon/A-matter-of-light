@@ -19,27 +19,11 @@ class Collectible extends Actor
 		mStatic = true;
 	}
 	
-	override function onCollideOtherFromAnyWhere(downCollition:Actor, topCollision:Actor, leftCollision:Actor, rightCollision:Actor) 
+	override function onCollideOtherFromAnyWhere(actor:Actor) 
 	{
-		super.onCollideOtherFromAnyWhere(downCollition, topCollision, leftCollision, rightCollision);
-		if (Std.is(downCollition, Hero)) {
-			onCollected(cast downCollition);
-			return;
-		}
-		
-		if (Std.is(leftCollision, Hero)) {
-			onCollected(cast leftCollision);
-			return;
-		}
-		
-		if (Std.is(topCollision, Hero)) {
-			onCollected(cast topCollision);
-			return;
-		}
-		
-		if (Std.is(rightCollision, Hero)) {
-			onCollected(cast rightCollision);
-			return;
+		super.onCollideOtherFromAnyWhere(actor);
+		if (Std.is(actor, Hero)) {
+			onCollected(cast (actor));
 		}
 	}
 	

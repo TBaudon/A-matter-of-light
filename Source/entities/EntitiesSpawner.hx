@@ -47,7 +47,7 @@ class EntitiesSpawner extends Mecanism
 		super.setProperties(props);
 		
 		mEntitieToSpawn = Type.resolveClass(props.entity);
-		mInterruptorToLoad = cast(props.interruptors, String).split(',');
+		
 		mDirection = props.direction;
 		mSpawnSpeed = props.spawnSpeed;
 	}

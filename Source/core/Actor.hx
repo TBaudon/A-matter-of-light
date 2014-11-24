@@ -134,9 +134,6 @@ class Actor extends Entity
 
 		if (mDownCollition != null) 
 			onCollideOtherFromBottom(mDownCollition);
-		
-		if (mDownCollition != null || mTopCollision != null || mLeftCollision != null || mRightCollision != null)
-			onCollideOtherFromAnyWhere(mDownCollition, mTopCollision, mLeftCollision, mRightCollision);
 			
 		mDownCollition = null;
 		mTopCollision = null;
@@ -267,30 +264,33 @@ class Actor extends Entity
 	
 	function onCollideOtherFromRight(actor:Actor) 
 	{
-		
+		onCollideOtherFromAnyWhere(actor);
 	}
 	
 	function onCollideOtherFromLeft(actor:Actor) 
 	{
-		
+		onCollideOtherFromAnyWhere(actor);
 	}
 	
 	function onCollideOtherFromBottom(actor:Actor) 
 	{
-		
+		onCollideOtherFromAnyWhere(actor);
 	}
 	
 	function onCollideOtherFromTop(actor:Actor) 
 	{
-		
+		onCollideOtherFromAnyWhere(actor);
 	}
 	
-	function onCollideOtherFromAnyWhere(downCollition:Actor, topCollision:Actor, leftCollision:Actor, rightCollision:Actor) 
+	function onCollideOtherFromAnyWhere(actor:Actor) 
 	{
 	}
 	
 	public function setAnimation(animation : Animation) {
-		mAnimation = animation;
+		if(mAnimation != animation){
+			mAnimation = animation;
+			animation.reset();
+		}
 	}
 	
 	public function isStatic() : Bool {
@@ -408,7 +408,8 @@ class Actor extends Entity
 			resolveCollisionWithOthers(delta);
 			pos.copy(mNextPos);
 		}
-			
-		getOutOfWall();
+		
+		if(!mStatic && mSolid)
+			getOutOfWall();
 	}
 }

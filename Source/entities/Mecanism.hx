@@ -14,6 +14,7 @@ class Mecanism extends Actor
 	var mWasActive : Bool;
 	var mInterruptorLoaded : Bool;
 	var mDefaultState : Bool;
+	var mNo : Bool;
 
 	public function new(sheet : String) 
 	{
@@ -59,6 +60,8 @@ class Mecanism extends Actor
 			}
 		}
 		
+		if (mNo) mActive = !mActive;
+		
 		if (!mWasActive && mActive) 
 			activate();
 		else if (mWasActive && !mActive)
@@ -68,10 +71,18 @@ class Mecanism extends Actor
 	}
 	
 	function activate() {
-		mLevel.getCamera().shake(3, 200);
+		mLevel.getCamera().shake(2, 200);
 	}
 	
 	function deactivate() {
+	}
+	
+	override public function setProperties(props:Dynamic) 
+	{
+		super.setProperties(props);
+		if(props.interruptors != null)
+			mInterruptorToLoad = cast(props.interruptors, String).split(',');
+		mNo = props.no;
 	}
 	
 }

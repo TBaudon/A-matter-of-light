@@ -20,6 +20,7 @@ class Door extends Actor
 		super(null);
 		setDim(16, 16);
 		mStatic = true;
+		mSolid = false;
 	}
 	
 	override public function setProperties(props:Dynamic) 
@@ -31,9 +32,9 @@ class Door extends Actor
 		mTargetY = props.y;
 	}
 	
-	override public function onCollideOther(actor:Actor, delta : Float) 
+	override function onCollideOtherFromAnyWhere(actor:Actor) 
 	{
-		super.onCollideOther(actor, delta);
+		super.onCollideOtherFromAnyWhere(actor);
 		
 		if (Std.is(actor, Hero)) {
 			mLevel.pause();
@@ -43,4 +44,11 @@ class Door extends Actor
 		}
 	}
 	
+	#if debug
+	override function draw(buffer:BitmapData, dest:Vec2) 
+	{
+		super.draw(buffer, dest);
+		buffer.fillRect(new Rectangle(dest.x, dest.y, 16, 16), 0x006633);
+	}
+	#end
 }
