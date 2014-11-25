@@ -118,6 +118,23 @@
                  "width":0,
                  "x":110,
                  "y":105
+                }, 
+                {
+                 "gid":4,
+                 "height":0,
+                 "name":"Exit",
+                 "properties":
+                    {
+                     "to":"level4",
+                     "x":"0",
+                     "y":"0"
+                    },
+                 "rotation":0,
+                 "type":"entities.Door",
+                 "visible":true,
+                 "width":0,
+                 "x":317,
+                 "y":160
                 }],
          "opacity":1,
          "type":"objectgroup",

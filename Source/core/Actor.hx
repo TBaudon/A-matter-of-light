@@ -212,7 +212,7 @@ class Actor extends Entity
 				if (Std.is(actor, Hero))
 					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
 			}
-			actor.setTopCollisionWith(this);
+			if(mSolid) actor.setTopCollisionWith(this);
 		}
 		else if (actor.pos.y + actor.getDim().y <= pos.y ) {
 			if(actor.isSolid() && mSolid){
@@ -221,7 +221,7 @@ class Actor extends Entity
 				if (Std.is(actor, Hero))
 					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
 			}
-			actor.setDownCollisionWith(this);
+			if(mSolid) actor.setDownCollisionWith(this);
 		}
 		
 		if (actor.pos.x >= pos.x + mDim.x ) {
@@ -237,7 +237,7 @@ class Actor extends Entity
 					mNextPos.x = actor.pos.x - mDim.x;
 				}
 			}
-			actor.setLeftCollisionWith(this);
+			if(mSolid) actor.setLeftCollisionWith(this);
 		}
 		else if (actor.pos.x + actor.getDim().x <= pos.x ) {
 			if(actor.isSolid() && mSolid){
@@ -252,7 +252,7 @@ class Actor extends Entity
 					mNextPos.x = actor.pos.x + actor.getDim().x;
 				}
 			}
-			actor.setRightCollisionWith(this);
+			if(mSolid) actor.setRightCollisionWith(this);
 		}
 		
 		
