@@ -8,7 +8,7 @@
  </layer>
  <layer name="main" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJwTZWBg4KUCFmOAAD4G6gCeUfNGhHnyQCxBRfNAaVGJCuYpQs2iNuCGYkr8LI5kDgxQEi88WMRA5vGTibGZJ4/kZlKxApI5AExDBJk=
+   eJy9klELgCAMhO89q6cyn7T+/49MscEaksukgwNx7PMmWwCMHbwia4p2uMs12DBeD/3Fs9GD0lvnfLy3hUfZKZeWx2d+mqnE86LnSTvyrh2sV/J4/Yvord7if2Shn50k9yvJX+eA9/tjKvXEm4VRuCPXeJRV6yD6TyqwB+I=
   </data>
  </layer>
  <objectgroup name="objects">
@@ -17,11 +17,24 @@
     <property name="no" value="true"/>
    </properties>
   </object>
-  <object name="DoorB" type="entities.DoorMecanism" gid="4" x="296" y="160"/>
+  <object name="DoorB" type="entities.DoorMecanism" gid="4" x="296" y="160">
+   <properties>
+    <property name="interruptors" value="ButtonA"/>
+   </properties>
+  </object>
   <object name="Hero" type="entities.Hero" gid="4" x="16" y="160" height="16">
    <properties>
     <property name="hasFocus" value="true"/>
    </properties>
   </object>
+  <object name="LaserSpawnerA" type="entities.LaserSpawner" gid="4" x="32" y="176">
+   <properties>
+    <property name="angle" value="-90"/>
+    <property name="color" value="0"/>
+    <property name="interruptors" value="ButtonA"/>
+   </properties>
+  </object>
+  <object name="ButtonA" type="entities.Button" gid="4" x="144" y="222"/>
+  <object name="Crate" type="entities.Crate" gid="4" x="110" y="105"/>
  </objectgroup>
 </map>

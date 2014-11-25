@@ -53,6 +53,8 @@ class Hero extends Actor
 	
 	static private inline var JUMP_STRENGHT:Float = 430;
 	static private inline var MAX_X_VEL:Float = 150;
+	
+	var mJumpTime : Float;
 
 	public function new() 
 	{
@@ -108,6 +110,7 @@ class Hero extends Actor
 		if(mInventory.length > mEquipedItem){
 			mFiring = true;
 			mLaser = new Laser(pos, mLevel, mInventory[mEquipedItem]);
+			mLaser.setSpawner(this);
 			mLevel.add(mLaser);
 			var cam = mLevel.getCamera();
 			if (cam != null)
@@ -150,6 +153,8 @@ class Hero extends Actor
 				mXAxis = -1;
 			case Keyboard.D :
 				mXAxis = 1;
+			case Keyboard.R :
+				die();
 			case Keyboard.NUMBER_1 :
 				mEquipedItem = 0;
 				mChangedWeapon = true;
@@ -172,8 +177,14 @@ class Hero extends Actor
 			mLaser.setColor(mInventory[mEquipedItem]);
 		}
 		
-		if (mOnFloor && mJumpDown)
-			vel.y -= JUMP_STRENGHT;
+		if (mOnFloor && mJumpDown) {
+			mJumpTime = 0;
+			vel.y -= JUMP_STRENGHT * delta * 8;
+		}else if(mJumpDown){
+			mJumpTime += delta;
+			if(mJumpTime < 0.14)
+				 vel.y -= JUMP_STRENGHT * delta * 8;
+		}
 		
 		var mAxisSameAsVel = (
 			mXAxis < 0 && vel.x < 0 ||
@@ -307,7 +318,7 @@ class Hero extends Actor
 			mLevel.add(b);
 		}
 		destroy();
-		Timer.delay(mLevel.restart, 2000);
+		Timer.delay(mLevel.restart, 1000);
 	}
 	
 	function onFiringLaser(delta : Float) 

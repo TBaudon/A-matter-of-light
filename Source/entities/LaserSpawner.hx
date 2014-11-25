@@ -72,6 +72,7 @@ class LaserSpawner extends Mecanism
 		super.activate();
 		mLaser = new Laser(Vec2.Add(pos, mLaserStartPos), mLevel, mLaserColor);
 		mLaser.setAngle(mLaserAngle / 180 * Math.PI);
+		mLaser.setSpawner(this);
 		mLevel.add(mLaser);
 	}
 	

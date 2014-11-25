@@ -49,6 +49,8 @@ class Laser extends Entity
 	var mSectionColor : Array<UInt>;
 	var mNbSection : Int = 0;
 	
+	var mSpawner :Actor;
+	
 	public static var All : Array<Laser>;
 	
 	inline static var MAX_REFLECT : UInt = 25;
@@ -93,6 +95,10 @@ class Laser extends Entity
 		var y = Math.sin(angle) * 10000;
 		
 		mDir.set(x, y);
+	}
+	
+	public function setSpawner(spawner: Actor) {
+		mSpawner = spawner;
 	}
 	
 	public function setDir(x : Float, y : Float) {
@@ -370,8 +376,8 @@ class Laser extends Entity
 	
 	function checkActorsCollision(delta : Float) : Actor{
 		var hittedActor : Actor = null;
-		for (actor in Actor.AllActors) {
-			if (!actor.isSolid()) continue;
+		for (actor in Actor.AllActors) {		
+			if (!actor.isSolid() || actor == mSpawner) continue;
 			var collisions : Array<Vec2> = rayBoxIntersect(pos, mEndPos, actor.pos, Vec2.Add(actor.pos, actor.getDim()));
 			if (collisions != null && collisions[0] != null) {
 				
@@ -391,7 +397,7 @@ class Laser extends Entity
 				hittedActor = actor;
 			}
 		}
-		if(hittedActor != null)
+		if(hittedActor != null )
 			hittedActor.onLaserHit(this, delta );
 			
 		return hittedActor;
