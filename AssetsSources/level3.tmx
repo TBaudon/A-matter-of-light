@@ -36,5 +36,12 @@
   </object>
   <object name="ButtonA" type="entities.Button" gid="4" x="144" y="222"/>
   <object name="Crate" type="entities.Crate" gid="4" x="110" y="105"/>
+  <object name="Exit" type="entities.Door" gid="4" x="317" y="160">
+   <properties>
+    <property name="to" value="level4"/>
+    <property name="x" value="0"/>
+    <property name="y" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

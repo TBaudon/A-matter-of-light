@@ -21,9 +21,9 @@ class GameScreen extends Screen
 		
 		mActorToKeep = new Map<String, Actor>();
 		//mActorToKeep.set("Hero", new Hero());
-		
+		//
 		//loadLevel("level1");
-		loadLevel("level3");
+		loadLevel("level4");
 		//loadLevel("test3");
 	}
 	

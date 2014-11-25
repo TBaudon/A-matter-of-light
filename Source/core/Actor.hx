@@ -4,6 +4,7 @@ import core.Level.HitDirection;
 import entities.Hero;
 import entities.Laser;
 import geom.Vec2;
+import lime.audio.FlashAudioContext;
 import openfl.display.BitmapData;
 import openfl.geom.Rectangle;
 
@@ -45,6 +46,9 @@ class Actor extends Entity
 	var mDownCollition : Actor;
 	var mDead : Bool;
 	
+	var mAirTime : Float;
+	var mMinAirTimeToLand : Float;
+	
 	public static var AllActors : Array<Actor>;
 
 	public function new(spriteSheet : String = null) 
@@ -67,6 +71,8 @@ class Actor extends Entity
 		mFloorFriction = 0.75;
 		mAirFriction = 0.98;
 		mTimeMutiplier = 1;
+		mAirTime = 0;
+		mMinAirTimeToLand = 0.2;
 	}
 	
 	public function setLevel(level : Level) {
@@ -97,8 +103,10 @@ class Actor extends Entity
 			
 			if(mOnFloor)
 				vel.x *= mFloorFriction;
-			else
+			else{
 				vel.x *= mAirFriction;
+				mAirTime += delta;
+			}
 			
 			mOnFloor = false;
 			mBlockedLeft = false;
@@ -193,18 +201,21 @@ class Actor extends Entity
 	public function onCollideOther(actor : Actor, delta : Float) {
 		
 		if (actor.pos.y >= pos.y + mDim.y ) {
-			if(actor.isSolid()){
+			if(actor.isSolid() && mSolid){
 				mOnFloor = true;
 				vel.y = 0 + actor.vel.y;
 				mNextPos.x = pos.x + (vel.x + actor.vel.x) * delta * mFloorFriction;
 				mNextPos.y = actor.pos.y - mDim.y;
+				if (mAirTime > mMinAirTimeToLand)
+					onLand();
+				mAirTime = 0;
 				if (Std.is(actor, Hero))
 					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
 			}
 			actor.setTopCollisionWith(this);
 		}
 		else if (actor.pos.y + actor.getDim().y <= pos.y ) {
-			if(actor.isSolid()){
+			if(actor.isSolid() && mSolid){
 				vel.y = 0;
 				mNextPos.y = actor.pos.y + actor.getDim().y;
 				if (Std.is(actor, Hero))
@@ -214,7 +225,7 @@ class Actor extends Entity
 		}
 		
 		if (actor.pos.x >= pos.x + mDim.x ) {
-			if(actor.isSolid()){
+			if(actor.isSolid() && mSolid){
 				if (actor.isStatic()) {
 					vel.x = 0;
 					mNextPos.x = actor.pos.x - mDim.x;
@@ -229,7 +240,7 @@ class Actor extends Entity
 			actor.setLeftCollisionWith(this);
 		}
 		else if (actor.pos.x + actor.getDim().x <= pos.x ) {
-			if(actor.isSolid()){
+			if(actor.isSolid() && mSolid){
 				if (actor.isStatic()) {
 					vel.x = 0;
 					mNextPos.x = actor.pos.x + actor.getDim().x;
@@ -285,6 +296,10 @@ class Actor extends Entity
 	
 	function onCollideOtherFromAnyWhere(actor:Actor) 
 	{
+	}
+	
+	function onLand() {
+		
 	}
 	
 	public function setAnimation(animation : Animation) {
@@ -343,6 +358,9 @@ class Actor extends Entity
 				mNextPos.y = (mNextTileCoord.y) * mLevel.getTileHeight() - mDim.y;
 				vel.y = 0;
 				mOnFloor = true;
+				if (mAirTime > mMinAirTimeToLand)
+					onLand();
+				mAirTime = 0;
 			}
 			
 			if ((tileInfoBL != null && tileInfoBL.hurt) ||

@@ -182,7 +182,7 @@ class Hero extends Actor
 			vel.y -= JUMP_STRENGHT * delta * 8;
 		}else if(mJumpDown){
 			mJumpTime += delta;
-			if(mJumpTime < 0.14)
+			if(mJumpTime < 0.15)
 				 vel.y -= JUMP_STRENGHT * delta * 8;
 		}
 		
@@ -312,13 +312,17 @@ class Hero extends Actor
 		mLevel.getCamera().shake(7, 300);
 		for (i in 0 ... 50)
 		{
-			var b = new BloodParticle();
+			var b = new Particle();
 			b.pos.copy(pos);
 			b.setLevel(mLevel);
 			mLevel.add(b);
 		}
 		destroy();
 		Timer.delay(mLevel.restart, 1000);
+	}
+	
+	override function onLand() {
+	
 	}
 	
 	function onFiringLaser(delta : Float) 

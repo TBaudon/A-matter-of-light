@@ -385,6 +385,12 @@ class Level extends Entity
 				child.destroy();
 			}
 		}
+		
+		while (Laser.All.length > 0)
+			Laser.All.pop().destroy();
+		
+		while (Actor.AllActors.length > 0)
+			Actor.AllActors.pop().destroy();
 	}
 	
 	public function restart() {
