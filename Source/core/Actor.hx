@@ -4,7 +4,6 @@ import core.Level.HitDirection;
 import entities.Hero;
 import entities.Laser;
 import geom.Vec2;
-import lime.audio.FlashAudioContext;
 import openfl.display.BitmapData;
 import openfl.geom.Rectangle;
 

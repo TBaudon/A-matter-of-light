@@ -2,6 +2,7 @@ package entities ;
 import core.Actor;
 import core.Animation;
 import core.Entity;
+import core.Game;
 import entities.Laser;
 import core.Level;
 import geom.Vec2;
@@ -323,6 +324,7 @@ class Hero extends Actor
 		}
 		destroy();
 		Timer.delay(mLevel.restart, 1000);
+		Game.getInstance().flash(0xff0000, 0.1);
 	}
 	
 	override function onLand() {

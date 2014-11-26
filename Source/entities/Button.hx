@@ -54,7 +54,7 @@ class Button extends Interruptor
 		super.onCollideOtherFromLeft(actor);
 		
 		actor.pos.y = pos.y - actor.getDim().y;
-		actor.pos.x = pos.x + 1;
+		actor.pos.x = pos.x - actor.getDim().x + 1;
 	}
 	
 	override function onCollideOtherFromRight(actor:Actor) {

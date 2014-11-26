@@ -109,6 +109,7 @@ class Level extends Entity
 		loadTileSets(mMapData);
 		loadLayers(mMapData);
 		add(mPointer);
+		add(new Dialog("ALLO CONNARD? OUIS C'EST MOI LOL ! OUAAAH. MDR"));
 	}
 	
 	public function getTilSets() : Array<TileSet>{
