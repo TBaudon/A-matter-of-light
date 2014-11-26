@@ -392,9 +392,8 @@ class Level extends Entity
 		{
 			var child = children.shift();
 			remove(child);
-			if(mActorToKeep != null && mActorToKeep[child.name] == null){
+			if(mActorToKeep != null && mActorToKeep[child.name] == null)
 				child.destroy();
-			}
 		}
 		
 		while (Laser.All.length > 0)
