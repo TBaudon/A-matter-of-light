@@ -84,7 +84,7 @@
                  "type":"entities.Crate",
                  "visible":true,
                  "width":0,
-                 "x":72.6666666666667,
+                 "x":72.6667,
                  "y":74
                 }, 
                 {
@@ -114,7 +114,7 @@
  "orientation":"orthogonal",
  "properties":
     {
-
+     "dialog":"\"Ho! You finaly awake? Great! Shall we continue our little game now? Sadly you lost your arms during our last experiment, hope you don't mind to much! But no worries! I kept them in a safe place!"
     },
  "renderorder":"right-down",
  "tileheight":16,

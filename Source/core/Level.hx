@@ -86,7 +86,6 @@ class Level extends Entity
 	
 	var mLevel : String;
 	
-	
 	public function new(gameScreen : GameScreen, level : String, entityToKeep : Map<String, Actor>) 
 	{
 		super(level);
@@ -105,11 +104,13 @@ class Level extends Entity
 	
 	public function load() {
 		mMapData = Json.parse(Assets.getText(mLevelPath));
-		
 		loadTileSets(mMapData);
 		loadLayers(mMapData);
 		add(mPointer);
-		add(new Dialog("ALLO CONNARD? OUIS C'EST MOI LOL ! OUAAAH. MDR"));
+		if (Reflect.hasField(mMapData, "properties"))
+			if (Reflect.hasField(mMapData.properties, "dialog")) {
+				Game.getInstance().showDialog(mMapData.properties.dialog);
+			}
 	}
 	
 	public function getTilSets() : Array<TileSet>{
@@ -349,6 +350,7 @@ class Level extends Entity
 		return null;
 	}
 	
+	
 	public function getCamera() : Camera {
 		return mCamera;
 	}
@@ -375,9 +377,16 @@ class Level extends Entity
 		return tileSet.getTileInfo(id);
 	}
 	
+	override function draw(buffer:BitmapData, dest:Vec2) 
+	{
+		super.draw(buffer, dest);
+	}
+	
 	override public function destroy() 
 	{
 		super.destroy();
+		
+		Game.getInstance().killDialog();
 		
 		while(children.length > 0)
 		{
