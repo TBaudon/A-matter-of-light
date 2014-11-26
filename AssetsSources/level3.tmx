@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="16" tileheight="16">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16">
  <tileset firstgid="1" source="TileSet.tsx"/>
- <layer name="bg" width="20" height="15">
+ <layer name="bg" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJyFk0EOxDAIA3H5/593D62EJkN7QEnaYIxNUlX9j2tEjzX3PjjPnCA3cn+ub/9Y/1mt9sTp5V7XyTWCfQlmpGaX82cee7C+qK0FdZ3nRn1ibzoE2BapUzNytZ67Tv3MG/ptNdgrv09sm0nz0eaMfRt/mx/yN2++PNreFHnaGyVX84p9b7xMJ5vVTcM3H7baG1/Ozdz/AI9jAlQ=
+   eJyNlEEOxDAIA6H8/8+7h62EJuNuDyhNm4Axdruq5hvXillr/54b+32ncbfl/F6fvrH+vVrtnWfCuakTa0vuS3K21Jxy/LzHHqwvcmtBXvd+UJ+5Ew+N3BZdJ2fEaj1PnfzZbDhvq8Fe+X7nNk3aHE1n7Nvwm36I32bzb0bJU8RpHiVWmxX7TriMJ9Nq4vBpDql2wkvdmD/eeDf1bfiMF2rO/PmkK8vBvmzO5q/0PzGPmTbN/+TJuE0avO9+AOAfAy4=
   </data>
  </layer>
- <layer name="main" width="20" height="15">
+ <layer name="main" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJy9klELgCAMhO89q6cyn7T+/49MscEaksukgwNx7PMmWwCMHbwia4p2uMs12DBeD/3Fs9GD0lvnfLy3hUfZKZeWx2d+mqnE86LnSTvyrh2sV/J4/Yvord7if2Shn50k9yvJX+eA9/tjKvXEm4VRuCPXeJRV6yD6TyqwB+I=
+   eJy9k8sKgCAQRe++16qyldb/f2RGXZjEaMyhAxdE8TDO4AigM8iEkz5mwZ3lQ1rhs+Av3xzTKOOM65N3S31p3a7S1wonXbU+OnvY+daYzch3uPgf6PzqC5k9rU/O0mXOS31afMbnX2rQQh97WwtnZY3s+Yzyt6f/8MBf64BzPkMSZPYY9u0JurUJyf0dRT8J5w==
   </data>
  </layer>
  <objectgroup name="objects">
-  <object name="DoorA" type="entities.DoorMecanism" gid="4" x="0" y="160">
+  <object name="DoorA" type="entities.DoorMecanism" gid="4" x="0" y="256">
    <properties>
     <property name="no" value="true"/>
    </properties>
   </object>
-  <object name="DoorB" type="entities.DoorMecanism" gid="4" x="296" y="160">
+  <object name="DoorB" type="entities.DoorMecanism" gid="4" x="296" y="256">
    <properties>
     <property name="interruptors" value="ButtonA"/>
    </properties>
   </object>
-  <object name="Hero" type="entities.Hero" gid="4" x="16" y="160" height="16">
+  <object name="Hero" type="entities.Hero" gid="4" x="16" y="256" height="16">
    <properties>
     <property name="hasFocus" value="true"/>
    </properties>
   </object>
-  <object name="LaserSpawnerA" type="entities.LaserSpawner" gid="4" x="32" y="176">
+  <object name="LaserSpawnerA" type="entities.LaserSpawner" gid="4" x="32" y="272">
    <properties>
     <property name="angle" value="-90"/>
     <property name="color" value="0"/>
     <property name="interruptors" value="ButtonA"/>
    </properties>
   </object>
-  <object name="ButtonA" type="entities.Button" gid="4" x="144" y="222"/>
+  <object name="ButtonA" type="entities.Button" gid="4" x="144" y="302"/>
   <object name="Crate" type="entities.Crate" gid="4" x="110" y="105"/>
-  <object name="Exit" type="entities.Door" gid="4" x="317" y="160">
+  <object name="Exit" type="entities.Door" gid="4" x="317" y="256">
    <properties>
     <property name="to" value="level4"/>
     <property name="x" value="0"/>
