@@ -148,12 +148,13 @@ class Level extends Entity
 	
 	override function update(delta:Float) 
 	{
+		mCamera.update(delta);
 		super.update(delta);
 		
-		for (laser in Laser.All)
+		for (laser in Laser.All){
 			laser.checkIntersect();
+		}
 		
-		mCamera.update(delta);
 		pos.x = -mCamera.pos.x;
 		if (pos.x > 0)
 			pos.x = 0;

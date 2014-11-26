@@ -332,7 +332,7 @@ class Actor extends Entity
 	}
 	
 	public function onLaserHit(laser : Laser, delta : Float) {
-		if (laser.getLastColor() == 0xff0000) {
+		if (laser.getLastColor() == 0xff0000 && !mStatic) {
 			vel.add(Vec2.Mul(laser.getDir(), 0.2 * delta));
 		}else if (laser.getLastColor() == 0x0000ff) {
 			slowDown(0.2,delta);

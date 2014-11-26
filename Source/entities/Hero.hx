@@ -81,11 +81,7 @@ class Hero extends Actor
 		
 		mEquipedItem = 0;
 		
-		Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-		Lib.current.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
-		
-		Lib.current.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-		Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+		addListeners();
 		
 		mStandAnimR = new Animation([0],1);
 		mWalkAnimR = new Animation([1, 2, 3], 10);
@@ -347,6 +343,30 @@ class Hero extends Actor
 	{
 		if(!mDead)
 			super.draw(buffer, dest);
+	}
+	
+	function addListeners():Void 
+	{
+		Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+		Lib.current.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+		Lib.current.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+		Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+	}
+	
+	function removeListeners():Void
+	{
+		Lib.current.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+		Lib.current.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+		Lib.current.stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+		Lib.current.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+	}
+	
+	override public function destroy() 
+	{
+		super.destroy();
+		if (mLaser != null)
+			mLaser.destroy();
+		removeListeners();
 	}
 	
 }
