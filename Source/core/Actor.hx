@@ -205,17 +205,19 @@ class Actor extends Entity
 				mOnFloor = true;
 				vel.y = 0 + actor.vel.y;
 				mNextPos.x = pos.x + (vel.x + actor.vel.x) * delta * mFloorFriction;
-				mNextPos.y = actor.pos.y - mDim.y;
+				mNextPos.y = actor.pos.y - mDim.y + vel.y * delta;
 				if (mAirTime > mMinAirTimeToLand)
 					onLand();
 				mAirTime = 0;
-				if (Std.is(actor, Hero))
+				if (Std.is(actor, Hero)){
 					mNextPos.x = actor.pos.x + (actor.getDim().x - mDim.x) / 2;
+				}
 			}
 			if(mSolid) actor.setTopCollisionWith(this);
 		}
 		else if (actor.pos.y + actor.getDim().y <= pos.y ) {
-			if(actor.isSolid() && mSolid){
+			if (actor.isSolid() && mSolid) {
+				onHeadHit();
 				vel.y = 0;
 				mNextPos.y = actor.pos.y + actor.getDim().y;
 				if (Std.is(actor, Hero))
@@ -378,6 +380,7 @@ class Actor extends Entity
 			if (tileAtTopLeft || tileAtTopRight) {
 				mNextPos.y = (mNextTileCoord.y+1) * mLevel.getTileHeight();
 				vel.y = 0;
+				onHeadHit();
 			}
 			
 			if ((tileInfoTL != null && tileInfoTL.hurt) ||
@@ -385,6 +388,11 @@ class Actor extends Entity
 					onHurt();
 				}
 		}
+	}
+	
+	function onHeadHit() 
+	{
+		
 	}
 	
 	function onHurt() 

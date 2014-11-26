@@ -308,6 +308,11 @@ class Hero extends Actor
 		die();
 	}
 	
+	override function onHeadHit() 
+	{
+		mJumpTime = JUMP_TIME;
+	}
+	
 	override function onDie() 
 	{
 		super.onDie();
@@ -331,7 +336,7 @@ class Hero extends Actor
 	function onFiringLaser(delta : Float) 
 	{
 		if(mLaser.getCol() == 0xff0000)
-			vel.sub(Vec2.Mul(Vec2.Norm(mLaser.getDir()), delta * 500 * mTimeMutiplier));
+			vel.sub(Vec2.Mul(Vec2.Norm(mLaser.getDir()), delta * 1000 * mTimeMutiplier));
 	}
 	
 	public function giveLaser(code : UInt) {
