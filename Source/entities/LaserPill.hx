@@ -1,5 +1,6 @@
 package entities;
 import core.Animation;
+import core.Game;
 import entities.Hero;
 
 /**
@@ -40,6 +41,7 @@ class LaserPill extends Collectible
 	override function onCollected(hero:Hero) 
 	{
 		hero.giveLaser(mColor);
+		Game.getInstance().flash(0xffffff, 0.1);
 		super.onCollected(hero);
 	}
 	

@@ -4,6 +4,7 @@ import openfl.display.BitmapData;
 import openfl.display.Bitmap;
 import openfl.display.BlendMode;
 import openfl.display.PixelSnapping;
+import openfl.display.Shape;
 import openfl.display.Sprite;
 import openfl.display.StageAlign;
 import openfl.display.StageScaleMode;
@@ -25,6 +26,10 @@ class Game extends Sprite
 	var mBuffer : BitmapData;
 	var mClearRect : Rectangle;
 	var mCanvas : Bitmap;
+	
+	var mFlash : Shape;
+	var mFlashFadeTime : Float;
+	var mFlashCounter : Float;
 	
 	var mDeltas : Array<Float>;
 	var mCurrentDelta : Int;
@@ -82,6 +87,8 @@ class Game extends Sprite
 		
 		addChild(mCanvas);
 		
+		initFlash();
+		
 		#if flash
 		var bevel = new Bitmap(new BitmapData(cast mCanvas.width,cast mCanvas.height,false,0x808080));
 		bevel.blendMode = BlendMode.OVERLAY; 
@@ -102,6 +109,7 @@ class Game extends Sprite
 		var delta = (time - mLastTime) / 1000;
 		mLastTime = time;
 		
+		updateFlash(delta);
 		mCurrentDelta++;
 		if (mCurrentDelta == mDeltas.length) {
 			mCurrentDelta = 0;
@@ -126,6 +134,33 @@ class Game extends Sprite
 		
 		mCurrentScreen._draw(mBuffer, mCurrentScreen.pos);
 		mBuffer.unlock();
+	}
+	
+	public function flash(color : UInt, fadeTime : Float) {
+		mFlash.graphics.beginFill(color);
+		mFlash.graphics.drawRect(0, 0, mCanvas.width, mCanvas.height);
+		mFlash.graphics.endFill();
+		mFlash.alpha = 1;
+		mFlashCounter = fadeTime;
+		mFlashFadeTime = fadeTime;
+	}
+	
+	function initFlash():Void 
+	{
+		mFlash = new Shape();
+		addChild(mFlash);
+		mFlash.alpha = 0;
+		mFlashFadeTime = 0;
+		mFlashCounter = 0;
+	}
+	
+	function updateFlash(delta:Float) {
+		if (mFlashCounter > 0) {
+			mFlashCounter -= delta;
+			if (mFlashCounter < 0)
+				mFlashCounter = 0;
+			mFlash.alpha = mFlashCounter / mFlashFadeTime;
+		}
 	}
 	
 	public function getPixelsSize() : UInt {

@@ -50,4 +50,18 @@ class Button extends Interruptor
 		mActive = true;
 	}
 	
+	override function onCollideOtherFromLeft(actor:Actor) {
+		super.onCollideOtherFromLeft(actor);
+		
+		actor.pos.y = pos.y - actor.getDim().y;
+		actor.pos.x = pos.x + 1;
+	}
+	
+	override function onCollideOtherFromRight(actor:Actor) {
+		super.onCollideOtherFromRight(actor);
+		
+		actor.pos.y = pos.y - actor.getDim().y;
+		actor.pos.x = pos.x + mDim.x - 1;
+	}
+	
 }
