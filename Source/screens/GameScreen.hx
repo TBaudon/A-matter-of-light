@@ -17,8 +17,8 @@ class GameScreen extends Screen
 {
 	
 	var mActorToKeep : Map<String, Actor>;
-	var mCurrentLevel : Level;
 	var mDialog : Dialog;
+	var mCurrentLevel : Level;
 	var mCurrentLevelName : String;
 	var mNbCurrentTryNumber : Int;
 
@@ -69,6 +69,14 @@ class GameScreen extends Screen
 		if(text != null){
 			text = StringTools.replace(text, "\n", "");
 			mDialog = new Dialog(text);
+		}
+	}
+	
+	public function showEventDialog(name : String, onEnded : Dynamic = null) {
+		var text = Assets.getText("dialogs/" + name + ".txt");
+		if(text != null){
+			text = StringTools.replace(text, "\n", "");
+			mDialog = new Dialog(text, onEnded);
 		}
 	}
 	

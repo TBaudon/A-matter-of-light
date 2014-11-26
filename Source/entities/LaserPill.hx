@@ -32,6 +32,9 @@ class LaserPill extends Collectible
 	var mRandomFlashTime : Float;
 	var mRandomFlashCounter : Float;
 	
+	var mExplodedSince : Float;
+	var mShowedExplodeDialog : Bool;
+	
 	var mHero : Hero;
 
 	public function new() 
@@ -46,6 +49,7 @@ class LaserPill extends Collectible
 		mAlreadyCollected = false;
 		mRandomFlashTime = Math.random() * 3;
 		mRandomFlashCounter = 0;
+		mExplodedSince = 0;
 	}
 	
 	override public function setProperties(props:Dynamic) 
@@ -98,7 +102,26 @@ class LaserPill extends Collectible
 				mRandomFlashCounter = 0;
 				mRandomFlashTime = Math.random() * 2;
 			}
+			
+			mExplodedSince += delta;
+			if (!mShowedExplodeDialog && mExplodedSince > 3) {
+				showDialog();
+				mShowedExplodeDialog = true;
+			}
 		}
+	}
+	
+	function showDialog() 
+	{
+		switch(mColor) {
+			case 0 : 
+				mLevel.getGameScreen().showEventDialog("redTaken", gotoLevel5);
+		}
+	}
+	
+	function gotoLevel5() {
+		mLevel.getGameScreen().loadLevel("level5");
+		Game.getInstance().flash(0xffffff, 2);
 	}
 	
 	function explode() {

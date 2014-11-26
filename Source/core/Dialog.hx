@@ -31,10 +31,13 @@ class Dialog extends Entity
 	var mEnded : Bool;
 	var mTimeToDisapear : Float;
 	var mEndedTime : Float;
+	
+	var mOnEnded : Dynamic;
 
-	public function new(text : String) 
+	public function new(text : String, onEnded : Dynamic = null) 
 	{
 		super("Dialog");
+		mOnEnded = onEnded;
 		mText = text;
 		mDialogTxt = new TextField();
 		
@@ -77,8 +80,11 @@ class Dialog extends Entity
 		
 		if (mCarretPos >= mText.length) {
 			mEndedTime += delta;
-			if(mEndedTime >= mTimeToDisapear)
+			if(mEndedTime >= mTimeToDisapear){
 				mEnded = true;
+				if (mOnEnded != null)
+					mOnEnded();
+			}
 		}
 	}
 	

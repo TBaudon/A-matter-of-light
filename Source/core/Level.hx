@@ -123,6 +123,10 @@ class Level extends Entity
 		return mGravity;
 	}
 	
+	public function getGameScreen() : GameScreen {
+		return mGameScreen;
+	}
+	
 	inline public function getTile(px : Int, py : Int) : Int {
 		return mMainLayer.getData()[px + py * mMapData.width];
 	}
