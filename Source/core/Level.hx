@@ -107,10 +107,7 @@ class Level extends Entity
 		loadTileSets(mMapData);
 		loadLayers(mMapData);
 		add(mPointer);
-		if (Reflect.hasField(mMapData, "properties"))
-			if (Reflect.hasField(mMapData.properties, "dialog")) {
-				Game.getInstance().showDialog(mMapData.properties.dialog);
-			}
+		mGameScreen.showDialog(mMapData.properties.levelNum);
 	}
 	
 	public function getTilSets() : Array<TileSet>{
@@ -385,8 +382,6 @@ class Level extends Entity
 	override public function destroy() 
 	{
 		super.destroy();
-		
-		Game.getInstance().killDialog();
 		
 		while(children.length > 0)
 		{

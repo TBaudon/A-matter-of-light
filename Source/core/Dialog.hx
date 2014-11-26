@@ -27,6 +27,10 @@ class Dialog extends Entity
 	var mWidth : Float;
 	
 	var mBg : Shape;
+	
+	var mEnded : Bool;
+	var mTimeToDisapear : Float;
+	var mEndedTime : Float;
 
 	public function new(text : String) 
 	{
@@ -48,6 +52,8 @@ class Dialog extends Entity
 		mCarretCounter = 0;
 		mCarretPos = 0;
 		mMat = new Matrix();
+		mEndedTime = 0;
+		mTimeToDisapear = 1;
 		
 		mBg = new Shape();
 		mBg.graphics.beginFill(0, 0.5);
@@ -58,6 +64,7 @@ class Dialog extends Entity
 	}
 	
 	override public function update(delta:Float) {
+		if (mEnded) return;
 		mCarretCounter += delta;
 		if (mCarretCounter >= mTimeToNext && mCarretPos < mText.length) {
 			mDialogTxt.text += mText.charAt(mCarretPos);
@@ -67,15 +74,23 @@ class Dialog extends Entity
 			mCarretCounter = 0;
 			mDialogTxt.scrollV = mDialogTxt.numLines + 1;
 		}
+		
+		if (mCarretPos >= mText.length) {
+			mEndedTime += delta;
+			if(mEndedTime >= mTimeToDisapear)
+				mEnded = true;
+		}
 	}
 	
 	override function draw(buffer:BitmapData, dest:Vec2) 
 	{
-		super.draw(buffer, dest);
-		mMat.identity();
-		mMat.translate((Game.getInstance().getWidth() - mWidth) / 2, 20);
-		buffer.draw(mBg, mMat);
-		buffer.draw(mDialogTxt, mMat);
+		if(!mEnded){
+			super.draw(buffer, dest);
+			mMat.identity();
+			mMat.translate((Game.getInstance().getWidth() - mWidth) / 2, 20);
+			buffer.draw(mBg, mMat);
+			buffer.draw(mDialogTxt, mMat);
+		}
 	}
 	
 	function puaseToNext(char : String) 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="8" tilewidth="16" tileheight="16">
  <properties>
-  <property name="dialog" value="&quot;Ho! You finaly awake? Great! Shall we continue our little game now? Sadly you lost your arms during our last experiment, hope you don't mind to much! But no worries! I kept them in a safe place!"/>
+  <property name="levelNum" value="1"/>
  </properties>
  <tileset firstgid="1" source="TileSet.tsx"/>
  <layer name="background" width="12" height="8">

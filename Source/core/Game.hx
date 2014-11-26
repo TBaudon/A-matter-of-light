@@ -39,8 +39,6 @@ class Game extends Sprite
 	// screen
 	var mCurrentScreen : Screen;
 	
-	var mDialog : Dialog;
-	
 	static var mInstance : Game;
 	
 	public static function init(pixelSize : UInt = 3) : Game {
@@ -127,10 +125,6 @@ class Game extends Sprite
 			mCurrentScreen._update(mDelta);
 			render();
 		}
-		
-		if (mDialog != null) {
-			mDialog.update(delta);
-		}
 	}
 	
 	function render() : Void 
@@ -138,8 +132,6 @@ class Game extends Sprite
 		mBuffer.lock();
 		mBuffer.fillRect(mClearRect, 0);
 		mCurrentScreen._draw(mBuffer, mCurrentScreen.pos);
-		if (mDialog != null)
-			mDialog._draw(mBuffer, mCurrentScreen.pos);
 		mBuffer.unlock();
 	}
 	
@@ -168,14 +160,6 @@ class Game extends Sprite
 				mFlashCounter = 0;
 			mFlash.alpha = mFlashCounter / mFlashFadeTime;
 		}
-	}
-	
-	public function showDialog(text : String) {
-		mDialog = new Dialog(text);
-	}
-	
-	public function killDialog() {
-		mDialog = null;
 	}
 	
 	public function getPixelsSize() : UInt {

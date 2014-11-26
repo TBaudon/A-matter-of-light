@@ -17,6 +17,7 @@
 	<assets path="Assets/img" rename="img" />
 	<assets path="Assets/levels" rename="levels" />
 	<assets path="Assets/font" rename="fonts"/>
+	<assets path="Assets/dialogs" rename="dialogs"/>
 	
 	<haxeflag name="--macro include('entities', true)" />
 	<haxeflag name="--no-traces" if="release" />

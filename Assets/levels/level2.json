@@ -161,7 +161,7 @@
  "orientation":"orthogonal",
  "properties":
     {
-
+     "levelNum":"2"
     },
  "renderorder":"right-down",
  "tileheight":16,
