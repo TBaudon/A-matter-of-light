@@ -216,6 +216,10 @@ class Laser extends Entity
 		}
 	}
 	
+	public function getAngle() : Float {
+		return mAngle / 180 * Math.PI;
+	}
+	
 	public function getColorAt(x : Float, y : Float) : UInt {
 		if (mNbSection == 0)
 			return mColor;

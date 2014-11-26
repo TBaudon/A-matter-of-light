@@ -26,7 +26,8 @@ class Hero extends Actor
 	var mFiring : Bool;
 	var mLaser : Laser;
 	
-	var mInventory : Array<UInt>;
+	static var mInventory : Array<UInt>;
+	
 	var mEquipedItem : Int;
 	var mChangedWeapon : Bool;
 	
@@ -72,12 +73,13 @@ class Hero extends Actor
 		
 		mSolid = true;
 		
-		mInventory = new Array<UInt>();
+		if(mInventory == null)
+			mInventory = new Array<UInt>();
 		
 		#if debug
-		mInventory.push(Laser.getColor(0));
-		mInventory.push(Laser.getColor(1));
-		mInventory.push(Laser.getColor(2));
+		giveLaser(0);
+		giveLaser(1);
+		giveLaser(2);
 		#end
 		
 		mEquipedItem = 0;
@@ -338,7 +340,8 @@ class Hero extends Actor
 	}
 	
 	public function giveLaser(code : UInt) {
-		mInventory.push(Laser.getColor(code));
+		if(mInventory.indexOf(Laser.getColor(code)) == -1)
+			mInventory.push(Laser.getColor(code));
 	}
 	
 	override function draw(buffer:BitmapData, dest:Vec2) 
@@ -355,12 +358,16 @@ class Hero extends Actor
 		Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 	}
 	
-	function removeListeners():Void
+	public function removeListeners():Void
 	{
 		Lib.current.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 		Lib.current.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 		Lib.current.stage.removeEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		Lib.current.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+	}
+	
+	public function BLARGWARGWARW() {
+		setAnimation(mJumpAnimRFiring);
 	}
 	
 	override public function destroy() 

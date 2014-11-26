@@ -27,11 +27,10 @@ class GameScreen extends Screen
 		super();
 		mNbCurrentTryNumber = 0;
 		mActorToKeep = new Map<String, Actor>();
-		//mActorToKeep.set("Hero", new Hero());
-		//
 		loadLevel("level1");
-		//loadLevel("level4");
-		//loadLevel("AntiGrav-sample");
+		#if debug
+		loadLevel("level4");
+		#end
 	}
 	
 	public function loadLevel(name : String) {

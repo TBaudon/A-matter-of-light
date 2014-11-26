@@ -146,7 +146,7 @@
  "orientation":"orthogonal",
  "properties":
     {
-
+     "levelNum":"3"
     },
  "renderorder":"right-down",
  "tileheight":16,

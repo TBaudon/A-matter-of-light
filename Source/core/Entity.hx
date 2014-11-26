@@ -23,6 +23,8 @@ class Entity
 	
 	public var name : String;
 	
+	public var visible : Bool;
+	
 	var mDim : Vec2;
 	var mPaused : Bool;
 
@@ -34,6 +36,7 @@ class Entity
 		vel = new Vec2(0, 0);
 		rot = 0;
 		mDim = new Vec2(0, 0);
+		visible = true;
 		
 		children = new Array<Entity>();
 	}
@@ -51,10 +54,12 @@ class Entity
 	}
 	
 	public function _draw(buffer : BitmapData, dest : Vec2) {
-		draw(buffer, dest);
-		
-		for(child in children)
-			child._draw(buffer, Vec2.Add(dest, child.pos));
+		if(visible){
+			draw(buffer, dest);
+			
+			for(child in children)
+				child._draw(buffer, Vec2.Add(dest, child.pos));
+		}
 	}
 	
 	function draw(buffer : BitmapData, dest : Vec2) {

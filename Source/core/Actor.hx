@@ -74,6 +74,10 @@ class Actor extends Entity
 		mMinAirTimeToLand = 0.2;
 	}
 	
+	public function setStatic(s : Bool) {
+		mStatic = s;
+	}
+	
 	public function setLevel(level : Level) {
 		mLevel = level;
 	}
