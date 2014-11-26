@@ -51,9 +51,11 @@ class Hero extends Actor
 	
 	var mLookingDir : Int;
 	
-	static private inline var JUMP_STRENGHT:Float = 430;
+	//static private inline var JUMP_STRENGHT:Float = 430;
 	static private inline var MAX_X_VEL:Float = 150;
 	
+	static private inline var JUMP_STRENGHT:Float = 200;
+	static private inline var JUMP_TIME:Float = 0.25;
 	var mJumpTime : Float;
 
 	public function new() 
@@ -133,6 +135,7 @@ class Hero extends Actor
 		switch (e.keyCode) {
 			case Keyboard.SPACE :
 				mJumpDown = false;
+				mJumpTime = JUMP_TIME;
 			case Keyboard.Q :
 				if(mXAxis == -1){
 					mXAxis = 0;
@@ -179,11 +182,11 @@ class Hero extends Actor
 		
 		if (mOnFloor && mJumpDown) {
 			mJumpTime = 0;
-			vel.y -= JUMP_STRENGHT * delta * 8;
+			vel.y = -JUMP_STRENGHT ;
 		}else if(mJumpDown){
 			mJumpTime += delta;
-			if(mJumpTime < 0.15)
-				 vel.y -= JUMP_STRENGHT * delta * 8;
+			if(mJumpTime < JUMP_TIME)
+				 vel.y = -JUMP_STRENGHT ;
 		}
 		
 		var mAxisSameAsVel = (
