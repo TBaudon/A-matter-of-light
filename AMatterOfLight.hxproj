@@ -20,6 +20,7 @@
     <class path="C:\HaxeToolkit\haxe\lib\lime\2,0,0" />
     <class path="Source" />
     <class path="Export\flash\haxe" />
+    <class path="lib" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -40,7 +41,7 @@
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>
-    <!-- example: <asset path="..." id="..." update="..." glyphs="..." mode="..." place="..." sharepoint="..." /> -->
+    <asset path="lib\GameAnalytics.swc" />
   </library>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>

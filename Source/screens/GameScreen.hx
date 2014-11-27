@@ -9,6 +9,9 @@ import geom.Vec2;
 import openfl.Assets;
 import openfl.display.BitmapData;
 
+import com.gameanalytics.GameAnalytics;
+import com.gameanalytics.constants.GAErrorSeverity;
+
 /**
  * ...
  * @author Thomas B
@@ -49,6 +52,9 @@ class GameScreen extends Screen
 		}
 		mCurrentLevel.load();
 		add(mCurrentLevel);
+		
+		var levelNum = Std.parseFloat(name.substr(5));
+		GameAnalytics.newDesignEvent("LoadedLevel", levelNum);
 	 }
 	
 	override function update(delta:Float) 

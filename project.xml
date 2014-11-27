@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 	
-	<meta title="AMatterOfLight" package="com.sample.project" version="1.0.0" company="Company Name" />
+	<meta title="AMatterOfLight" package="com.sample.project" version="0.0.1" company="Company Name" />
 	<app main="Main" path="Export" file="AMatterOfLight" />
 	
 	<window fps="60" width="816" height="528" background="#000000"/>
@@ -10,6 +10,7 @@
 	<source path="Source" />
 	
 	<haxelib name="openfl" />
+	<haxeflag name="-swf-lib" value="lib/GameAnalytics.swc"/>
 	
 	<icon path="Assets/openfl.svg" />
 	
