@@ -1,57 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="12" tilewidth="16" tileheight="16">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="16" tileheight="16">
  <tileset firstgid="1" source="TileSet.tsx"/>
- <layer name="bg" width="15" height="12">
+ <layer name="bg" width="50" height="20">
   <data encoding="base64" compression="zlib">
-   eJx9kbkNADAIA8Hsv3OaFNbJUKAovIdRVc03/bfNkl9WM+Zr/L2vkCeL0b/NSzyDOnILNRNms0/a0XO3GPdNuyQ9Et+lGXUjQ8M2PTfuhp/85OXNfc7Fwl2Tnon5uscDCIIBbg==
+   eJyNlUFuAzEMA23v///cywYwpjNKDos0jSVTFMl91lrP+5z3c7/PuX575Nzn7426T+397Osc+9715zpzcIfh26gn1o1ee/3HSVycn/2rfpqN95CP+n6k55G779oj99sneWGtzV9cPstnMD5MP9bD9nDryXZ215tWjb+D3hM+9ijNmTYKn2modmG7phcMF383rZT+Jy+bT6jLSS+c6a4p/XOuwlWZYr4xjk33dt/ENXHa3qcs+wVrZVD5lnNO+fwtK6kXy4fyOb3IzCiOKysqIy2DbKaJQ9NF9ap3AHUwZVjphufJlfnXeDGebCeWGeZju7veFVVvmXnPa3k3+dJ8/wtvhsn0OdUbLtt1ZU3lZfmYXjavcD/lgUnjxDHpbPJr+bNw8M7KafOo4eOeaue2lylLzN+F0/Y47Zc46z7TfXnkm04mXxaG0rrte5p5yh/mATFNPBFb4aiZrH/5s9499r/KYvrMctB0a7uo/ddMPGt82vfJR5VHU8/SFfGTG2aL6cN4Mb5Lj5af5THukrPz/j+sGwfS
   </data>
  </layer>
- <layer name="main" width="15" height="12">
+ <layer name="main" width="50" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgEAViXhKwGAMC8DGQBngGmV5xIJbAoQckx00je4eCXlBcK5GoVxGqjxLATQEGACyYAt4=
+   eJztllsLgzAMhfPu3OVht6c5//+PtIEEYuhVJUa2Dw5KD9YcmpYCANyD+ogeCz1LYR3MmZ5vpRN5erzkWQmoDpnjBnOuotYWzxKug/nlHN+gMeJZsjYHInt0L7bI4YHaHB56J0dNDsRD7+SozXEEsGd6el+S40LyQgftOXA9n0Gvxu+2BP/fCSFj4xx7n2V6X5RI9Y7XHLguukdyveM1B6Jr8ny/+ueIz+M1B8P7m2uV+z3lWQoyOT4wP49RQ2K85FloUPVPejAVHQ==
   </data>
  </layer>
- <objectgroup name="Calque d'objets 1">
-  <properties>
-   <property name="levelNum" value="10"/>
-  </properties>
-  <object name="Crate" type="entities.Crate" gid="4" x="71.6667" y="55.3333"/>
-  <object name="LaserBleu" type="entities.LaserSpawner" gid="4" x="96" y="64">
-   <properties>
-    <property name="angle" value="0"/>
-    <property name="color" value="2"/>
-   </properties>
-  </object>
-  <object name="LaserRouge" type="entities.LaserSpawner" gid="4" x="32" y="48">
-   <properties>
-    <property name="angle" value="0"/>
-    <property name="color" value="0"/>
-    <property name="interruptors" value="ButtonB"/>
-   </properties>
-  </object>
-  <object name="ButtonA" type="entities.Button" gid="4" x="184" y="62"/>
-  <object name="DoorA" type="entities.DoorMecanism" gid="4" x="0" y="160">
-   <properties>
-    <property name="no" value="true"/>
-   </properties>
-  </object>
-  <object name="Hero" type="entities.Hero" gid="4" x="16" y="160">
-   <properties>
-    <property name="hasFocus" value="true"/>
-   </properties>
-  </object>
-  <object name="DoorB" type="entities.DoorMecanism" gid="4" x="216" y="160">
-   <properties>
-    <property name="interruptors" value="ButtonA"/>
-   </properties>
-  </object>
-  <object name="Exit" type="entities.Door" gid="4" x="237" y="160">
-   <properties>
-    <property name="to" value="level11"/>
-    <property name="x" value="0"/>
-    <property name="y" value="0"/>
-   </properties>
-  </object>
-  <object name="ButtonB" type="entities.Button" gid="4" x="128" y="174"/>
- </objectgroup>
 </map>
