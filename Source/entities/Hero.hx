@@ -200,11 +200,11 @@ class Hero extends Actor
 		
 		if (mOnFloor && mJumpDown) {
 			mJumpTime = 0;
-			vel.y = -JUMP_STRENGHT ;
+			vel.y = -JUMP_STRENGHT;
 		}else if(mJumpDown){
-			mJumpTime += delta;
+			mJumpTime += delta * mTimeMutiplier;
 			if(mJumpTime < JUMP_TIME)
-				 vel.y = -JUMP_STRENGHT ;
+				vel.y = -JUMP_STRENGHT;
 		}
 		
 		var mAxisSameAsVel = (
@@ -312,6 +312,9 @@ class Hero extends Actor
 						setAnimation(mJumpAnimL);
 					else
 						setAnimation(mFallAnimL);
+						
+		if (vel.y * delta > mLevel.getTileHeight())
+			vel.y = mLevel.getTileHeight() / delta;
 		
 		if (vel.x > MAX_X_VEL)
 			vel.x = MAX_X_VEL;

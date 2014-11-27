@@ -29,7 +29,7 @@ class GameScreen extends Screen
 		mActorToKeep = new Map<String, Actor>();
 		loadLevel("level1");
 		#if debug
-		loadLevel("level7");
+		loadLevel("level8");
 		#end
 	}
 	

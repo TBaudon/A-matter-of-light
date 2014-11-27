@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="8" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="levelNum" value="8"/>
+ </properties>
+ <tileset firstgid="1" source="TileSet.tsx"/>
+ <layer name="bg" width="30" height="8">
+  <data encoding="base64" compression="zlib">
+   eJyNklEOwCAIQ5He/87zZwl7eST7IHNaa1s4VZVbfeuMb/C/1TwnT8A1MT0wjX3eNx0RXmqjB/Kbl8h6ats0EZ8FT5/UyHuRd7q+/slLvPWJOVkef/p58C7xllekOBPMcus7M7Es6c3y2bD0wgxMr3lnnubJZnybi3fvASwxAbo=
+  </data>
+ </layer>
+ <layer name="main" width="30" height="8">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgEAViXjphMQYE4GOgH+AZtZeu9oLiWomO9ipC7RwowD1AGAD2agON
+  </data>
+ </layer>
+ <objectgroup name="objects">
+  <properties>
+   <property name="levelNum" value="8"/>
+  </properties>
+  <object name="A" type="entities.LaserSpawner" gid="4" x="88" y="16">
+   <properties>
+    <property name="angle" value="90"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+  <object name="B" type="entities.LaserSpawner" gid="4" x="184" y="16">
+   <properties>
+    <property name="angle" value="90"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+  <object name="C" type="entities.LaserSpawner" gid="4" x="280" y="16">
+   <properties>
+    <property name="angle" value="90"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+  <object name="D" type="entities.LaserSpawner" gid="4" x="376" y="16">
+   <properties>
+    <property name="angle" value="90"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+  <object name="Door" type="entities.DoorMecanism" gid="4" x="0" y="96">
+   <properties>
+    <property name="no" value="true"/>
+   </properties>
+  </object>
+  <object name="Exit" type="entities.Door" gid="4" x="477" y="95.6667">
+   <properties>
+    <property name="to" value="level9"/>
+    <property name="x" value="0"/>
+    <property name="y" value="0"/>
+   </properties>
+  </object>
+  <object name="Hero" type="entities.Hero" gid="4" x="16" y="96">
+   <properties>
+    <property name="hasFocus" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
