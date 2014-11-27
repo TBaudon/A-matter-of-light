@@ -121,7 +121,7 @@ class LaserPill extends Collectible
 	
 	function gotoLevel5() {
 		mLevel.getGameScreen().loadLevel("level5");
-		Game.getInstance().flash(0xffffff, 2);
+		Game.getInstance().flash(0xffffff, 1);
 	}
 	
 	function explode() {
