@@ -342,6 +342,7 @@ class Actor extends Entity
 		}else if (laser.getLastColor() == 0x00ff00) {
 			vel.add(Vec2.Mul(laser.getDir(), - 0.2 * delta));
 		}
+		move(delta);
 	}
 	
 	function slowDown(coef : Float, time : Float) {

@@ -29,7 +29,7 @@ class GameScreen extends Screen
 		mActorToKeep = new Map<String, Actor>();
 		loadLevel("level1");
 		#if debug
-		loadLevel("level4");
+		loadLevel("level7");
 		#end
 	}
 	
@@ -49,7 +49,7 @@ class GameScreen extends Screen
 		}
 		mCurrentLevel.load();
 		add(mCurrentLevel);
-	}
+	 }
 	
 	override function update(delta:Float) 
 	{

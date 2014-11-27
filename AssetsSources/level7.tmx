@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="14" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="levelNum" value="7"/>
+ </properties>
+ <tileset firstgid="1" source="TileSet.tsx"/>
+ <layer name="bg" width="17" height="14">
+  <data encoding="base64" compression="zlib">
+   eJx9k9sKwDAIQ738/z+PwQrpIdmDaKvGWGtXVX+y0CN65XzskVgK/cfWXOazLn3Mm7o5snYbXxucJClvDY7eUycM5cm6rNOIo+3er4HpZkiejg/7ZW7CSm/Kuf3xS/GLu1QvcWBv7EWx0991O+J4pXm6/8x9cTGv/wFsBQHl
+  </data>
+ </layer>
+ <layer name="main" width="17" height="14">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgEAViXiyYnQAWY0AAPgbyANuoGSiAB4nNgUONOBBzA7EEBWbA1OByJ7IZhNRQYgYbAXlqugOUppXINEMRqh8fIGQGDHDjwQpQNfIE1AEAlQsDiw==
+  </data>
+ </layer>
+ <objectgroup name="objects">
+  <object name="DoorA" type="entities.DoorMecanism" gid="4" x="0" y="192">
+   <properties>
+    <property name="no" value="true"/>
+   </properties>
+  </object>
+  <object name="Hero" type="entities.Hero" gid="4" x="16" y="192">
+   <properties>
+    <property name="hasFocus" value="true"/>
+   </properties>
+  </object>
+  <object name="DoorB" type="entities.DoorMecanism" gid="4" x="249" y="192"/>
+  <object name="Exit" type="entities.Door" gid="4" x="269" y="192">
+   <properties>
+    <property name="to" value="level8"/>
+    <property name="x" value="0"/>
+    <property name="y" value="0"/>
+   </properties>
+  </object>
+  <object name="CrateA" type="entities.Crate" gid="4" x="111.667" y="79.3333"/>
+  <object name="CrateB" type="entities.Crate" gid="4" x="127.667" y="79.3333"/>
+  <object name="CrateC" type="entities.Crate" gid="4" x="143.667" y="79.3333"/>
+ </objectgroup>
+</map>

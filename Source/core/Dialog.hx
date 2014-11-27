@@ -34,7 +34,7 @@ class Dialog extends Entity
 	
 	var mOnEnded : Dynamic;
 	
-	static inline var TEXT_SPEED : Float = 0.025;
+	static inline var TEXT_SPEED : Float = 0.035;
 
 	public function new(text : String, onEnded : Dynamic = null) 
 	{
@@ -52,7 +52,7 @@ class Dialog extends Entity
 		mDialogTxt.sharpness = 100;
 		mWidth = Game.getInstance().getWidth() / 2;
 		mDialogTxt.width = mWidth;
-		mDialogTxt.height = 24;
+		mDialogTxt.height = 34;
 		mTimeToNext = 0;
 		mCarretCounter = 0;
 		mCarretPos = 0;
@@ -62,10 +62,10 @@ class Dialog extends Entity
 		
 		mBg = new Shape();
 		mBg.graphics.beginFill(0, 0.5);
-		mBg.graphics.drawRect( -3, -3, mWidth + 6, mDialogTxt.height + 6);
+		mBg.graphics.drawRect( -2, -2, mWidth + 4, mDialogTxt.height + 4);
 		mBg.graphics.endFill();
 		mBg.graphics.lineStyle(1, 0xffffff);
-		mBg.graphics.drawRect( -3, -3, mWidth + 6, mDialogTxt.height + 6);
+		mBg.graphics.drawRect( -2, -2, mWidth + 4, mDialogTxt.height + 4);
 	}
 	
 	override public function update(delta:Float) {
@@ -95,7 +95,7 @@ class Dialog extends Entity
 		if(!mEnded){
 			super.draw(buffer, dest);
 			mMat.identity();
-			mMat.translate((Game.getInstance().getWidth() - mWidth) / 2, 20);
+			mMat.translate((Game.getInstance().getWidth() - mWidth) / 2, 10);
 			buffer.draw(mBg, mMat);
 			buffer.draw(mDialogTxt, mMat);
 		}
