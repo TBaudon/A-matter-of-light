@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="levelNum" value="11"/>
+ </properties>
  <tileset firstgid="1" source="TileSet.tsx"/>
  <layer name="bg" width="50" height="20">
   <data encoding="base64" compression="zlib">
@@ -8,7 +11,62 @@
  </layer>
  <layer name="main" width="50" height="20">
   <data encoding="base64" compression="zlib">
-   eJztllsLgzAMhfPu3OVht6c5//+PtIEEYuhVJUa2Dw5KD9YcmpYCANyD+ogeCz1LYR3MmZ5vpRN5erzkWQmoDpnjBnOuotYWzxKug/nlHN+gMeJZsjYHInt0L7bI4YHaHB56J0dNDsRD7+SozXEEsGd6el+S40LyQgftOXA9n0Gvxu+2BP/fCSFj4xx7n2V6X5RI9Y7XHLguukdyveM1B6Jr8ny/+ueIz+M1B8P7m2uV+z3lWQoyOT4wP49RQ2K85FloUPVPejAVHQ==
+   eJzlVtEOgjAM3Lsi+qDik8L/f6RrsiV1WUvbdRDDJRfMynUcu01CCOEeOVT46FDjaNGBJuOSrq+C51Qrx1tqHLW6kDSlD4wr6ntzqnGw6LIm48g+5siFqP2LDwDOaOvzWHUePqzPMyZ6zCf1QWVH0pvK4zNyImra+SQ+AFR21npb9452PqkPK7z3Dgd4Z0P6bfFB5ZxDDx8YWh9cztd0Xj5g/hMirMmi7LHl2cr1kcLzjJTopFmt+cjrMlXu5c5I7/8ITVa59Sj3SMv3lcW/Zo238tH7+/JoPnK+c1+c971qYzFO+XiH3/MY+CHG96jV7sX4Ar3BHNU=
   </data>
  </layer>
+ <objectgroup name="objects">
+  <object name="DoorA" type="entities.DoorMecanism" gid="4" x="0" y="208">
+   <properties>
+    <property name="no" value="true"/>
+   </properties>
+  </object>
+  <object name="Hero" type="entities.Hero" gid="4" x="16" y="208">
+   <properties>
+    <property name="hasFocus" value="true"/>
+   </properties>
+  </object>
+  <object name="LaserA" type="entities.LaserSpawner" gid="4" x="64" y="288">
+   <properties>
+    <property name="angle" value="-90"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+  <object name="Exit" type="entities.Door" gid="4" x="797" y="160">
+   <properties>
+    <property name="to" value="level11"/>
+    <property name="x" value="0"/>
+    <property name="y" value="0"/>
+   </properties>
+  </object>
+  <object name="LaserB" type="entities.LaserSpawner" gid="4" x="176" y="288">
+   <properties>
+    <property name="angle" value="-90"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+  <object name="LaserC" type="entities.LaserSpawner" gid="4" x="400" y="288">
+   <properties>
+    <property name="angle" value="-90"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+  <object name="LaserD" type="entities.LaserSpawner" gid="4" x="288" y="288">
+   <properties>
+    <property name="angle" value="-90"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+  <object name="LaserE" type="entities.LaserSpawner" gid="4" x="512" y="288">
+   <properties>
+    <property name="angle" value="-90"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+  <object name="LaserF" type="entities.LaserSpawner" gid="4" x="624" y="288">
+   <properties>
+    <property name="angle" value="-90"/>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

@@ -24,7 +24,7 @@
         }, 
         {
          "draworder":"topdown",
-         "height":12,
+         "height":0,
          "name":"Calque d'objets 1",
          "objects":[
                 {
@@ -39,8 +39,8 @@
                  "type":"entities.Crate",
                  "visible":true,
                  "width":0,
-                 "x":71.6666666666667,
-                 "y":55.3333333333333
+                 "x":71.6667,
+                 "y":55.3333
                 }, 
                 {
                  "gid":4,
@@ -141,7 +141,7 @@
                  "name":"Exit",
                  "properties":
                     {
-                     "to":"level11",
+                     "to":"level10",
                      "x":"0",
                      "y":"0"
                     },
@@ -174,7 +174,7 @@
             },
          "type":"objectgroup",
          "visible":true,
-         "width":15,
+         "width":0,
          "x":0,
          "y":0
         }],

@@ -47,7 +47,7 @@
   </object>
   <object name="Exit" type="entities.Door" gid="4" x="237" y="160">
    <properties>
-    <property name="to" value="level11"/>
+    <property name="to" value="level10"/>
     <property name="x" value="0"/>
     <property name="y" value="0"/>
    </properties>
