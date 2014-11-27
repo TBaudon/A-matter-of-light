@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="levelNum" value="11"/>
+ </properties>
+ <tileset firstgid="1" source="TileSet.tsx"/>
+ <layer name="bg" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzNlUEKACAIBLX9/5+7FMhSpybwIHaQYdPcMiJkMS6RJWvlvNQIOg+YJ5BXc1d9rvWFtzm0Pnq+1H1pTfVNU7xuPfvdv87zoPf3h5/KuCe/rbvp/4F73QTcqwMj
+  </data>
+ </layer>
+ <layer name="main" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJwTZWBgYAdiXirQYkDMx0A9wAbEHFQ0j4dh1H2UgFH3UQZG3UcZGHUfZQDkPnkg5gZiVirQCkAMAOY/Axc=
+  </data>
+ </layer>
+ <objectgroup name="objects">
+  <object name="Hero" type="entities.Hero" gid="4" x="152" y="173.5">
+   <properties>
+    <property name="hasFocus" value="true"/>
+   </properties>
+  </object>
+  <object name="pill" type="entities.LaserPill" gid="4" x="152" y="193">
+   <properties>
+    <property name="color" value="2"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="16" tileheight="16">
  <properties>
-  <property name="levelNum" value="11"/>
+  <property name="levelNum" value="10"/>
  </properties>
  <tileset firstgid="1" source="TileSet.tsx"/>
  <layer name="bg" width="50" height="20">
@@ -11,7 +11,7 @@
  </layer>
  <layer name="main" width="50" height="20">
   <data encoding="base64" compression="zlib">
-   eJzlVtEOgjAM3Lsi+qDik8L/f6RrsiV1WUvbdRDDJRfMynUcu01CCOEeOVT46FDjaNGBJuOSrq+C51Qrx1tqHLW6kDSlD4wr6ntzqnGw6LIm48g+5siFqP2LDwDOaOvzWHUePqzPMyZ6zCf1QWVH0pvK4zNyImra+SQ+AFR21npb9452PqkPK7z3Dgd4Z0P6bfFB5ZxDDx8YWh9cztd0Xj5g/hMirMmi7LHl2cr1kcLzjJTopFmt+cjrMlXu5c5I7/8ITVa59Sj3SMv3lcW/Zo238tH7+/JoPnK+c1+c971qYzFO+XiH3/MY+CHG96jV7sX4Ar3BHNU=
+   eJzlVV0PwjAI7LvO6YM6n3T7/z/SkZQEm8KAfixml1xcSo95hbIQQrivHDJ8NIhJ9OhAg7jE31fCc4yl6yUxiVZdiJrUB8WV5L1Viknw6FCDOLKPeeXCxP7FB4D2qEU3Rlp1OdTwsZWbq+Nz5cTEWvngekeTu8e90vgAcL2jye3xYT03rQ8JUp97Z4Dn3OBdQ3y2+pD6XPo/3junhcdHr9nKAc7xRAg1WZi9NWdkiY7Lo91bc0ZqdNy5cXkosC6T4Z0tvnVbdy6XJ4f0jpTMT08dLTXu5aP1d/BoPrC/MS/t971iY7LO+XiH33kM/DDre8Ryeym+/WQd/A==
   </data>
  </layer>
  <objectgroup name="objects">
