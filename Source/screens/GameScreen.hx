@@ -67,7 +67,7 @@ class GameScreen extends Screen
 	public function showDialog(level : Int) {
 		var text = Assets.getText("dialogs/level" + level + "_" + mNbCurrentTryNumber + ".txt");
 		if(text != null){
-			text = StringTools.replace(text, "\n", "");
+			text = StringTools.replace(text, "\n\n", "\n");
 			mDialog = new Dialog(text);
 		}
 	}
@@ -75,7 +75,7 @@ class GameScreen extends Screen
 	public function showEventDialog(name : String, onEnded : Dynamic = null) {
 		var text = Assets.getText("dialogs/" + name + ".txt");
 		if(text != null){
-			text = StringTools.replace(text, "\n", "");
+			text = StringTools.replace(text, "\n\n", "\n");
 			mDialog = new Dialog(text, onEnded);
 		}
 	}

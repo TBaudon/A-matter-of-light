@@ -33,6 +33,8 @@ class Dialog extends Entity
 	var mEndedTime : Float;
 	
 	var mOnEnded : Dynamic;
+	
+	static inline var TEXT_SPEED : Float = 0.025;
 
 	public function new(text : String, onEnded : Dynamic = null) 
 	{
@@ -103,15 +105,15 @@ class Dialog extends Entity
 	{
 		switch(char) {
 			case '.' :
-				mTimeToNext = 0.5;
+				mTimeToNext = TEXT_SPEED * 15;
 			case ',' :
-				mTimeToNext = 0.3;
+				mTimeToNext = TEXT_SPEED * 10;
 			case '!' :
-				mTimeToNext = 0.5;
+				mTimeToNext = TEXT_SPEED * 15;
 			case '?' :
-				mTimeToNext = 0.7;
+				mTimeToNext = TEXT_SPEED * 20;
 			default :
-				mTimeToNext = 0.05;
+				mTimeToNext = TEXT_SPEED;
 		}
 	}
 	

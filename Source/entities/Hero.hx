@@ -133,16 +133,23 @@ class Hero extends Actor
 	{
 		switch (e.keyCode) {
 			case Keyboard.SPACE :
-				mJumpDown = false;
-				mJumpTime = JUMP_TIME;
+				stopJump();
+			case Keyboard.Z :
+				stopJump();
+			case Keyboard.W : 
+				stopJump();
+			case Keyboard.UP :
+				stopJump();
 			case Keyboard.Q :
-				if(mXAxis == -1){
-					mXAxis = 0;
-				}
+				if (mXAxis == -1) mXAxis = 0;
 			case Keyboard.D :
-				if(mXAxis == 1){
-					mXAxis = 0;
-				}
+				if (mXAxis == 1) mXAxis = 0;
+			case Keyboard.A :
+				if (mXAxis == -1) mXAxis = 0;
+			case Keyboard.LEFT :
+				if (mXAxis == -1) mXAxis = 0;
+			case Keyboard.RIGHT :
+				if (mXAxis == 1) mXAxis = 0;
 		}
 	}
 	
@@ -151,9 +158,21 @@ class Hero extends Actor
 		switch (e.keyCode) {
 			case Keyboard.SPACE :
 				mJumpDown = true;
+			case Keyboard.Z :
+				mJumpDown = true;
+			case Keyboard.W : 
+				mJumpDown = true;
+			case Keyboard.UP :
+				mJumpDown = true;
 			case Keyboard.Q :
 				mXAxis = -1;
 			case Keyboard.D :
+				mXAxis = 1;
+			case Keyboard.A :
+				mXAxis = -1;
+			case Keyboard.LEFT :
+				mXAxis = -1;
+			case Keyboard.RIGHT :
 				mXAxis = 1;
 			case Keyboard.R :
 				die();
@@ -356,6 +375,12 @@ class Hero extends Actor
 		Lib.current.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 		Lib.current.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+	}
+	
+	function stopJump():Void 
+	{
+		mJumpDown = false;
+		mJumpTime = JUMP_TIME;
 	}
 	
 	public function removeListeners():Void
