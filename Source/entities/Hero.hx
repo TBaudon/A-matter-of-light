@@ -358,7 +358,7 @@ class Hero extends Actor
 	function onFiringLaser(delta : Float) 
 	{
 		if(mLaser.getCol() == 0xff0000)
-			vel.sub(Vec2.Mul(Vec2.Norm(mLaser.getDir()), delta * 1000 * mTimeMutiplier));
+			vel.sub(Vec2.Mul(Vec2.Norm(mLaser.getDir()), delta * 1000));
 	}
 	
 	public function giveLaser(code : UInt) {
