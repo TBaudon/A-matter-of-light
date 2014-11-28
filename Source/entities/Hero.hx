@@ -57,6 +57,7 @@ class Hero extends Actor
 	static private inline var MAX_X_VEL:Float = 150;
 	
 	static private inline var JUMP_STRENGHT:Float = 200;
+	//static private inline var JUMP_STRENGHT:Float = 5000;
 	static private inline var JUMP_TIME:Float = 0.25;
 	var mJumpTime : Float;
 
