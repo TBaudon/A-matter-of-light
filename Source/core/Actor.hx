@@ -104,6 +104,9 @@ class Actor extends Entity
 			vel.x += mLevel.getGravity().x * delta;
 			vel.y += mLevel.getGravity().y * delta;
 			
+			if (vel.y * delta > mLevel.getTileHeight())
+				vel.y = mLevel.getTileHeight() / delta;
+			
 			if(mOnFloor)
 				vel.x *= mFloorFriction;
 			else{

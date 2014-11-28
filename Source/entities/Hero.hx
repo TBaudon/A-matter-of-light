@@ -313,9 +313,6 @@ class Hero extends Actor
 					else
 						setAnimation(mFallAnimL);
 						
-		if (vel.y * delta > mLevel.getTileHeight())
-			vel.y = mLevel.getTileHeight() / delta;
-		
 		if (vel.x > MAX_X_VEL)
 			vel.x = MAX_X_VEL;
 		if (vel.x < -MAX_X_VEL)
