@@ -85,7 +85,7 @@ class TileMapLayer extends Entity
 				if (tileId == 0) continue;
 				
 				var stamp : TileStamp = getStamp(tileId);
-				if (stamp != null) {
+				if (stamp != null && stamp.bitmap != null) {
 					mRectStamp.x = stamp.x;
 					mRectStamp.y = stamp.y;
 					mRectStamp.width = stamp.w;

@@ -44,6 +44,7 @@ class TileSet
 	{
 		var tileSetPath : String = data.image;
 		tileSetPath = Path.removeTrailingSlashes(tileSetPath.toString());
+		tileSetPath = StringTools.replace(tileSetPath, "../", "");
 		tileSetPath = Path.normalize(tileSetPath.toString());
 		mBitampData = Assets.getBitmapData(tileSetPath);
 		

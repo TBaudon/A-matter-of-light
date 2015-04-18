@@ -2,34 +2,33 @@
 <project version="2">
   <!-- Output SWF options -->
   <output>
-    <movie outputType="Application" />
+    <movie outputType="CustomBuild" />
     <movie input="" />
     <movie path="project.xml" />
     <movie fps="60" />
     <movie width="816" />
     <movie height="528" />
-    <movie version="3" />
+    <movie version="1" />
     <movie minorVersion="0" />
-    <movie platform="NME" />
+    <movie platform="Lime" />
     <movie background="000000" />
     <movie preferredSDK=";3;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="C:\HaxeToolkit\haxe\lib\openfl\2,1,6" />
-    <class path="C:\HaxeToolkit\haxe\lib\lime\2,0,0" />
+    <class path="E:\Outils\Dev\Haxe\haxe\lib\openfl\3,0,0-beta,3" />
+    <class path="E:\Outils\Dev\Haxe\haxe\lib\lime\2,3,0" />
     <class path="Source" />
     <class path="Export\flash\haxe" />
-    <class path="lib" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="openfl=2.1.6&#xA;lime=2.0.0&#xA;tools=2.0.0&#xA;no-compilation&#xA;openfl-flash&#xA;web" />
+    <option directives="openfl=3.0.0-beta.3&#xA;lime=2.3.0&#xA;openfl-next&#xA;tools=2.3.0&#xA;no-compilation&#xA;openfl-flash&#xA;web" />
     <option flashStrict="True" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="True" />
-    <option additional="--macro include('entities', true)&#xA;--no-traces&#xA;-swf-version 11.2" />
+    <option additional="-swf-lib lib/GameAnalytics.swc&#xA;--macro include('entities', true)&#xA;-swf-version 11.2&#xA;-debug " />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
@@ -39,16 +38,12 @@
   <compileTargets>
     <!-- example: <compile path="..." /> -->
   </compileTargets>
-  <!-- Assets to embed into the output SWF -->
-  <library>
-    <asset path="lib\GameAnalytics.swc" />
-  </library>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
     <hidden path="obj" />
   </hiddenPaths>
   <!-- Executed before build -->
-  <preBuildCommand />
+  <preBuildCommand>"$(CompilerPath)/haxelib" run lime build "$(OutputFile)" $(TargetBuild) -$(BuildConfig) -Dfdb</preBuildCommand>
   <!-- Executed after build -->
   <postBuildCommand alwaysRun="False" />
   <!-- Other project options -->
